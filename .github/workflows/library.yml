@@ -39,9 +39,6 @@ jobs:
         run: dotnet build --configuration Release
       - name: Test
         run: dotnet test --configuration Release --no-build
-      - name: Build Samples
-        working-directory: Samples
-        run: dotnet build
       - name: Create release notes
         id: create-release-notes
         if: ${{ steps.context.outputs.should-publish == 'true' }}
