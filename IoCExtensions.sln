@@ -4,12 +4,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CBBBEC75-23B8-4006-B93C-E153D484B181}"
+	ProjectSection(SolutionItems) = preProject
+		Tests\Directory.Build.props = Tests\Directory.Build.props
+		Tests\Directory.Packages.props = Tests\Directory.Packages.props
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoCExtensions.Configuration.Tests", "Tests\Configuration.Tests\IoCExtensions.Configuration.Tests.csproj", "{5E93C25D-0FD1-48A9-977C-426DCE92FC7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoCExtensions.Tests", "Tests\Tests\IoCExtensions.Tests.csproj", "{CD6AFE64-1575-4736-8546-4FAB762D7C53}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{50821758-CE41-43C0-A6B5-BBBDDCFB7BBB}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Directory.Build.props = Source\Directory.Build.props
+		Source\Directory.Packages.props = Source\Directory.Packages.props
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoCExtensions.Autofac", "Source\Autofac\IoCExtensions.Autofac.csproj", "{84EEBD5C-0980-461D-80FB-3824BBBC5F22}"
 EndProject
