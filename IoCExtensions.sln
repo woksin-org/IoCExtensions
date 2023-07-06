@@ -3,6 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CBBBEC75-23B8-4006-B93C-E153D484B181}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoCExtensions.Configuration.Tests", "Tests\Configuration.Tests\IoCExtensions.Configuration.Tests.csproj", "{5E93C25D-0FD1-48A9-977C-426DCE92FC7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoCExtensions.Tests", "Tests\Tests\IoCExtensions.Tests.csproj", "{CD6AFE64-1575-4736-8546-4FAB762D7C53}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{50821758-CE41-43C0-A6B5-BBBDDCFB7BBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoCExtensions.Autofac", "Source\Autofac\IoCExtensions.Autofac.csproj", "{84EEBD5C-0980-461D-80FB-3824BBBC5F22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoCExtensions.Configuration", "Source\Configuration\IoCExtensions.Configuration.csproj", "{269162DD-4DFD-452F-8C05-429193FBAF90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoCExtensions.Core", "Source\Core\IoCExtensions.Core.csproj", "{39804B4A-2C12-424E-A12E-583DCE643E60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoCExtensions.Microsoft", "Source\Microsoft\IoCExtensions.Microsoft.csproj", "{58189308-23EF-4532-9A43-AC745DBD5555}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -10,5 +26,39 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E93C25D-0FD1-48A9-977C-426DCE92FC7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E93C25D-0FD1-48A9-977C-426DCE92FC7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E93C25D-0FD1-48A9-977C-426DCE92FC7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E93C25D-0FD1-48A9-977C-426DCE92FC7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD6AFE64-1575-4736-8546-4FAB762D7C53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD6AFE64-1575-4736-8546-4FAB762D7C53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD6AFE64-1575-4736-8546-4FAB762D7C53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD6AFE64-1575-4736-8546-4FAB762D7C53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84EEBD5C-0980-461D-80FB-3824BBBC5F22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84EEBD5C-0980-461D-80FB-3824BBBC5F22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84EEBD5C-0980-461D-80FB-3824BBBC5F22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84EEBD5C-0980-461D-80FB-3824BBBC5F22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{269162DD-4DFD-452F-8C05-429193FBAF90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{269162DD-4DFD-452F-8C05-429193FBAF90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{269162DD-4DFD-452F-8C05-429193FBAF90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{269162DD-4DFD-452F-8C05-429193FBAF90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39804B4A-2C12-424E-A12E-583DCE643E60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39804B4A-2C12-424E-A12E-583DCE643E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39804B4A-2C12-424E-A12E-583DCE643E60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39804B4A-2C12-424E-A12E-583DCE643E60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58189308-23EF-4532-9A43-AC745DBD5555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58189308-23EF-4532-9A43-AC745DBD5555}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58189308-23EF-4532-9A43-AC745DBD5555}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58189308-23EF-4532-9A43-AC745DBD5555}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5E93C25D-0FD1-48A9-977C-426DCE92FC7E} = {CBBBEC75-23B8-4006-B93C-E153D484B181}
+		{CD6AFE64-1575-4736-8546-4FAB762D7C53} = {CBBBEC75-23B8-4006-B93C-E153D484B181}
+		{84EEBD5C-0980-461D-80FB-3824BBBC5F22} = {50821758-CE41-43C0-A6B5-BBBDDCFB7BBB}
+		{269162DD-4DFD-452F-8C05-429193FBAF90} = {50821758-CE41-43C0-A6B5-BBBDDCFB7BBB}
+		{39804B4A-2C12-424E-A12E-583DCE643E60} = {50821758-CE41-43C0-A6B5-BBBDDCFB7BBB}
+		{58189308-23EF-4532-9A43-AC745DBD5555} = {50821758-CE41-43C0-A6B5-BBBDDCFB7BBB}
 	EndGlobalSection
 EndGlobal
