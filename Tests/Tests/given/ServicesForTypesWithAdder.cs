@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Lamar;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IoCExtensions.given;
@@ -8,6 +9,14 @@ public class AutofacServicesForTypesWithAdder : IoCExtensions.Autofac.ICanAddSer
 	public void AddServiceFor(Type type, SomeAttribute attribute, ContainerBuilder services)
 	{
 		services.RegisterType<ClassWithSomeAttribute>().AsSelf();
+	}
+}
+
+public class LamarServicesForTypesWithAdder : IoCExtensions.Lamar.ICanAddServicesForTypesWith<SomeAttribute>
+{
+	public void AddServiceFor(Type type, SomeAttribute attribute, ServiceRegistry services)
+	{
+		services.Use<ClassWithSomeAttribute>();
 	}
 }
 

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Lamar;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IoCExtensions.given;
@@ -9,6 +10,14 @@ public class AutofacServiceAdder : IoCExtensions.Autofac.ICanAddServices
 	{
 		services.RegisterType<ExplicitlyAddedTransientService>().AsSelf();
 	}
+}
+
+public class LamarServiceAdder : IoCExtensions.Lamar.ICanAddServices
+{
+    public void AddTo(ServiceRegistry services)
+    {
+        services.Use<ExplicitlyAddedTransientService>();
+    }
 }
 
 public class ServiceCollectionAddedServiceAdder : ICanAddServices<IServiceCollection>

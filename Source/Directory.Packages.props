@@ -6,6 +6,8 @@
 		<PackageVersion Include="Autofac" Version="7.1.0" />
 		<PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
 		<PackageVersion Include="BaselineTypeDiscovery" Version="2.0.0" />
+		<PackageVersion Include="Lamar" Version="12.0.0" />
+		<PackageVersion Include="Lamar.Microsoft.DependencyInjection" Version="12.0.0" />
 		<PackageVersion Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
 		<PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
 		<PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
