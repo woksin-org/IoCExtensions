@@ -74,6 +74,7 @@ static class ContainerBuilderExtensions
 		=> IsOpenGeneric(implementation) && service.IsGenericType
 			? GetOpenGenericType(service)
 			: service;
+
     static IEnumerable<Type> GetImplementedInterfaces(Type type)
     {
 	    var interfaces = type.GetInterfaces().Where(i => i != typeof(IDisposable));

@@ -10,6 +10,7 @@
 
 	<ItemGroup>
         <ProjectReference Include="..\..\Source\Autofac\IoCExtensions.Autofac.csproj" />
+        <ProjectReference Include="..\..\Source\Lamar\IoCExtensions.Lamar.csproj" />
         <ProjectReference Include="..\..\Source\Microsoft\IoCExtensions.Microsoft.csproj" />
 	</ItemGroup>
 
