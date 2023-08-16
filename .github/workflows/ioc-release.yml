@@ -2,7 +2,9 @@ name: Release IoC.Extensions
 on:
   pull_request:
     types: [closed]
-    paths: [Packages/IoC/**]
+    paths: 
+      - Packages/IoC/**
+      - .github/workflows/ioc-*
 
 jobs:
   release:
