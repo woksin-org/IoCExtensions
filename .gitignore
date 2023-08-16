@@ -9,7 +9,6 @@ lastbuild.txt
 version.txt
 *.version
 _ReSharper.*
-packages
 *.pidb
 *.userprefs
 *.pdb
@@ -45,3 +44,6 @@ log.txt
 ehthumbs.db
 Icon?
 Thumbs.db
+
+.vscode
+.idea

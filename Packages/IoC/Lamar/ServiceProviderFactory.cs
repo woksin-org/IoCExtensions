@@ -1,8 +1,10 @@
-﻿using Lamar;
+﻿// Copyright (c) woksin-org. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Lamar;
 using IoCExtensions.Provider;
 using IoCExtensions.Registry;
 using Lamar.Microsoft.DependencyInjection;
-using Lamar.Scanning.Conventions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IoCExtensions.Lamar;

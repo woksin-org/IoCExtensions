@@ -2,8 +2,10 @@ name: CI
 
 on:
   push:
-    branches:
-      - "**"
+    branches: ['**']
+    paths: 
+      - Packages/IoC/**
+      - .github/workflows/ioc-*
 
 jobs:
   ci:
@@ -17,6 +19,8 @@ jobs:
           dotnet-version: |
             7.0.x
       - name: Build
+        working-directory: Packages/IoC
         run: dotnet build --configuration Release
       - name: Test
+        working-directory: Packages/IoC
         run: dotnet test --configuration Release --no-build

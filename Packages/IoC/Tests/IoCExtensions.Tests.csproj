@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<RootNamespace>IoCExtensions</RootNamespace>
 	</PropertyGroup>
@@ -9,9 +8,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-        <ProjectReference Include="..\..\Source\Autofac\IoCExtensions.Autofac.csproj" />
-        <ProjectReference Include="..\..\Source\Lamar\IoCExtensions.Lamar.csproj" />
-        <ProjectReference Include="..\..\Source\Microsoft\IoCExtensions.Microsoft.csproj" />
+        <ProjectReference Include="..\Autofac\IoCExtensions.Autofac.csproj" />
+        <ProjectReference Include="..\Lamar\IoCExtensions.Lamar.csproj" />
+        <ProjectReference Include="..\Microsoft\IoCExtensions.Microsoft.csproj" />
 	</ItemGroup>
 
 </Project>
