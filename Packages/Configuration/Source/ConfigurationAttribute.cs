@@ -13,7 +13,7 @@ public class ConfigurationAttribute : Attribute
     /// <summary>
     /// Initializes a new instance of the <see cref="ConfigurationAttribute"/> class.
     /// </summary>
-    /// <param name="configurationPathParts">The configuration path parts to parse the object from, excluding the prefix that's configured with the <see cref="Settings"/> configuration.</param>
+    /// <param name="configurationPathParts">The configuration path parts to parse the object from, excluding the prefix that's configured.</param>
     public ConfigurationAttribute(params string[] configurationPathParts)
     {
 	    if (configurationPathParts.Length == 0)

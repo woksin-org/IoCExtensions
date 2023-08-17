@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Reflection;
-using Configuration.Extension.Parsing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,9 +33,8 @@ public static class HostExtensions
     /// <returns>The builder for continuation.</returns>
     public static IServiceCollection AddConfigurationExtension(this IServiceCollection services, Assembly startupAssembly, params string[] configurationPrefixes)
 	{
-		ConfigureSettings(services, configurationPrefixes);
+		AddConfigurationPrefix(services, configurationPrefixes);
 		services.Add(ServiceDescriptor.Singleton(typeof(IOptionsFactory<>), typeof(OptionsFactory<>)));
-		services.AddSingleton<IParseConfigurationObjects, ConfigurationParser>();
         foreach (var type in startupAssembly.GetTypes())
         {
             var attribute = type.GetCustomAttribute<ConfigurationAttribute>();
@@ -69,7 +67,7 @@ public static class HostExtensions
         => AddConfigurationObjectDefinition(services, type, ConfigurationPath.Combine(configurationPathParts));
 
 
-    static void ConfigureSettings(IServiceCollection services, string[] configurationPrefixes)
+    static void AddConfigurationPrefix(IServiceCollection serviceCollection, string[] configurationPrefixes)
     {
         var prefix = ConfigurationPath.Combine(configurationPrefixes);
         if (!string.IsNullOrEmpty(prefix))
@@ -77,7 +75,7 @@ public static class HostExtensions
             prefix += ConfigurationPath.KeyDelimiter;
         }
 
-        services.AddOptions<Settings>().Configure(_ => _.Prefix = prefix);
+        serviceCollection.AddSingleton(new ConfigurationPrefix(prefix));
     }
 
     static void AddConfigurationObjectDefinition(IServiceCollection services, Type type, string configurationPath)

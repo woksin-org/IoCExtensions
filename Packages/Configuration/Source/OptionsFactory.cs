@@ -1,7 +1,6 @@
 // Copyright (c) woksin-org. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Configuration.Extension.Parsing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -14,41 +13,31 @@ namespace Configuration.Extension;
 class OptionsFactory<TOptions> : Microsoft.Extensions.Options.OptionsFactory<TOptions>
     where TOptions : class
 {
-	readonly IConfiguration _configuration;
+    readonly IConfiguration _configuration;
 	readonly IEnumerable<ConfigurationObjectDefinition<TOptions>> _definitions;
-	readonly IParseConfigurationObjects _parser;
     readonly string _configurationPrefix;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="OptionsFactory{TOptions}"/> class.
     /// </summary>
     /// <param name="configuration">The <see cref="IConfiguration"/>.</param>
+    /// <param name="configurationPrefix">The configuration prefix.</param>
     /// <param name="definitions">The <see cref="IEnumerable{T}"/> of <see cref="ConfigurationObjectDefinition{TOptions}"/>.</param>
-    /// <param name="parser">The <see cref="IParseConfigurationObjects"/>.</param>
     /// <param name="setups">The <see cref="IEnumerable{T}"/> of <see cref="IConfigureOptions{TOptions}"/>.</param>
     /// <param name="postConfigures">The <see cref="IEnumerable{T}"/> of <see cref="IPostConfigureOptions{TOptions}"/>.</param>
     /// <param name="validations">The <see cref="IEnumerable{T}"/> of <see cref="IValidateOptions{TOptions}"/>.</param>
-    /// <param name="configurationSettingsConfigurators">The <see cref="IEnumerable{T}"/> of <see cref="IConfigureOptions{TOptions}"/> that configures "/><see cref="Settings"/>.</param>
     public OptionsFactory(
 	    IConfiguration configuration,
+        ConfigurationPrefix configurationPrefix,
         IEnumerable<ConfigurationObjectDefinition<TOptions>> definitions,
-        IParseConfigurationObjects parser,
         IEnumerable<IConfigureOptions<TOptions>> setups, 
         IEnumerable<IPostConfigureOptions<TOptions>> postConfigures,
-        IEnumerable<IValidateOptions<TOptions>> validations,
-        IEnumerable<IConfigureOptions<Settings>> configurationSettingsConfigurators)
+        IEnumerable<IValidateOptions<TOptions>> validations)
         : base(setups, postConfigures, validations)
     {
 	    _configuration = configuration;
         _definitions = definitions;
-        _parser = parser;
-        var options = new Settings();
-        foreach (var configurator in configurationSettingsConfigurators)
-        {
-	        configurator?.Configure(options);
-        }
-
-        _configurationPrefix = options.Prefix;
+        _configurationPrefix = configurationPrefix.Value;
     }
 
     /// <inheritdoc />
@@ -62,11 +51,8 @@ class OptionsFactory<TOptions> : Microsoft.Extensions.Options.OptionsFactory<TOp
 
         var configurationPath = GetConfigurationPath(definition);
         var configurationSection = _configuration.GetSection(configurationPath);
-        if (!_parser.TryParseFrom(configurationSection, out TOptions? instance, out var error))
-        {
-            throw new CannotParseConfiguration(error!, typeof(TOptions), configurationPath);
-        }
-
+        var instance = Activator.CreateInstance<TOptions>();
+        configurationSection.Bind(instance);
         return instance!;
     }
 

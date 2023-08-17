@@ -8,18 +8,12 @@
 		<PackageVersion Include="BaselineTypeDiscovery" Version="2.0.0" />
 		<PackageVersion Include="Lamar" Version="12.0.0" />
 		<PackageVersion Include="Lamar.Microsoft.DependencyInjection" Version="12.0.0" />
-		<PackageVersion Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
-		<PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
-		<PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
 		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
 		<PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-		<PackageVersion Include="Microsoft.Extensions.FileProviders.Abstractions" Version="7.0.0" />
-		<PackageVersion Include="Microsoft.Extensions.FileProviders.Physical" Version="7.0.0" />
 		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
 		<PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
 		<PackageVersion Include="Microsoft.Extensions.Options" Version="7.0.1" />
-		<PackageVersion Include="NetEscapades.Configuration.Yaml" Version="3.1.0" />
-		<PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
 
 
 		<PackageVersion Include="Aksio.Specifications" Version="2.0.1" />
