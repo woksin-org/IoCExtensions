@@ -82,6 +82,12 @@ jobs:
           body: ${{ steps.context.outputs.pr-body }}
           token: ${{ secrets.BUILD_PAT }}
           application-name: ${{ inputs.library-name }}
+      - name: Write to version file
+        uses: woksin-org/write-version-to-file-action@v3
+        if: ${{ steps.context.outputs.should-publish == 'true' }}
+        with:
+          version: ${{ steps.context.outputs.new-version }}
+          path: ${{ inputs.working-directory}}/version.json
       - name: Push NuGet packages
         if: ${{ steps.context.outputs.should-publish == 'true' }}
         working-directory: ${{inputs.working-directory}}
