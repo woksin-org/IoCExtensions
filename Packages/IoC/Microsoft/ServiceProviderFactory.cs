@@ -1,4 +1,7 @@
-﻿using IoCExtensions.Provider;
+﻿// Copyright (c) woksin-org. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using IoCExtensions.Provider;
 using IoCExtensions.Registry;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

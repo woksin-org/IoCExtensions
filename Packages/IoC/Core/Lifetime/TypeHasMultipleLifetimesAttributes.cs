@@ -1,4 +1,7 @@
-﻿namespace IoCExtensions.Lifetime;
+﻿// Copyright (c) woksin-org. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+namespace IoCExtensions.Lifetime;
 
 /// <summary>
 /// Exception that gets thrown when a <see cref="Type"/> has multiple lifetimes.

@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿// Copyright (c) woksin-org. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System.Reflection;
 using Autofac;
 using IoCExtensions.Registry.Types;
 using Microsoft.Extensions.DependencyInjection;

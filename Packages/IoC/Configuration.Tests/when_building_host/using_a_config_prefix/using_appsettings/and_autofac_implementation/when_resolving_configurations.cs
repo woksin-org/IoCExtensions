@@ -1,4 +1,7 @@
-﻿using Xunit;
+﻿// Copyright (c) woksin-org. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Xunit;
 
 namespace IoCExtensions.Configuration.when_building_host.using_a_config_prefix.using_appsettings.and_autofac_implementation;
 

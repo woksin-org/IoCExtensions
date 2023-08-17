@@ -1,4 +1,7 @@
-﻿namespace IoCExtensions.Configuration;
+﻿// Copyright (c) woksin-org. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+namespace IoCExtensions.Configuration;
 
 /// <summary>
 /// Represents the configuration of the IoCExtensions configuration system.
