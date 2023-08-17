@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿// Copyright (c) woksin-org. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using Microsoft.Extensions.Configuration;
 
 namespace IoCExtensions.Configuration.when_building_host.and_not_using_a_config_prefix.using_appsettings.given;
 

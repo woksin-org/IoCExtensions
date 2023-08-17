@@ -1,4 +1,7 @@
-﻿namespace IoCExtensions.Registry.Attributes;
+﻿// Copyright (c) woksin-org. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+namespace IoCExtensions.Registry.Attributes;
 
 /// <summary>
 /// Represents an implementation of <see cref="ICanAddServices{T}"/>.
