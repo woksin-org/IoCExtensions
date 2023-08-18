@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    uses: ./.github/workflows/DotNET/reusable-build.yml
+    uses: ./.github/workflows/dotnet-reusable-build.yml
     with:
       working-directory: Packages/DotNET
     secrets: inherit

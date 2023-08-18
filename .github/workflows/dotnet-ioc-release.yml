@@ -1,15 +1,16 @@
-name: DotNET - IoC - Build
+name: DotNET - IoC - Release
 
 on:
-  push:
-    branches: ['**']
+  pull_request:
+    types: [closed]
     paths: 
       - Packages/DotNET/IoC/**
       - .github/workflows/DotNET/ioc-*
 
 jobs:
-  build:
-    uses: ./.github/workflows/DotNET/reusable-build.yml
+  release:
+    uses: ./.github/workflows/dotnet-reusable-release.yml
     with:
       working-directory: Packages/DotNET/IoC
+      library-name: DotNET - IoC
     secrets: inherit

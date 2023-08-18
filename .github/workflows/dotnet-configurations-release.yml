@@ -9,7 +9,7 @@ on:
 
 jobs:
   release:
-    uses: ./.github/workflows/DotNET/reusable-release.yml
+    uses: ./.github/workflows/dotnet-reusable-release.yml
     with:
       working-directory: Packages/DotNET/Configurations
       library-name: DotNET - Configurations
