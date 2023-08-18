@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoC.Autofac", "Source\Autof
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoC.Core", "Source\Core\IoC.Core.csproj", "{248B6DB0-D3B7-4E4E-8C74-C7FDF5696596}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ioc.Microsoft", "Source\Microsoft\Ioc.Microsoft.csproj", "{21206A85-12C6-46EF-AACE-E6EBAA9E9F07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoC.Microsoft", "Source\Microsoft\IoC.Microsoft.csproj", "{21206A85-12C6-46EF-AACE-E6EBAA9E9F07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoC.Tests", "Tests\IoC.Tests.csproj", "{8B2151B1-49F2-44A7-901C-C4226F709F40}"
 EndProject
