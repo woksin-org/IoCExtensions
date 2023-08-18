@@ -2,12 +2,12 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Reflection;
-using IoCExtensions.Lifetime;
-using IoCExtensions.Registry.Attributes;
-using IoCExtensions.Registry.Types;
 using Microsoft.Extensions.DependencyInjection;
+using Woksin.Extensions.IoC.Lifetime;
+using Woksin.Extensions.IoC.Registry.Attributes;
+using Woksin.Extensions.IoC.Registry.Types;
 
-namespace IoCExtensions.Registry;
+namespace Woksin.Extensions.IoC.Registry;
 
 /// <summary>
 /// Represents the discovered services that should be configured in the IoC container.
@@ -18,24 +18,24 @@ public sealed class DiscoveredServices<TContainerBuilder>
     /// <summary>
     /// Initializes a new instance of the <see cref="DiscoveredServices{TContainerBuilder}"/> class.
     /// </summary>
-    /// <param name="options">The options.</param>
+    /// <param name="settings">The options.</param>
     /// <param name="builder">The container builder.</param>
-	internal DiscoveredServices(IoCExtensionsOptions options, TContainerBuilder builder)
+	internal DiscoveredServices(IoCSettings settings, TContainerBuilder builder)
 	{
 		AdditionalServices = new ServiceCollection();
 		
 		// ReSharper disable PossibleMultipleEnumeration
-		var discoveredClasses = TypeScanner.GetAllExportedTypesInRuntimeAssemblies(options, out var assemblies);
+		var discoveredClasses = TypeScanner.GetAllExportedTypesInRuntimeAssemblies(settings, out var assemblies);
 		var groupedClassesToRegisterAsSelf =
 			ClassesByLifeTime.Create(
-				options.DefaultLifetime,
+				settings.DefaultLifetime,
 				discoveredClasses.Where(_ => Attribute.IsDefined(_, typeof(RegisterAsSelfAttribute))));
-		discoveredClasses = IgnoreTypes(options, discoveredClasses);
+		discoveredClasses = IgnoreTypes(settings, discoveredClasses);
 		discoveredClasses = FilterServiceAdders(discoveredClasses, builder);
 		discoveredClasses = discoveredClasses.IgnoreClassesWithAttribute<DisableAutoRegistrationAttribute>();
 		var groupedClasses = ClassesByLifeTime.Create(
-			options.DefaultLifetime,
-			discoveredClasses.Where(_ => !options.DisableRegistrationByConvention || Attribute.IsDefined(_, typeof(WithLifetimeAttribute))));
+			settings.DefaultLifetime,
+			discoveredClasses.Where(_ => !settings.DisableRegistrationByConvention || Attribute.IsDefined(_, typeof(WithLifetimeAttribute))));
 
 		ClassesToRegister = groupedClasses;
 		ClassesToRegisterAsSelf = groupedClassesToRegisterAsSelf;
@@ -62,7 +62,7 @@ public sealed class DiscoveredServices<TContainerBuilder>
 	/// </summary>
 	public IReadOnlyCollection<Assembly> Assemblies { get; }
 
-	static IEnumerable<Type> IgnoreTypes(IoCExtensionsOptions options, IEnumerable<Type> discoveredTypes) => options
+	static IEnumerable<Type> IgnoreTypes(IoCSettings settings, IEnumerable<Type> discoveredTypes) => settings
 		.IgnoredBaseTypes
 		.Aggregate(discoveredTypes, (current, ignoredType) => current.FilterClassesImplementing(ignoredType, _ => true, out _));
 	

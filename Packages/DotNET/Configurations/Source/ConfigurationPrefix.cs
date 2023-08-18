@@ -1,4 +1,4 @@
-namespace Configuration.Extension;
+namespace Woksin.Extensions.Configurations;
 
 /// <summary>
 /// 

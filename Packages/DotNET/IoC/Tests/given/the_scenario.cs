@@ -6,7 +6,7 @@ using Aksio.Specifications;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace IoCExtensions.given;
+namespace Woksin.Extensions.IoC.given;
 
 public partial class the_scenario : Specification
 {
@@ -45,7 +45,7 @@ public partial class the_scenario : Specification
 	void Establish()
 	{
 		entry_assembly = typeof(a_host_builder).Assembly;
-		default_service_lifetime = new IoCExtensionsOptions().DefaultLifetime;
+		default_service_lifetime = new IoCSettings().DefaultLifetime;
 		scopes = new List<IDisposable>();
 	}
 

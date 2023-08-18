@@ -3,7 +3,7 @@
 
 using Xunit;
 
-namespace IoCExtensions.when_using_default_settings.and_autofac;
+namespace Woksin.Extensions.IoC.when_using_default_settings.and_autofac;
 
 public class when_resolving_services : given.the_host
 {

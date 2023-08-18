@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<RootNamespace>$(RootNamespace).Core</RootNamespace>
+		<RootNamespace>$(RootNamespace)</RootNamespace>
         <AssemblyName>$(AssemblyName).Core</AssemblyName>
 	</PropertyGroup>
 

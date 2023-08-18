@@ -1,11 +1,11 @@
 ﻿// Copyright (c) woksin-org. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using IoCExtensions.Registry;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Woksin.Extensions.IoC.Registry;
 
-namespace IoCExtensions.Provider;
+namespace Woksin.Extensions.IoC.Provider;
 
 /// <summary>
 /// Represents a base implementation of <see cref="IServiceProviderFactory{TContainerBuilder}"/> for IoCExtensions service provider
@@ -47,12 +47,12 @@ public abstract class IoCExtensionsServiceProviderFactory<TContainerBuilder> : I
 	protected abstract IServiceProvider CreateServiceProvider(TContainerBuilder containerBuilder,
 		DiscoveredServices<TContainerBuilder> discoveredServices);
 
-	IoCExtensionsOptions CreateOptions()
+	IoCSettings CreateOptions()
 	{
 		var optionsConfigurators = _services!
-			.Where(_ => _.ImplementationInstance is IConfigureOptions<IoCExtensionsOptions>)
-			.Select(_ => _.ImplementationInstance as IConfigureOptions<IoCExtensionsOptions>);
-		var options = new IoCExtensionsOptions();
+			.Where(_ => _.ImplementationInstance is IConfigureOptions<IoCSettings>)
+			.Select(_ => _.ImplementationInstance as IConfigureOptions<IoCSettings>);
+		var options = new IoCSettings();
 		foreach (var configurator in optionsConfigurators)
 		{
 			configurator?.Configure(options);

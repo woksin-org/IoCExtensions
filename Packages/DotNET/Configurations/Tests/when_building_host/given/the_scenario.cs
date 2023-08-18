@@ -3,12 +3,12 @@
 
 using System.Reflection;
 using Aksio.Specifications;
-using Configuration.Extension.given;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Woksin.Extensions.Configurations.given;
 
-namespace Configuration.Extension.when_building_host.given;
+namespace Woksin.Extensions.Configurations.when_building_host.given;
 
 public partial class the_scenario : Specification
 {

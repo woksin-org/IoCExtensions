@@ -3,7 +3,7 @@
 
 using System.Reflection;
 
-namespace IoCExtensions.Registry.Types;
+namespace Woksin.Extensions.IoC.Registry.Types;
 
 /// <summary>
 /// Extensions on <see cref="Type"/> for getting information about generic types.

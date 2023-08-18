@@ -3,7 +3,7 @@
 
 using Xunit;
 
-namespace Configuration.Extension.when_building_host.and_not_using_a_config_prefix.using_appsettings.and_autofac_implementation;
+namespace Woksin.Extensions.Configurations.when_building_host.and_not_using_a_config_prefix.using_appsettings;
 
 public class when_resolving_configurations : given.the_host
 {

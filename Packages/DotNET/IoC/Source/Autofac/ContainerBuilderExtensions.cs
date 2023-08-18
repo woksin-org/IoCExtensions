@@ -3,10 +3,10 @@
 
 using System.Reflection;
 using Autofac;
-using IoCExtensions.Registry.Types;
 using Microsoft.Extensions.DependencyInjection;
+using Woksin.Extensions.IoC.Registry.Types;
 
-namespace IoCExtensions.Autofac;
+namespace Woksin.Extensions.IoC.Autofac;
 
 /// <summary>
 /// Extension methods for <see cref="ContainerBuilder"/>.

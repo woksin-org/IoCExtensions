@@ -2,10 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Collections.ObjectModel;
-using IoCExtensions.Lifetime;
 using Microsoft.Extensions.DependencyInjection;
+using Woksin.Extensions.IoC.Lifetime;
 
-namespace IoCExtensions.Registry.Types;
+namespace Woksin.Extensions.IoC.Registry.Types;
 
 /// <summary>
 /// Represents a set of discovered classes grouped by DI lifecycle.

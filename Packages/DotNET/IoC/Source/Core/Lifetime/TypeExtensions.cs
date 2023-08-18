@@ -4,7 +4,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IoCExtensions.Lifetime;
+namespace Woksin.Extensions.IoC.Lifetime;
 
 /// <summary>
 /// Extension methods for <see cref="Type"/>.

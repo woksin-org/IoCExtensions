@@ -4,7 +4,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace IoCExtensions.given;
+namespace Woksin.Extensions.IoC.given;
 
 public partial class the_scenario
 {

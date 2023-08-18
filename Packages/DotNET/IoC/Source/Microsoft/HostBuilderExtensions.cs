@@ -2,11 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Reflection;
-using IoCExtensions.Provider;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Woksin.Extensions.IoC.Provider;
 
-namespace IoCExtensions.Microsoft;
+namespace Woksin.Extensions.IoC.Microsoft;
 
 /// <summary>
 /// Extension methods for <see cref="IHostBuilder"/>.
@@ -14,49 +14,49 @@ namespace IoCExtensions.Microsoft;
 public static class HostBuilderExtensions
 {
 	/// <summary>
-	/// Use the Microsoft IoCExtensions implementation.
+	/// Use the Microsoft IoC implementation.
 	/// </summary>
 	/// <param name="builder">The <see cref="IHostBuilder"/>.</param>
 	/// <param name="entryAssemblyName">The entry point assembly name to discover services in.</param>
-	/// <param name="configureOptions">The callback for configuring <see cref="IoCExtensionsOptions"/>.</param>
+	/// <param name="configureOptions">The callback for configuring <see cref="IoCSettings"/>.</param>
 	/// <param name="configureContainer">The callback for configuring <see cref="IServiceCollection"/>.</param>
 	/// <returns>The <see cref="IHostBuilder"/> for continuation.</returns>
-	public static IHostBuilder UseMicrosoftIoCExtensions(
+	public static IHostBuilder UseMicrosoftIoC(
 	    this IHostBuilder builder,
 		string entryAssemblyName,
-	    Action<IoCExtensionsOptions>? configureOptions = default,
+	    Action<IoCSettings>? configureOptions = default,
 	    Action<IServiceCollection>? configureContainer = default) =>
-        UseMicrosoftIoCExtensions(builder, _ => IoCExtensionsOptionsConfigurator.Configure(_,entryAssemblyName, configureOptions), configureContainer);
+        UseMicrosoftIoC(builder, _ => IoCOptionsConfigurator.Configure(_,entryAssemblyName, configureOptions), configureContainer);
 
 	/// <summary>
-    /// Use the Microsoft IoCExtensions implementation.
+    /// Use the Microsoft IoC implementation.
     /// </summary>
     /// <param name="builder">The <see cref="IHostBuilder"/> to modify.</param>
     /// <param name="entryAssembly">The entry point assembly to discover services in.</param>
-    /// <param name="configureOptions">The callback for configuring <see cref="IoCExtensionsOptions"/>.</param>
+    /// <param name="configureOptions">The callback for configuring <see cref="IoCSettings"/>.</param>
     /// <param name="configureContainer">The callback for configuring <see cref="IServiceCollection"/>.</param>
     /// <returns>The <see cref="IHostBuilder"/> for continuation.</returns>
-    public static IHostBuilder UseMicrosoftIoCExtensions(
+    public static IHostBuilder UseMicrosoftIoC(
 		this IHostBuilder builder,
 		Assembly entryAssembly,
-		Action<IoCExtensionsOptions>? configureOptions = default,
+		Action<IoCSettings>? configureOptions = default,
 		Action<IServiceCollection>? configureContainer = default) =>
-        UseMicrosoftIoCExtensions(builder, _ => IoCExtensionsOptionsConfigurator.Configure(_, entryAssembly, configureOptions), configureContainer);
+        UseMicrosoftIoC(builder, _ => IoCOptionsConfigurator.Configure(_, entryAssembly, configureOptions), configureContainer);
     
     /// <summary>
-    /// Use the Microsoft IoCExtensions implementation.
+    /// Use the Microsoft IoC implementation.
     /// </summary>
     /// <param name="builder">The <see cref="IHostBuilder"/> to modify.</param>
-    /// <param name="configureOptions">The callback for configuring <see cref="IoCExtensionsOptions"/>.</param>
+    /// <param name="configureOptions">The callback for configuring <see cref="IoCSettings"/>.</param>
     /// <param name="configureContainer">The callback for configuring <see cref="IServiceCollection"/>.</param>
     /// <returns>The <see cref="IHostBuilder"/> for continuation.</returns>
-    public static IHostBuilder UseMicrosoftIoCExtensions(
+    public static IHostBuilder UseMicrosoftIoC(
         this IHostBuilder builder,
-        Action<IoCExtensionsOptions>? configureOptions = default,
+        Action<IoCSettings>? configureOptions = default,
         Action<IServiceCollection>? configureContainer = default) =>
-        UseMicrosoftIoCExtensions(builder, _ => IoCExtensionsOptionsConfigurator.Configure(_, configureOptions), configureContainer);
+        UseMicrosoftIoC(builder, _ => IoCOptionsConfigurator.Configure(_, configureOptions), configureContainer);
     
-    static IHostBuilder UseMicrosoftIoCExtensions(
+    static IHostBuilder UseMicrosoftIoC(
         IHostBuilder builder,
         Action<IServiceCollection> addIocExtensionsOptions,
         Action<IServiceCollection>? configureContainer) =>

@@ -3,7 +3,7 @@
 
 using Xunit;
 
-namespace Configuration.Extension.when_building_host.given;
+namespace Woksin.Extensions.Configurations.when_building_host.given;
 
 public partial class the_scenario
 {

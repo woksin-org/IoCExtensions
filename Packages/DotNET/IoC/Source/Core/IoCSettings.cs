@@ -2,15 +2,15 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Reflection;
-using IoCExtensions.Lifetime;
 using Microsoft.Extensions.DependencyInjection;
+using Woksin.Extensions.IoC.Lifetime;
 
-namespace IoCExtensions;
+namespace Woksin.Extensions.IoC;
 
 /// <summary>
-/// Represents the options used when creating the service provider.
+/// Represents the settings used when creating the service provider.
 /// </summary>
-public class IoCExtensionsOptions
+public class IoCSettings
 {
     /// <summary>
     /// Gets or sets the string representing the first part of the name of the assemblies that will be included in the service type search.

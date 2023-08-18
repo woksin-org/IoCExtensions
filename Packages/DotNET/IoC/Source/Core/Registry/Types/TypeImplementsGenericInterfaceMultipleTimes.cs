@@ -1,7 +1,7 @@
 ﻿// Copyright (c) woksin-org. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-namespace IoCExtensions.Registry.Types;
+namespace Woksin.Extensions.IoC.Registry.Types;
 
 /// <summary>
 /// Exception that gets thrown when a <see cref="Type"/> implements the given open generic interfaces multiple times.

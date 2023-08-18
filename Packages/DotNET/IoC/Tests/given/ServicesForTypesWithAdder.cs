@@ -4,9 +4,9 @@
 using Autofac;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IoCExtensions.given;
+namespace Woksin.Extensions.IoC.given;
 
-public class AutofacServicesForTypesWithAdder : IoCExtensions.Autofac.ICanAddServicesForTypesWith<SomeAttribute>
+public class AutofacServicesForTypesWithAdder : Autofac.ICanAddServicesForTypesWith<SomeAttribute>
 {
 	public void AddServiceFor(Type type, SomeAttribute attribute, ContainerBuilder services)
 	{

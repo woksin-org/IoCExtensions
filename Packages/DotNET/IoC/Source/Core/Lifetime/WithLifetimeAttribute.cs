@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IoCExtensions.Lifetime;
+namespace Woksin.Extensions.IoC;
 
 /// <summary>
 /// Indicates the <see cref="ServiceLifetime" />

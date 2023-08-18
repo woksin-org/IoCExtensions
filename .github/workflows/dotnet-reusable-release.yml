@@ -34,7 +34,7 @@ on:
 
 jobs:
   ci:
-    name: CI/CD
+    name: Release
     runs-on: ubuntu-latest
 
     steps:

@@ -3,11 +3,11 @@
 
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using IoCExtensions.Provider;
-using IoCExtensions.Registry;
 using Microsoft.Extensions.DependencyInjection;
+using Woksin.Extensions.IoC.Provider;
+using Woksin.Extensions.IoC.Registry;
 
-namespace IoCExtensions.Autofac;
+namespace Woksin.Extensions.IoC.Autofac;
 
 /// <summary>
 /// Represents an implementation of <see cref="IServiceProviderFactory{TContainerBuilder}"/> for the Autofac <see cref="ContainerBuilder"/> that sets up the Service Provider using Autofac.

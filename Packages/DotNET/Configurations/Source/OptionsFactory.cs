@@ -4,7 +4,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Configuration.Extension;
+namespace Woksin.Extensions.Configurations;
 
 /// <summary>
 /// Represents an implementation of <see cref="Microsoft.Extensions.Options.OptionsFactory{TOptions}"/> specific for the configuration system.

@@ -1,12 +1,12 @@
 ﻿// Copyright (c) woksin-org. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using IoCExtensions.Provider;
-using IoCExtensions.Registry;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Woksin.Extensions.IoC.Provider;
+using Woksin.Extensions.IoC.Registry;
 
-namespace IoCExtensions.Microsoft;
+namespace Woksin.Extensions.IoC.Microsoft;
 
 /// <summary>
 /// Represents an implementation of <see cref="IServiceProviderFactory{TContainerBuilder}"/> for <see cref="IServiceCollection"/>

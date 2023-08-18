@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.Configuration;
 
-namespace Configuration.Extension.when_building_host.and_not_using_a_config_prefix.using_appsettings.given;
+namespace Woksin.Extensions.Configurations.when_building_host.and_not_using_a_config_prefix.using_appsettings.given;
 
 public class the_host : and_not_using_a_config_prefix.given.a_host_builder
 {

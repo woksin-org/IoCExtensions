@@ -4,9 +4,9 @@
 using Autofac;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IoCExtensions.given;
+namespace Woksin.Extensions.IoC.given;
 
-public class AutofacServiceAdder : IoCExtensions.Autofac.ICanAddServices
+public class AutofacServiceAdder : Autofac.ICanAddServices
 {
 	public void AddTo(ContainerBuilder services)
 	{

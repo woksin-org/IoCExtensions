@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.Hosting;
 
-namespace IoCExtensions.given;
+namespace Woksin.Extensions.IoC.given;
 
 public class a_host_builder : the_scenario
 {

@@ -2,10 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Reflection;
-using IoCExtensions.Registry.Types;
 using Microsoft.Extensions.DependencyInjection;
+using Woksin.Extensions.IoC.Registry.Types;
 
-namespace IoCExtensions.Microsoft;
+namespace Woksin.Extensions.IoC.Microsoft;
 
 /// <summary>
 /// Extension methods for <see cref="IServiceCollection"/>.

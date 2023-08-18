@@ -1,7 +1,7 @@
 ﻿// Copyright (c) woksin-org. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-namespace IoCExtensions;
+namespace Woksin.Extensions.IoC;
 
 /// <summary>
 /// Indicates that the class should not be registered automatically in a DI container.

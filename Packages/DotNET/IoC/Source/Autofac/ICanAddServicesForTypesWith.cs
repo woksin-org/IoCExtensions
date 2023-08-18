@@ -3,7 +3,7 @@
 
 using Autofac;
 
-namespace IoCExtensions.Autofac;
+namespace Woksin.Extensions.IoC.Autofac;
 
 /// <inheritdoc />
 public interface ICanAddServicesForTypesWith<in TAttribute> : ICanAddServicesForTypesWith<TAttribute, ContainerBuilder>

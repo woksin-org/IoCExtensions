@@ -1,9 +1,9 @@
 ﻿// Copyright (c) woksin-org. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using IoCExtensions.Registry.Types;
+using Woksin.Extensions.IoC.Registry.Types;
 
-namespace IoCExtensions.Registry.Attributes;
+namespace Woksin.Extensions.IoC.Registry.Attributes;
 
 /// <summary>
 /// Represents a static class for creating <see cref="ICanAddServices{T}"/>.

@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
-namespace Configuration.Extension;
+namespace Woksin.Extensions.Configurations;
 
 /// <summary>
 /// Represents extension methods for adding the configuration system to a host.

@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IoCExtensions;
+namespace Woksin.Extensions.IoC;
 
 /// <summary>
 /// Defines a system that can add services to a <typeparamref name="TContainerBuilder"/>.
