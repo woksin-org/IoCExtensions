@@ -1,0 +1,27 @@
+<Project>
+	<PropertyGroup>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageVersion Include="Autofac" Version="7.1.0" />
+		<PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageVersion Include="BaselineTypeDiscovery" Version="2.0.0" />
+		<PackageVersion Include="Lamar" Version="12.0.0" />
+		<PackageVersion Include="Lamar.Microsoft.DependencyInjection" Version="12.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+		<PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Options" Version="7.0.1" />
+
+
+		<PackageVersion Include="Aksio.Specifications" Version="2.0.1" />
+		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.7.0" />
+		<PackageVersion Include="NSubstitute" Version="5.0.0" />
+		<PackageVersion Include="xunit" Version="2.5.0" />
+		<PackageVersion Include="xunit.runner.visualstudio" Version="2.5.0" />
+	</ItemGroup>
+</Project>

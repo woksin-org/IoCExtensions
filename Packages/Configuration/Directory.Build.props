@@ -1,6 +1,0 @@
-<Project>
-	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
-	<PropertyGroup>
-        <PackageTags>$(PackageTags);inversionofcontrol;ioc;dependencyinjection;configuration;microsoft</PackageTags>
-	</PropertyGroup>
-</Project>

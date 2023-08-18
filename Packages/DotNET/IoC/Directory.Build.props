@@ -1,0 +1,8 @@
+<Project>
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+	<PropertyGroup>
+        <PackageTags>$(PackageTags);inversionofcontrol;ioc;dependencyinjection;microsoft;autofac</PackageTags>
+		<RootNamespace>Woksin.Extensions.IoC</RootNamespace>
+        <AssemblyName>Woksin.Extensions.IoC</AssemblyName>
+	</PropertyGroup>
+</Project>

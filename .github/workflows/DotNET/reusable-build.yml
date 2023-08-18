@@ -1,0 +1,35 @@
+name: DotNET - Reusable - Build 
+
+env:
+  NUGET_OUTPUT: Artifacts/NuGet
+
+on:
+  workflow_call: 
+    inputs:
+      working-directory:
+        description: The working directory to release from
+        type: string
+        required: true
+      dotnet-version:
+        description: The list of versions of .NET to build with
+        type: string
+        default: |
+          7.0.x
+
+jobs:
+  ci:
+    name: CI/CD
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ inputs.dotnet-version }}
+      - name: Build
+        working-directory: ${{inputs.working-directory}}
+        run: dotnet build --configuration Release
+      - name: Test
+        working-directory: ${{inputs.working-directory}}
+        run: dotnet test --configuration Release --no-build

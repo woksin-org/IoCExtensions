@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<RootNamespace>$(RootNamespace).Core</RootNamespace>
+        <AssemblyName>$(AssemblyName).Core</AssemblyName>
+	</PropertyGroup>
+
+  <ItemGroup>
+      <PackageReference Include="BaselineTypeDiscovery" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration" />
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
+	  <PackageReference Include="Microsoft.Extensions.Options" />
+  </ItemGroup>
+  
+    <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)/README.md" Pack="true" PackagePath="/README.md" />
+    </ItemGroup>
+
+</Project>
