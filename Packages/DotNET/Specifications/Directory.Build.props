@@ -1,0 +1,8 @@
+<Project>
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+	<PropertyGroup>
+        <PackageTags>$(PackageTags);bdd;tdd;testing;specification;xunit;nunit</PackageTags>
+		<RootNamespace>Woksin.Extensions.Specifications</RootNamespace>
+        <AssemblyName>Woksin.Extensions.Specifications</AssemblyName>
+	</PropertyGroup>
+</Project>

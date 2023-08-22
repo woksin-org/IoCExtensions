@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+		<RootNamespace>$(RootNamespace).NUnit</RootNamespace>
+        <AssemblyName>$(RootNamespace).NUnit</AssemblyName>
+	</PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Abstractions\Specifications.Abstractions.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="nunit" />
+    </ItemGroup>
+</Project>
