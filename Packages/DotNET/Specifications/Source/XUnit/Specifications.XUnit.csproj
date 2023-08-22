@@ -2,7 +2,7 @@
 
     <PropertyGroup>
 		<RootNamespace>$(RootNamespace).XUnit</RootNamespace>
-        <AssemblyName>$(RootNamespace).XUnit</AssemblyName>
+        <AssemblyName>$(AssemblyName).XUnit</AssemblyName>
         <IsTestProject>false</IsTestProject>
         <PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>

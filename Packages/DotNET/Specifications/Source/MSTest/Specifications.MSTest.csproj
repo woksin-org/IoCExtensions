@@ -2,7 +2,7 @@
 
     <PropertyGroup>
 		<RootNamespace>$(RootNamespace).MSTest</RootNamespace>
-        <AssemblyName>$(RootNamespace).MSTest</AssemblyName>
+        <AssemblyName>$(AssemblyName).MSTest</AssemblyName>
         <IsTestProject>false</IsTestProject>
         <PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
