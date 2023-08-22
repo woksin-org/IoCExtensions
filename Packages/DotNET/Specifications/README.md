@@ -157,7 +157,7 @@ class When_authenticating_a_null_user : given.no_user_authenticated
 }
 ```
 
-Supports teardown through `destroy`:
+Supports teardown through `Destroy`:
 
 ```csharp
 class no_user_authenticated
