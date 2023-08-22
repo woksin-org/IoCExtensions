@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Source\Configurations.csproj" />
+        <ProjectReference Include="..\..\Specifications\Source\XUnit\Specifications.XUnit.csproj" />
     </ItemGroup>
 
     <ItemGroup>
