@@ -11,7 +11,7 @@ on:
         type: string
         required: true
       library-name:
-        description: The base name of the library to be released
+        description: The base name of the library to be released. MUST NOT contain spaces or characaters not allowed in github tags
         type: string
         required: true
       dotnet-version:

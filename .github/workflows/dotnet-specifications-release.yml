@@ -12,5 +12,5 @@ jobs:
     uses: ./.github/workflows/dotnet-reusable-release.yml
     with:
       working-directory: Packages/DotNET/Specifications
-      library-name: DotNET - Specifications
+      library-name: Woksin.Extensions.Specifications
     secrets: inherit
