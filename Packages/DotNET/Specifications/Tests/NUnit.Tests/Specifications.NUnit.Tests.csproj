@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+		<RootNamespace>$(RootNamespace).NUnit</RootNamespace>
+		<AssemblyName>$(AssemblyName).NUnit.Tests</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Source\NUnit\Specifications.NUnit.csproj" />
+    </ItemGroup>
+</Project>
