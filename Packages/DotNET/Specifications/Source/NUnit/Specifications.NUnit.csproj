@@ -4,6 +4,7 @@
 		<RootNamespace>$(RootNamespace).NUnit</RootNamespace>
         <AssemblyName>$(RootNamespace).NUnit</AssemblyName>
         <IsTestProject>false</IsTestProject>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
     <ItemGroup>

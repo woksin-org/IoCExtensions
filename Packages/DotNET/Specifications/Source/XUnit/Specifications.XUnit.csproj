@@ -4,6 +4,7 @@
 		<RootNamespace>$(RootNamespace).XUnit</RootNamespace>
         <AssemblyName>$(RootNamespace).XUnit</AssemblyName>
         <IsTestProject>false</IsTestProject>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
     <ItemGroup>

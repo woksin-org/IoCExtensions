@@ -2,6 +2,7 @@
 	<PropertyGroup>
 		<RootNamespace>$(RootNamespace).Microsoft</RootNamespace>
         <AssemblyName>$(AssemblyName).Microsoft</AssemblyName>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
     <ItemGroup>
