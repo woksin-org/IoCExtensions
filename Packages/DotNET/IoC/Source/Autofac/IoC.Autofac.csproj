@@ -3,6 +3,7 @@
     <PropertyGroup>
 		<RootNamespace>$(RootNamespace).Autofac</RootNamespace>
         <AssemblyName>$(AssemblyName).Autofac</AssemblyName>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
