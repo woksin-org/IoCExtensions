@@ -5,6 +5,7 @@ on:
     branches: ['**']
     paths: 
       - Packages/DotNET/Configurations/**
+      - Packages/DotNET/Specifications/**
       - .github/workflows/dotnet-configurations-*
 
 

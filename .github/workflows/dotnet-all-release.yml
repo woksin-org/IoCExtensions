@@ -5,6 +5,7 @@ on:
     types: [closed]
     paths: 
       - Packages/DotNET/**
+      - "!Packages/DotNET/Specifications/**"
       - .github/workflows/dotnet-all-*
 
 jobs:

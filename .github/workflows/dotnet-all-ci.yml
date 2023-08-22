@@ -5,6 +5,7 @@ on:
     branches: ['**']
     paths: 
       - Packages/DotNET/**
+      - "!Packages/DotNET/Specifications/**"
       - .github/workflows/dotnet-all-*
 
 jobs:
