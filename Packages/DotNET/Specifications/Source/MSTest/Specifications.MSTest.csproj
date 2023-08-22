@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+		<RootNamespace>$(RootNamespace).MSTest</RootNamespace>
+        <AssemblyName>$(RootNamespace).MSTest</AssemblyName>
+        <IsTestProject>false</IsTestProject>
+	</PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Abstractions\Specifications.Abstractions.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="MSTest.TestFramework" />
+    </ItemGroup>
+</Project>

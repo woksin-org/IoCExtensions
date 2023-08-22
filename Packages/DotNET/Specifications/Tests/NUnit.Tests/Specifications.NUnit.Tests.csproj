@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+		<RootNamespace>$(RootNamespace).NUnit</RootNamespace>
+		<AssemblyName>$(AssemblyName).NUnit.Tests</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="NUnit3TestAdapter">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Source\NUnit\Specifications.NUnit.csproj" />
+    </ItemGroup>
+</Project>
