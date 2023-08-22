@@ -1,0 +1,41 @@
+{
+    "name": "@woksin/extensions.decorators",
+    "version": "1.0.0-rc.0",
+    "description": "",
+    "keywords": [
+    ],
+    "author": "",
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dolittle/Javascript.SDK.git"
+    },
+    "bugs": {
+        "url": "https://github.com/dolittle/Javascript.SDK/issues"
+    },
+    "homepage": "https://github.com/dolittle/Javascript.SDK#readme",
+    "files": [
+        "Distribution",
+        "**/*.ts"
+    ],
+    "main": "Distribution/index.js",
+    "types": "Distribution/index.d.ts",
+    "scripts": {
+        "prebuild": "yarn clean",
+        "postbuild": "yarn lint",
+        "build": "tsc -b tsconfig.json ",
+        "clean": "tsc -b --clean ",
+        "lint:fix": "eslint \"**/*.ts\" --fix",
+        "lint": "eslint \"**/*.ts\"",
+        "test": "echo \"noop\"",
+        "ci": "yarn build && yarn test"
+    },
+    "dependencies": {
+        "@woksin/extensions.types": "1.0.0-rc.0"
+    },
+    "devDependencies": {
+    }
+}

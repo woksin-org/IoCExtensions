@@ -1,0 +1,10 @@
+{
+    "extends": "@woksin/typescript.config",
+    "compilerOptions": {
+        "sourceRoot": "../",
+        "outDir": "Distribution",
+        "composite": true
+    },
+    "include": ["**/*.ts"],
+    "exclude": ["node_modules", "Distribution"],
+}

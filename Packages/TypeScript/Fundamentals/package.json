@@ -1,0 +1,17 @@
+{
+    "name": "@woksin/typescript",
+    "private": "true",
+    "workspaces": [
+        "decorators",
+        "dependencyInversion",
+        "types"
+    ],
+    "scripts": {
+        "ci": "yarn workspaces run ci"
+    },
+    "devDependencies": {
+        "reflect-metadata": "^0.1.13",
+        "@woksin/typescript.build": "^6.0.10",
+        "@woksin/typescript.testing": "^6.0.10"
+    }
+}
