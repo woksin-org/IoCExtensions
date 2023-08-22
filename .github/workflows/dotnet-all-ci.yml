@@ -1,16 +1,17 @@
-name: DotNET - All - Build
+# name: DotNET - All - Build
 
-on:
-  push:
-    branches: ['**']
-    paths: 
-      - Packages/DotNET/**
-      - .github/workflows/dotnet-all-*
+# on:
+#   push:
+#     branches: ['**']
+#     paths: 
+#       - Packages/DotNET/**
+#       - "!Packages/DotNET/Specifications/**"
+#       - .github/workflows/dotnet-all-*
 
-jobs:
-  build:
-    uses: ./.github/workflows/dotnet-reusable-build.yml
-    with:
-      working-directory: Packages/DotNET
-    secrets: inherit
+# jobs:
+#   build:
+#     uses: ./.github/workflows/dotnet-reusable-build.yml
+#     with:
+#       working-directory: Packages/DotNET
+#     secrets: inherit
       

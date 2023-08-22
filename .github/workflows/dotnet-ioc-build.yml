@@ -5,6 +5,7 @@ on:
     branches: ['**']
     paths: 
       - Packages/DotNET/IoC/**
+      - Packages/DotNET/Specifications/**
       - .github/workflows/dotnet-ioc-*
 
 jobs:

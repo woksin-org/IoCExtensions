@@ -9,6 +9,15 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Source\Configurations.csproj" />
+        <ProjectReference Include="..\..\Specifications\Source\XUnit\Specifications.XUnit.csproj" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <PackageReference Include="xunit.runner.visualstudio" VersionOverride="2.5.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
     </ItemGroup>
 
     <ItemGroup>
