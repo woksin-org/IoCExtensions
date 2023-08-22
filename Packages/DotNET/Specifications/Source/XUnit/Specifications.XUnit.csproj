@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+		<RootNamespace>$(RootNamespace).XUnit</RootNamespace>
+        <AssemblyName>$(AssemblyName).XUnit</AssemblyName>
+        <IsTestProject>false</IsTestProject>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Abstractions\Specifications.Abstractions.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="xunit" />
+    </ItemGroup>
+</Project>

@@ -1,0 +1,101 @@
+name: DotNET - Reusable - Release 
+
+env:
+  NUGET_OUTPUT: Artifacts/NuGet
+
+on:
+  workflow_call: 
+    inputs:
+      working-directory:
+        description: The working directory to release from
+        type: string
+        required: true
+      library-name:
+        description: The base name of the library to be released. MUST NOT contain spaces or characaters not allowed in github tags
+        type: string
+        required: true
+      dotnet-version:
+        description: The list of versions of .NET to build with
+        type: string
+        default: |
+          7.0.x
+      release-branches:
+        description: The list of release versions
+        type: string
+        default: |
+          main
+      prerelease-branches:
+        description: The list of prerelease versions
+        type: string
+        default: |
+          alpha
+          beta
+          rc
+
+jobs:
+  ci:
+    name: Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ inputs.dotnet-version }}
+      - name: Establish context
+        id: context
+        uses: woksin-org/establish-context-action@v4
+        with:
+          version-file: ${{ inputs.working-directory}}/version.json
+          prerelease-branches: ${{ inputs.prerelease-branches }}
+          release-branches: ${{ inputs.release-branches }}
+      - name: Create release notes
+        id: create-release-notes
+        if: ${{ steps.context.outputs.should-publish == 'true' }}
+        uses: woksin-org/create-release-notes-action@v1
+        with:
+          body: ${{ steps.context.outputs.pr-body }}
+          version: ${{ steps.context.outputs.new-version }}
+          changelog-url: https://github.com/woksin-org/Woksin.Extensions/blob/main/${{inputs.working-directory}}/CHANGELOG.md
+          output-format: msbuild
+      - name: Create packages
+        if: ${{ steps.context.outputs.should-publish == 'true' }}
+        working-directory: ${{inputs.working-directory}}
+        run: |
+          dotnet pack \
+            --configuration Release \
+            -o ${{ env.NUGET_OUTPUT }} \
+            -p:Version=${{ steps.context.outputs.new-version }} \
+            -p:PackageVersion=${{ steps.context.outputs.new-version }} \
+            -p:PackageReleaseNotes="${{ steps.create-release-notes.outputs.plaintext }}"
+      - name: Prepend to Changelog
+        if: ${{ steps.context.outputs.should-publish == 'true' && steps.context.outputs.release-type != 'prerelease' }}
+        uses: woksin-org/add-to-changelog-action@v4
+        with:
+          version: ${{ steps.context.outputs.new-version }}
+          body: ${{ steps.context.outputs.pr-body }}
+          pr-url: ${{ steps.context.outputs.pr-url }}
+          changelog-path: ${{ inputs.working-directory}}/CHANGELOG.md
+      - name: Create GitHub Release
+        uses: woksin-org/github-release-action@v3
+        if: ${{ steps.context.outputs.should-publish == 'true' }}
+        with:
+          version: ${{ steps.context.outputs.new-version }}
+          body: ${{ steps.context.outputs.pr-body }}
+          token: ${{ secrets.BUILD_PAT }}
+          application-name: ${{ inputs.library-name }}
+      - name: Write to version file
+        uses: woksin-org/write-version-to-file-action@v3
+        if: ${{ steps.context.outputs.should-publish == 'true' }}
+        with:
+          version: ${{ steps.context.outputs.new-version }}
+          path: ${{ inputs.working-directory}}/version.json
+      - name: Push NuGet packages
+        if: ${{ steps.context.outputs.should-publish == 'true' }}
+        working-directory: ${{inputs.working-directory}}
+        run: |
+          dotnet nuget push \
+            --skip-duplicate '${{ env.NUGET_OUTPUT }}/*.nupkg' \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json

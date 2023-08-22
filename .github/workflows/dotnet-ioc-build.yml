@@ -1,0 +1,16 @@
+name: DotNET - IoC - Build
+
+on:
+  push:
+    branches: ['**']
+    paths: 
+      - Packages/DotNET/IoC/**
+      - Packages/DotNET/Specifications/**
+      - .github/workflows/dotnet-ioc-*
+
+jobs:
+  build:
+    uses: ./.github/workflows/dotnet-reusable-build.yml
+    with:
+      working-directory: Packages/DotNET/IoC
+    secrets: inherit

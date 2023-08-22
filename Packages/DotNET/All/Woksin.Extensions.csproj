@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)/../README.md" Pack="true" PackagePath="/README.md" />
+    </ItemGroup>
+	
+    <ItemGroup>
+      <ProjectReference Include="..\IoC\Source\Autofac\IoC.Autofac.csproj" />
+      <ProjectReference Include="..\IoC\Source\Core\IoC.Core.csproj" />
+      <ProjectReference Include="..\IoC\Source\Microsoft\IoC.Microsoft.csproj" />
+      <ProjectReference Include="..\Configurations\Source\Configurations.csproj" />
+    </ItemGroup>
+
+</Project>
