@@ -5,4 +5,7 @@
 		<RootNamespace>Woksin.Extensions.Specifications</RootNamespace>
         <AssemblyName>Woksin.Extensions.Specifications</AssemblyName>
 	</PropertyGroup>
+    <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)/README.md" Pack="true" PackagePath="/README.md" />
+    </ItemGroup>
 </Project>

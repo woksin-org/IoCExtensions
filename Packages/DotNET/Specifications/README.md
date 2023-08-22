@@ -50,7 +50,7 @@ In addition to this you might want to reuse a context. This can quite easily be 
 then have a **given** folder and namespace where you'd put the common reusable context - again reflecting what it represents,
 for instance for our authentication scenario: **no_user_authenticated**.
 
-For a sample of how this looks like, look within the test folders [here](../../tests/Specifications/) folder.
+For a sample of how this looks like, look within the test folders [here](./Tests/) folder.
 
 ## Compiler Warnings
 
