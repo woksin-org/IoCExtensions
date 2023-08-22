@@ -8,7 +8,7 @@
 		<Nullable>enable</Nullable>
 		<NoWarn>$(NoWarn);CS1591;CA2017;NU1507</NoWarn>
         
-        <TargetFrameworks Condition="!$(MSBuildProjectName.Contains('Tests'))">net6.0;net7.0</TargetFrameworks>
+        <TargetFrameworks Condition="!$(MSBuildProjectName.Contains('Tests'))">netstandard2.1;net6.0;net7.0</TargetFrameworks>
         <IsPackable Condition="!$(MSBuildProjectName.Contains('Tests'))">true</IsPackable>
         <NoWarn Condition="!$(MSBuildProjectName.Contains('Tests'))">$(NoWarn);CS1591;CA2017;NU1507</NoWarn>
 
