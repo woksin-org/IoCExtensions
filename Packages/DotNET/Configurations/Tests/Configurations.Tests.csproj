@@ -12,6 +12,14 @@
         <ProjectReference Include="..\..\Specifications\Source\XUnit\Specifications.XUnit.csproj" />
     </ItemGroup>
 
+
+    <ItemGroup>
+        <PackageReference Include="xunit.runner.visualstudio" VersionOverride="2.5.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+    </ItemGroup>
+
     <ItemGroup>
         <None Include="appsettings_without_prefix.json" CopyToOutputDirectory="Always" />
         <None Include="appsettings_with_prefix.json">
