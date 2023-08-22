@@ -13,6 +13,8 @@
         <Authors>woksin</Authors>
         
         <TargetFrameworks Condition="!$(MSBuildProjectName.Contains('Tests'))">netstandard2.1;net6.0;net7.0</TargetFrameworks>
+
+        <IsTestProject Condition="!$(MSBuildProjectName.Contains('Tests'))">false</IsTestProject>
         <IsPackable Condition="!$(MSBuildProjectName.Contains('Tests'))">true</IsPackable>
         <NoWarn Condition="!$(MSBuildProjectName.Contains('Tests'))">$(NoWarn);CS1591;CA2017;NU1507</NoWarn>
 

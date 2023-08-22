@@ -3,6 +3,7 @@
     <PropertyGroup>
 		<RootNamespace>$(RootNamespace).XUnit</RootNamespace>
         <AssemblyName>$(RootNamespace).XUnit</AssemblyName>
+        <IsTestProject>false</IsTestProject>
 	</PropertyGroup>
 
     <ItemGroup>
