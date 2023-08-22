@@ -8,6 +8,9 @@
       <ProjectReference Include="..\IoC\Source\Core\IoC.Core.csproj" />
       <ProjectReference Include="..\IoC\Source\Microsoft\IoC.Microsoft.csproj" />
       <ProjectReference Include="..\Configurations\Source\Configurations.csproj" />
+      <ProjectReference Include="..\Specifications\Source\Abstractions\Specifications.Abstractions.csproj" />
+      <ProjectReference Include="..\Specifications\Source\NUnit\Specifications.NUnit.csproj" />
+      <ProjectReference Include="..\Specifications\Source\XUnit\Specifications.XUnit.csproj" />
     </ItemGroup>
 
 </Project>
