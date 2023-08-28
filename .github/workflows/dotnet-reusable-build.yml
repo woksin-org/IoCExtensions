@@ -52,7 +52,7 @@ jobs:
         uses: dorny/test-reporter@v1
         if: success() || failure()    # run this step even if previous step failed
         with:
-          name: .Net ${{ inputs.library-name }} Test Results
+          name: ${{ inputs.library-name }} Test Report
           working-directory: ${{ inputs.working-directory }}
           path: Tests/**/TestResults/*.trx
           reporter: dotnet-trx
