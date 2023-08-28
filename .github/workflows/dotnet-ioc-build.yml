@@ -14,4 +14,5 @@ jobs:
     uses: ./.github/workflows/dotnet-reusable-build.yml
     with:
       working-directory: Packages/DotNET/IoC
+      library-name: Woksin.Extensions.IoC
     secrets: inherit

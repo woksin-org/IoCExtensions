@@ -14,4 +14,5 @@ jobs:
     uses: ./.github/workflows/dotnet-reusable-build.yml
     with:
       working-directory: Packages/DotNET/Specifications
+      library-name: Woksin.Extensions.Specifications
     secrets: inherit

@@ -15,6 +15,10 @@ on:
         type: string
         default: |
           7.0.x
+      library-name:
+        description: The base name of the library to be released. MUST NOT contain spaces or characaters not allowed in github tags
+        type: string
+        required: true
 
 jobs:
   build:
@@ -48,8 +52,8 @@ jobs:
         uses: dorny/test-reporter@v1
         if: success() || failure()    # run this step even if previous step failed
         with:
-          name: .NET Tests            # Name of the check run which will be created
+          name: .Net ${{ inputs.library-name }} Test Results
           working-directory: ${{ inputs.working-directory }}
-          path: Tests/**/TestResults/*.trx    # Path to test results
+          path: Tests/**/TestResults/*.trx
           reporter: dotnet-trx
 
