@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoC.Microsoft", "Source\Mic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoC.Tests", "Tests\IoC.Tests.csproj", "{8B2151B1-49F2-44A7-901C-C4226F709F40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woksin.Extensions.IoC.Benchmarks", "Benchmarks\Woksin.Extensions.IoC.Benchmarks.csproj", "{3B8A3647-B222-4F63-9512-D588A70353DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{8B2151B1-49F2-44A7-901C-C4226F709F40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B2151B1-49F2-44A7-901C-C4226F709F40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B2151B1-49F2-44A7-901C-C4226F709F40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B8A3647-B222-4F63-9512-D588A70353DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B8A3647-B222-4F63-9512-D588A70353DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B8A3647-B222-4F63-9512-D588A70353DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B8A3647-B222-4F63-9512-D588A70353DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5E73E4EA-3B46-49D3-A965-948EFEBAEBF5} = {4D9D42A9-B80B-4C01-B162-FC5036688F10}

@@ -7,11 +7,23 @@ on:
       - Packages/DotNET/IoC/**
       - Packages/DotNET/Specifications/**
       - .github/workflows/dotnet-ioc-*
-      - .github/workflows/dotnet-reusable-build-*
+      - .github/workflows/dotnet-reusable-build.yml
 
 jobs:
   build:
     uses: ./.github/workflows/dotnet-reusable-build.yml
     with:
       working-directory: Packages/DotNET/IoC
+      library-name: Woksin.Extensions.IoC
     secrets: inherit
+
+  benchmarks:
+    needs: build
+    if: (github.event_name == 'push' && github.ref_name == 'main')
+    uses: ./.github/workflows/dotnet-reusable-benchmarks.yml
+    with:
+      working-directory: Packages/DotNET/IoC
+      library-name: Woksin.Extensions.IoC
+      benchmarks: '["BuildHost"]'
+    secrets: inherit
+      

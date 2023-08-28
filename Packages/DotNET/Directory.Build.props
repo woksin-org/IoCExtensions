@@ -22,6 +22,8 @@
         <IsTestProject Condition="$(MSBuildProjectName.Contains('Tests'))">true</IsTestProject>
         <IsPackable Condition="$(MSBuildProjectName.Contains('Tests'))">false</IsPackable>
         <NoWarn Condition="$(MSBuildProjectName.Contains('Tests'))">$(NoWarn);CS1591;CA2017;NU1507;CS86404;CS8618;CS8604;CA1707;CA1051</NoWarn>
+
+        <RunSettingsFilePath>$(MSBuildThisFileDirectory)\.runsettings</RunSettingsFilePath>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -34,4 +36,6 @@
 	<ItemGroup Condition="$(MSBuildProjectName.Contains('Tests'))">
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
 	</ItemGroup>
+    <PropertyGroup>
+  </PropertyGroup>
 </Project>

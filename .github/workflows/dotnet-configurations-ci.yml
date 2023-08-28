@@ -7,7 +7,7 @@ on:
       - Packages/DotNET/Configurations/**
       - Packages/DotNET/Specifications/**
       - .github/workflows/dotnet-configurations-*
-      - .github/workflows/dotnet-reusable-build-*
+      - .github/workflows/dotnet-reusable-build.yml
 
 
 jobs:
@@ -15,4 +15,5 @@ jobs:
     uses: ./.github/workflows/dotnet-reusable-build.yml
     with:
       working-directory: Packages/DotNET/Configurations
+      library-name: Woksin.Extensions.Configurations
     secrets: inherit

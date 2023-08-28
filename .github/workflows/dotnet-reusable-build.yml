@@ -1,8 +1,5 @@
 name: DotNET - Reusable - Build 
 
-env:
-  NUGET_OUTPUT: Artifacts/NuGet
-
 on:
   workflow_call: 
     inputs:
@@ -15,6 +12,10 @@ on:
         type: string
         default: |
           7.0.x
+      library-name:
+        description: The base name of the library to be released. MUST NOT contain spaces or characaters not allowed in github tags
+        type: string
+        required: true
 
 jobs:
   build:
@@ -48,8 +49,7 @@ jobs:
         uses: dorny/test-reporter@v1
         if: success() || failure()    # run this step even if previous step failed
         with:
-          name: .NET Tests            # Name of the check run which will be created
+          name: ${{ inputs.library-name }} Test Report
           working-directory: ${{ inputs.working-directory }}
-          path: Tests/**/TestResults/*.trx    # Path to test results
+          path: Tests/**/TestResults/*.trx
           reporter: dotnet-trx
-

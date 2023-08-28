@@ -1,3 +1,4 @@
+*.Artifacts
 bin
 obj
 *.suo
