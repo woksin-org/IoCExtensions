@@ -6,6 +6,7 @@ on:
     paths: 
       - Packages/DotNET/Specifications/**
       - .github/workflows/dotnet-specifications-*
+      - .github/workflows/dotnet-reusable-build-*
 
 
 jobs:
