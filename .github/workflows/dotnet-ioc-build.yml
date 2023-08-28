@@ -7,7 +7,7 @@ on:
       - Packages/DotNET/IoC/**
       - Packages/DotNET/Specifications/**
       - .github/workflows/dotnet-ioc-*
-      - .github/workflows/dotnet-reusable-build-*
+      - .github/workflows/dotnet-reusable-build.yml
 
 jobs:
   build:
