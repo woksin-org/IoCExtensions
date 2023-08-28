@@ -15,7 +15,15 @@ jobs:
     with:
       working-directory: Packages/DotNET/IoC
       library-name: Woksin.Extensions.IoC
-      run-benchmarks: true
-      benchmarks: '["BuildHost"]'
-
     secrets: inherit
+
+  benchmarks:
+    needs: build
+    if: (github.event_name == 'push' && github.ref_name == 'main')
+    uses: ./.github/workflows/dotnet-reusable-benchmarks.yml
+    with:
+      working-directory: Packages/DotNET/IoC
+      library-name: Woksin.Extensions.IoC
+      benchmarks: '["BuildHost"]'
+    secrets: inherit
+      

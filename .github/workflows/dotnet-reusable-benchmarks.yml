@@ -1,0 +1,54 @@
+name: DotNET - Reusable - Bencnhmarks 
+
+on:
+  workflow_call: 
+    inputs:
+      working-directory:
+        description: The working directory to release from
+        type: string
+        required: true
+      dotnet-version:
+        description: The list of versions of .NET to build with
+        type: string
+        default: |
+          7.0.x
+      library-name:
+        description: The base name of the library to be released. MUST NOT contain spaces or characaters not allowed in github tags
+        type: string
+        required: true
+      benchmarks:
+        description: JSON array of which benchmarks to run
+        type: string
+        default: ''
+
+jobs:
+  benchmarks:
+    name: Benchmarks
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        benchmark: ${{ fromJson(inputs.benchmarks) }}
+    env:
+      BENCHMARK_NAME: ${{ inputs.library-name }}.Benchmarks.${{ matrix.benchmark }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ inputs.dotnet-version }}
+      - name: Run Benchmarks
+        working-directory: ${{ inputs.working-directory }}/Benchmarks
+        run: dotnet run --configuration Release -- --exporters json -m --filter '${{ env.BENCHMARK_NAME }}'
+      - name: Store benchmark result
+        uses: rhysd/github-action-benchmark@v1
+        with:
+          name: ${{ inputs.library-name }} Benchmarks
+          tool: 'benchmarkdotnet'
+          output-file-path: ${{ inputs.working-directory }}/Benchmarks/BenchmarkDotNet.Artifacts/results/${{ env.BENCHMARK_NAME }}-report-full-compressed.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+          alert-threshold: '200%'
+          comment-on-alert: true
+          alert-comment-cc-users: '@woksin'
+          
