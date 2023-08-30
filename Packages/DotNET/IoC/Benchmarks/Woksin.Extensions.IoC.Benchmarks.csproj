@@ -5,6 +5,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>$(RootNamespace).Benchmarks</RootNamespace>
     <AssemblyName>$(AssemblyName).Benchmarks</AssemblyName>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
