@@ -29,3 +29,4 @@ public class ConfigurationAttribute : Attribute
     /// </summary>
     public string ConfigurationPath { get; }
 }
+
