@@ -71,3 +71,4 @@ static class ContainerBuilderExtensions
 
     static bool IsOpenGeneric(Type type) => type.GetTypeInfo().IsGenericTypeDefinition;
 }
+
