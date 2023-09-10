@@ -16,4 +16,5 @@ jobs:
     with:
       working-directory: Packages/DotNET/Configurations
       library-name: Woksin.Extensions.Configurations
+      event-name: ${{github.event_name}}
     secrets: inherit
