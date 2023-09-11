@@ -16,12 +16,16 @@ on:
         description: The base name of the library to be released. MUST NOT contain spaces or characaters not allowed in github tags
         type: string
         required: true
+      coverlet-exclude:
+        description: Exclude in coverlet. Defaults to '[*]Woksin.Extensions.Specifications*'
+        type: string
+        default: '[*]Woksin.Extensions.Specifications*'
 
 jobs:
-  build:
-    name: Build
+  ci:
+    name: Build and test
     runs-on: ubuntu-latest
-
+    
     steps:
       - uses: actions/checkout@v3
       - name: Setup .Net
@@ -31,20 +35,12 @@ jobs:
       - name: Build
         working-directory: ${{inputs.working-directory}}
         run: dotnet build --configuration Release
-  
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup .Net
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: ${{ inputs.dotnet-version }}
       - name: Test
         working-directory: ${{inputs.working-directory}}
-        run: dotnet test --logger "trx;LogFileName=test-results.trx" --configuration Release
+        run: dotnet test --logger "trx;LogFileName=test-results.trx" --configuration Release --no-build
+      - name: Generate Test Coverage Report
+        working-directory: ${{inputs.working-directory}}
+        run: dotnet test --collect:"XPlat Code Coverage;IncludeTestAssembly=false;Exclude=${{inputs.coverlet-exclude}}" --configuration Release --no-build
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()    # run this step even if previous step failed
@@ -53,3 +49,25 @@ jobs:
           working-directory: ${{ inputs.working-directory }}
           path: Tests/**/TestResults/*.trx
           reporter: dotnet-trx
+      - name: Code Coverage Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: ${{ inputs.working-directory }}/Tests/**/TestResults/**/coverage.cobertura.xml
+          badge: true
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: true
+          indicators: true
+          output: both
+      - uses: jwalton/gh-find-current-pr@v1
+        id: findPr
+      - name: Add Coverage PR Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: success() && steps.findPr.outputs.number
+        with:
+          number: ${{ steps.findPr.outputs.pr }}
+          header: Test Coverage - '${{inputs.library-name}}'
+          path: code-coverage-results.md
+          recreate: true
+      - name: Write to Job Summary
+        run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY

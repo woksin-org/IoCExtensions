@@ -15,4 +15,5 @@ jobs:
     with:
       working-directory: Packages/DotNET/Specifications
       library-name: Woksin.Extensions.Specifications
+      coverlet-exclude: '[*]Woksin.Extensions.Specifications'
     secrets: inherit
