@@ -40,7 +40,7 @@ jobs:
         run: dotnet test --logger "trx;LogFileName=test-results.trx" --configuration Release --no-build
       - name: Generate Test Coverage Report
         working-directory: ${{inputs.working-directory}}
-        run: dotnet test --collect:"XPlat Code Coverage;Exclude=${{inputs.coverlet-exclude}}" --configuration Release --no-build
+        run: dotnet test --collect:"XPlat Code Coverage;IncludeTestAssembly=false;Exclude=${{inputs.coverlet-exclude}}" --configuration Release --no-build
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()    # run this step even if previous step failed
