@@ -22,10 +22,10 @@ on:
         default: '[*]Woksin.Extensions.Specifications*'
 
 jobs:
-  build:
-    name: Build
+  ci:
+    name: Build and test
     runs-on: ubuntu-latest
-
+    
     steps:
       - uses: actions/checkout@v3
       - name: Setup .Net
@@ -35,20 +35,12 @@ jobs:
       - name: Build
         working-directory: ${{inputs.working-directory}}
         run: dotnet build --configuration Release
-  
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup .Net
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: ${{ inputs.dotnet-version }}
       - name: Test
         working-directory: ${{inputs.working-directory}}
-        run: dotnet test --collect:"XPlat Code Coverage;Exclude=${{inputs.coverlet-exclude}}" --logger "trx;LogFileName=test-results.trx" --configuration Release
+        run: dotnet test --logger "trx;LogFileName=test-results.trx" --no-build
+      - name: Generate Test Coverage Report
+        working-directory: ${{inputs.working-directory}}
+        run: dotnet test --collect:"XPlat Code Coverage;Exclude=${{inputs.coverlet-exclude}}" --no-build
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()    # run this step even if previous step failed
@@ -77,6 +69,5 @@ jobs:
           header: Test Coverage - '${{inputs.library-name}}'
           path: code-coverage-results.md
           recreate: true
-
       - name: Write to Job Summary
         run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
