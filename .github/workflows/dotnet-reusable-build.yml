@@ -16,10 +16,6 @@ on:
         description: The base name of the library to be released. MUST NOT contain spaces or characaters not allowed in github tags
         type: string
         required: true
-      event-name:
-        description: The event that triggered the caller workflow
-        type: string
-        default: ${{github.event_name}}
       coverlet-exclude:
         description: Exlude in coverlet
         type: string
@@ -72,12 +68,12 @@ jobs:
           indicators: true
           output: both
       - uses: jwalton/gh-find-current-pr@v1
-        id: finder
+        id: findPr
       - name: Add Coverage PR Comment
         uses: marocchino/sticky-pull-request-comment@v2
-        if: inputs.event-name == 'pull_request'
+        if: success() && steps.findPr.outputs.number
         with:
-          number: ${{ steps.finder.outputs.pr }}
+          number: ${{ steps.findPr.outputs.pr }}
           header: Test Coverage - '${{inputs.library-name}}'
           recreate: true
           path: code-coverage-results.md

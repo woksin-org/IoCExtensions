@@ -15,7 +15,6 @@ jobs:
     with:
       working-directory: Packages/DotNET/IoC
       library-name: Woksin.Extensions.IoC
-      event-name: ${{github.event_name}}
     secrets: inherit
 
   benchmarks:
