@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1693395650702,
+  "lastUpdate": 1694436754971,
   "repoUrl": "https://github.com/woksin-org/Woksin.Extensions",
   "entries": {
     "Woksin.Extensions.IoC Benchmarks": [
@@ -180,6 +180,42 @@ window.BENCHMARK_DATA = {
             "value": 40824395.9,
             "unit": "ns",
             "range": "± 5405985.479953389"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "woksin@users.noreply.github.com",
+            "name": "Sindre Alstad Wilting",
+            "username": "woksin"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "118e00d7fa78e270268bb2a56f27d5f753e5b674",
+          "message": "Merge pull request #22 from woksin-org/test-workflow2\n\nTest coverage",
+          "timestamp": "2023-09-11T14:51:26+02:00",
+          "tree_id": "6659305582b0beb82c6080a1ed869a34adac539a",
+          "url": "https://github.com/woksin-org/Woksin.Extensions/commit/118e00d7fa78e270268bb2a56f27d5f753e5b674"
+        },
+        "date": 1694436754396,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "Woksin.Extensions.IoC.Benchmarks.BuildHost.MicrosoftIoC",
+            "value": 6515757.686046512,
+            "unit": "ns",
+            "range": "± 384411.8074503913"
+          },
+          {
+            "name": "Woksin.Extensions.IoC.Benchmarks.BuildHost.AutofacIoC",
+            "value": 32069418.04040404,
+            "unit": "ns",
+            "range": "± 6137360.785327541"
           }
         ]
       }
