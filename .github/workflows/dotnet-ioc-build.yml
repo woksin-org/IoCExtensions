@@ -18,7 +18,7 @@ jobs:
     secrets: inherit
 
   benchmarks:
-    if: (github.event_name == 'push' && github.ref_name == 'main') 
+    if: (github.event_name == 'push' && github.ref_name == 'main')
     uses: ./.github/workflows/dotnet-reusable-benchmarks.yml
     with:
       working-directory: Packages/DotNET/IoC

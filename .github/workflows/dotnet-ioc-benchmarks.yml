@@ -1,0 +1,22 @@
+name: DotNET - IoC - Benchmarks
+
+on:
+  pull_request:
+    types: [synchronize, opened, labeled]
+    paths: 
+      - Packages/DotNET/IoC/Source/**
+      - Packages/DotNET/IoC/Benchmarks/**
+      - .github/workflows/dotnet-ioc-benchmarks.yml
+      - .github/workflows/dotnet-reusable-benchmarks.yml
+
+jobs:
+  benchmarks:
+    if: contains( github.event.pull_request.labels.*.name, 'perf')
+    uses: ./.github/workflows/dotnet-reusable-benchmarks.yml
+    with:
+      working-directory: Packages/DotNET/IoC
+      library-name: Woksin.Extensions.IoC
+      benchmarks: '["BuildHost","Resolving"]'
+      push-to-pages: false
+    secrets: inherit
+      
