@@ -56,4 +56,6 @@ jobs:
           alert-threshold: '200%'
           comment-on-alert: true
           alert-comment-cc-users: '@woksin'
+          summary-always: true
+          
           
