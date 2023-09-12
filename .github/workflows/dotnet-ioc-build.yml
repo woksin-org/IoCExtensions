@@ -23,6 +23,6 @@ jobs:
     with:
       working-directory: Packages/DotNET/IoC
       library-name: Woksin.Extensions.IoC
-      benchmarks: '["BuildHost"]'
+      benchmarks: '["BuildHost","Resolving"]'
     secrets: inherit
       
