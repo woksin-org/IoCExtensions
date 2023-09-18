@@ -9,6 +9,8 @@ on:
 
 jobs:
   release:
+    permissions: 
+      contents: write
     uses: ./.github/workflows/dotnet-reusable-release.yml
     with:
       working-directory: Packages/DotNET/Configurations
