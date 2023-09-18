@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695024319026,
+  "lastUpdate": 1695040160069,
   "repoUrl": "https://github.com/woksin-org/Woksin.Extensions",
   "entries": {
     "Woksin.Extensions.IoC Benchmarks": [
@@ -408,6 +408,42 @@ window.BENCHMARK_DATA = {
             "value": 86740,
             "unit": "ns",
             "range": "± 10577.3999237214"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sindrewilting@gmail.com",
+            "name": "woksin",
+            "username": "woksin"
+          },
+          "committer": {
+            "email": "sindrewilting@gmail.com",
+            "name": "woksin",
+            "username": "woksin"
+          },
+          "distinct": true,
+          "id": "f8058ca8ba563b89d873b17279fd9dfce4aabd3a",
+          "message": "Fix versions",
+          "timestamp": "2023-09-18T14:28:22+02:00",
+          "tree_id": "67fea894d679c64522bbbcc164708be1784a82e8",
+          "url": "https://github.com/woksin-org/Woksin.Extensions/commit/f8058ca8ba563b89d873b17279fd9dfce4aabd3a"
+        },
+        "date": 1695040159261,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "Woksin.Extensions.IoC.Benchmarks.BuildHost.MicrosoftIoC",
+            "value": 6037800.769230769,
+            "unit": "ns",
+            "range": "± 159604.97753574172"
+          },
+          {
+            "name": "Woksin.Extensions.IoC.Benchmarks.BuildHost.AutofacIoC",
+            "value": 31024064.416666668,
+            "unit": "ns",
+            "range": "± 479026.22873140126"
           }
         ]
       }
