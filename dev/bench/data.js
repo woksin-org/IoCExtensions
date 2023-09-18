@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695040160069,
+  "lastUpdate": 1695040188654,
   "repoUrl": "https://github.com/woksin-org/Woksin.Extensions",
   "entries": {
     "Woksin.Extensions.IoC Benchmarks": [
@@ -444,6 +444,66 @@ window.BENCHMARK_DATA = {
             "value": 31024064.416666668,
             "unit": "ns",
             "range": "± 479026.22873140126"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sindrewilting@gmail.com",
+            "name": "woksin",
+            "username": "woksin"
+          },
+          "committer": {
+            "email": "sindrewilting@gmail.com",
+            "name": "woksin",
+            "username": "woksin"
+          },
+          "distinct": true,
+          "id": "f8058ca8ba563b89d873b17279fd9dfce4aabd3a",
+          "message": "Fix versions",
+          "timestamp": "2023-09-18T14:28:22+02:00",
+          "tree_id": "67fea894d679c64522bbbcc164708be1784a82e8",
+          "url": "https://github.com/woksin-org/Woksin.Extensions/commit/f8058ca8ba563b89d873b17279fd9dfce4aabd3a"
+        },
+        "date": 1695040188072,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "Woksin.Extensions.IoC.Benchmarks.Resolving.MicrosoftIoC(TimesToResolve: 1)",
+            "value": 21020.44210526316,
+            "unit": "ns",
+            "range": "± 5360.166859334737"
+          },
+          {
+            "name": "Woksin.Extensions.IoC.Benchmarks.Resolving.AutofacIoC(TimesToResolve: 1)",
+            "value": 26930.934782608696,
+            "unit": "ns",
+            "range": "± 3523.208149688239"
+          },
+          {
+            "name": "Woksin.Extensions.IoC.Benchmarks.Resolving.MicrosoftIoC(TimesToResolve: 10)",
+            "value": 286757.39,
+            "unit": "ns",
+            "range": "± 163043.3374211041"
+          },
+          {
+            "name": "Woksin.Extensions.IoC.Benchmarks.Resolving.AutofacIoC(TimesToResolve: 10)",
+            "value": 32745.479166666668,
+            "unit": "ns",
+            "range": "± 3653.4083638768893"
+          },
+          {
+            "name": "Woksin.Extensions.IoC.Benchmarks.Resolving.MicrosoftIoC(TimesToResolve: 100)",
+            "value": 165300.22619047618,
+            "unit": "ns",
+            "range": "± 19304.60142060598"
+          },
+          {
+            "name": "Woksin.Extensions.IoC.Benchmarks.Resolving.AutofacIoC(TimesToResolve: 100)",
+            "value": 74603.01587301587,
+            "unit": "ns",
+            "range": "± 3403.175867276763"
           }
         ]
       }
