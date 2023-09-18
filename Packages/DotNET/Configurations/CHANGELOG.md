@@ -1,3 +1,9 @@
+# [1.0.4] - 2023-9-18[PR: #24](https://github.com/woksin-org/Woksin.Extensions/pull/24)
+## Summary
+
+Change github workflow permissions
+
+
 # [1.0.3] - 2023-9-11[PR: #22](https://github.com/woksin-org/Woksin.Extensions/pull/22)
 Add test coverage steps to workflow
 
