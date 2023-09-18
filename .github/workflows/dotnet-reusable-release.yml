@@ -36,7 +36,8 @@ jobs:
   ci:
     name: Release
     runs-on: ubuntu-latest
-
+    permissions: 
+      contents: write
     steps:
       - uses: actions/checkout@v3
       - name: Setup .Net
@@ -83,7 +84,6 @@ jobs:
         with:
           version: ${{ steps.context.outputs.new-version }}
           body: ${{ steps.context.outputs.pr-body }}
-          token: ${{ secrets.BUILD_PAT }}
           application-name: ${{ inputs.library-name }}
       - name: Write to version file
         uses: woksin-org/write-version-to-file-action@v3
