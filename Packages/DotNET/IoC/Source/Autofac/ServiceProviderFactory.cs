@@ -32,26 +32,25 @@ class ServiceProviderFactory : IoCExtensionsServiceProviderFactory<ContainerBuil
         ContainerBuilder containerBuilder,
 	    DiscoveredServices<ContainerBuilder> discoveredServices)
     {
+        discoveredServices.AdditionalServices.AddTenantScopedServices(builder => builder.RegisterClassesByLifecycle(
+            discoveredServices.ClassesToRegister.PerTenantSingletonClasses.ToArray(),
+            discoveredServices.ClassesToRegister.PerTenantScopedClasses.ToArray(),
+            discoveredServices.ClassesToRegister.PerTenantTransientClasses.ToArray()));
+        discoveredServices.AdditionalServices.AddTenantScopedServices(builder => builder.RegisterClassesByLifecycleAsSelf(
+            discoveredServices.ClassesToRegisterAsSelf.PerTenantSingletonClasses.ToArray(),
+            discoveredServices.ClassesToRegisterAsSelf.PerTenantScopedClasses.ToArray(),
+            discoveredServices.ClassesToRegisterAsSelf.PerTenantTransientClasses.ToArray()));
+
 	    containerBuilder.Populate(discoveredServices.AdditionalServices);
         containerBuilder.RegisterClassesByLifecycle(
             discoveredServices.ClassesToRegister.SingletonClasses.ToArray(),
             discoveredServices.ClassesToRegister.ScopedClasses.ToArray(),
             discoveredServices.ClassesToRegister.TransientClasses.ToArray());
 
-        RootServices.AddTenantScopedServices(builder => builder.RegisterClassesByLifecycle(
-            discoveredServices.ClassesToRegister.PerTenantSingletonClasses.ToArray(),
-            discoveredServices.ClassesToRegister.PerTenantScopedClasses.ToArray(),
-            discoveredServices.ClassesToRegister.PerTenantTransientClasses.ToArray()));
-
         containerBuilder.RegisterClassesByLifecycleAsSelf(
             discoveredServices.ClassesToRegisterAsSelf.SingletonClasses.ToArray(),
             discoveredServices.ClassesToRegisterAsSelf.ScopedClasses.ToArray(),
             discoveredServices.ClassesToRegisterAsSelf.TransientClasses.ToArray());
-
-        RootServices.AddTenantScopedServices(builder => builder.RegisterClassesByLifecycleAsSelf(
-            discoveredServices.ClassesToRegisterAsSelf.PerTenantSingletonClasses.ToArray(),
-            discoveredServices.ClassesToRegisterAsSelf.PerTenantScopedClasses.ToArray(),
-            discoveredServices.ClassesToRegisterAsSelf.PerTenantTransientClasses.ToArray()));
 
         containerBuilder.RegisterAssemblyModules(discoveredServices.Assemblies.ToArray());
         _configureContainer?.Invoke(containerBuilder);
