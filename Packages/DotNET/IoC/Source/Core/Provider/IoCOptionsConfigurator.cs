@@ -29,7 +29,7 @@ public static class IoCOptionsConfigurator
 			});
 		return services;
 	}
-    
+
     /// <summary>
     /// Adds the <see cref="IoCSettings"/> configuration to the <see cref="IServiceCollection"/>.
     /// </summary>

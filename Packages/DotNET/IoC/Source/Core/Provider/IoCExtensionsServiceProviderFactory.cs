@@ -16,15 +16,12 @@ namespace Woksin.Extensions.IoC.Provider;
 public abstract class IoCExtensionsServiceProviderFactory<TContainerBuilder> : IServiceProviderFactory<TContainerBuilder>
 	where TContainerBuilder : notnull
 {
-    /// <summary>
-    /// The root <see cref="IServiceCollection"/>.
-    /// </summary>
-	protected IServiceCollection RootServices { get; private set; } = null!;
+	IServiceCollection _services = null!;
 
 	/// <inheritdoc />
 	public TContainerBuilder CreateBuilder(IServiceCollection services)
 	{
-        RootServices = services;
+        _services = services;
 		return CreateContainerBuilder(services);
 	}
 
@@ -53,7 +50,7 @@ public abstract class IoCExtensionsServiceProviderFactory<TContainerBuilder> : I
 
 	IoCSettings CreateOptions()
 	{
-		var optionsConfigurators = RootServices!
+		var optionsConfigurators = _services!
 			.Where(_ => _.ImplementationInstance is IConfigureOptions<IoCSettings>)
 			.Select(_ => _.ImplementationInstance as IConfigureOptions<IoCSettings>);
 		var options = new IoCSettings();
