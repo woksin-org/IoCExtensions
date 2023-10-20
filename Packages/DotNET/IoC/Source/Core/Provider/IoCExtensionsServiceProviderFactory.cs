@@ -16,18 +16,21 @@ namespace Woksin.Extensions.IoC.Provider;
 public abstract class IoCExtensionsServiceProviderFactory<TContainerBuilder> : IServiceProviderFactory<TContainerBuilder>
 	where TContainerBuilder : notnull
 {
-	IServiceCollection? _services;
-	
+    /// <summary>
+    /// The root <see cref="IServiceCollection"/>.
+    /// </summary>
+	protected IServiceCollection RootServices { get; private set; } = null!;
+
 	/// <inheritdoc />
 	public TContainerBuilder CreateBuilder(IServiceCollection services)
 	{
-		_services = services;
+        RootServices = services;
 		return CreateContainerBuilder(services);
 	}
-	
-	/// <inheritdoc />
-	public IServiceProvider CreateServiceProvider(TContainerBuilder containerBuilder) =>
-		CreateServiceProvider(
+
+    /// <inheritdoc />
+    public IServiceProvider CreateServiceProvider(TContainerBuilder containerBuilder) =>
+        CreateServiceProvider(
 			containerBuilder,
 			new DiscoveredServices<TContainerBuilder>(CreateOptions(), containerBuilder));
 
@@ -37,19 +40,20 @@ public abstract class IoCExtensionsServiceProviderFactory<TContainerBuilder> : I
 	/// <param name="services">The service collection.</param>
 	/// <returns>The <typeparamref name="TContainerBuilder"/>.</returns>
 	protected abstract TContainerBuilder CreateContainerBuilder(IServiceCollection services);
-	
-	/// <summary>
-	/// Create the <see cref="IServiceProvider"/> using the <typeparamref name="TContainerBuilder"/>.
-	/// </summary>
-	/// <param name="containerBuilder">The container builder.</param>
-	/// <param name="discoveredServices">The discovered services.</param>
-	/// <returns>The <see cref="IServiceProvider"/>.</returns>
-	protected abstract IServiceProvider CreateServiceProvider(TContainerBuilder containerBuilder,
+
+    /// <summary>
+    /// Create the <see cref="IServiceProvider"/> using the <typeparamref name="TContainerBuilder"/>.
+    /// </summary>
+    /// <param name="containerBuilder">The container builder.</param>
+    /// <param name="discoveredServices">The discovered services.</param>
+    /// <returns>The <see cref="IServiceProvider"/>.</returns>
+    protected abstract IServiceProvider CreateServiceProvider(
+        TContainerBuilder containerBuilder,
 		DiscoveredServices<TContainerBuilder> discoveredServices);
 
 	IoCSettings CreateOptions()
 	{
-		var optionsConfigurators = _services!
+		var optionsConfigurators = RootServices!
 			.Where(_ => _.ImplementationInstance is IConfigureOptions<IoCSettings>)
 			.Select(_ => _.ImplementationInstance as IConfigureOptions<IoCSettings>);
 		var options = new IoCSettings();
