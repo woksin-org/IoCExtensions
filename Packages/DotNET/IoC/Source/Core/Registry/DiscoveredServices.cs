@@ -5,6 +5,7 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Woksin.Extensions.IoC.Registry.Attributes;
 using Woksin.Extensions.IoC.Registry.Types;
+using Woksin.Extensions.IoC.Tenancy;
 
 namespace Woksin.Extensions.IoC.Registry;
 
@@ -23,6 +24,7 @@ public sealed class DiscoveredServices<TContainerBuilder>
 	internal DiscoveredServices(IoCSettings settings, TContainerBuilder builder)
 	{
 		AdditionalServices = new ServiceCollection();
+        AdditionalServices.AddSingleton<ITenantScopedServiceProviders, TenantScopedServiceProviders>();
 		// ReSharper disable PossibleMultipleEnumeration
 		var discoveredClasses = TypeScanner.GetAllExportedTypesInRuntimeAssemblies(settings, out var assemblies);
 		var groupedClassesToRegisterAsSelf =
