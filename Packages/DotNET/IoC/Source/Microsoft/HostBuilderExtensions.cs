@@ -4,7 +4,9 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Woksin.Extensions.IoC.Microsoft.Tenancy;
 using Woksin.Extensions.IoC.Provider;
+using Woksin.Extensions.IoC.Tenancy;
 
 namespace Woksin.Extensions.IoC.Microsoft;
 
@@ -42,7 +44,7 @@ public static class HostBuilderExtensions
 		Action<IoCSettings>? configureOptions = default,
 		Action<IServiceCollection>? configureContainer = default) =>
         UseMicrosoftIoC(builder, _ => IoCOptionsConfigurator.Configure(_, entryAssembly, configureOptions), configureContainer);
-    
+
     /// <summary>
     /// Use the Microsoft IoC implementation.
     /// </summary>
@@ -55,12 +57,16 @@ public static class HostBuilderExtensions
         Action<IoCSettings>? configureOptions = default,
         Action<IServiceCollection>? configureContainer = default) =>
         UseMicrosoftIoC(builder, _ => IoCOptionsConfigurator.Configure(_, configureOptions), configureContainer);
-    
+
     static IHostBuilder UseMicrosoftIoC(
         IHostBuilder builder,
         Action<IServiceCollection> addIocExtensionsOptions,
         Action<IServiceCollection>? configureContainer) =>
         builder
-            .ConfigureServices((_, services) => addIocExtensionsOptions(services))
+            .ConfigureServices((_, services) =>
+            {
+                addIocExtensionsOptions(services);
+                services.AddSingleton<ICreateTenantScopedProviders, TenantScopedProviderCreator>();
+            })
             .UseServiceProviderFactory(new ServiceProviderFactory(configureContainer));
 }
