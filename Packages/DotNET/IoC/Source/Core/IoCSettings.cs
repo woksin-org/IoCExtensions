@@ -3,7 +3,6 @@
 
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using Woksin.Extensions.IoC.Lifetime;
 
 namespace Woksin.Extensions.IoC;
 
@@ -42,7 +41,7 @@ public class IoCSettings
 	/// Gets the types to ignore. Every class implementing one of these types will be ignored.
 	/// </summary>
 	public IList<Type> IgnoredBaseTypes { get; } = new List<Type>();
-	
+
 	/// <summary>
 	/// Gets or sets the default fallback <see cref="ServiceLifetime"/> for services that will be automatically registered.
 	/// </summary>
