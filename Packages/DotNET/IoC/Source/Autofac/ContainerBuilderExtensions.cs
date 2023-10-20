@@ -17,30 +17,41 @@ static class ContainerBuilderExtensions
     /// Registers a set of discovered <see cref="ClassesByLifeTime"/> in the <see cref="ContainerBuilder"/>.
     /// </summary>
     /// <param name="builder">The container builder to register types in.</param>
-    /// <param name="classes">The classes grouped by lifecycle to register.</param>
-    public static void RegisterClassesByLifecycle(this ContainerBuilder builder, ClassesByLifeTime classes)
+    /// <param name="singletonClasses">The singleton classes to register.</param>
+    /// <param name="scopedClasses">The scoped classes to register.</param>
+    /// <param name="transientClasses">The transient classes to register.</param>
+    public static void RegisterClassesByLifecycle(
+        this ContainerBuilder builder,
+        Type[] singletonClasses,
+        Type[] scopedClasses,
+        Type[] transientClasses)
     {
-        builder.RegisterTypes(classes.SingletonClasses.ToArray()).AsImplementedInterfaces().SingleInstance();
-        builder.RegisterOpenGenericTypes(classes.SingletonClasses, ServiceLifetime.Singleton, false);
-        builder.RegisterTypes(classes.ScopedClasses.ToArray()).AsImplementedInterfaces().InstancePerLifetimeScope();
-        builder.RegisterOpenGenericTypes(classes.ScopedClasses, ServiceLifetime.Scoped, false);
-        builder.RegisterTypes(classes.TransientClasses.ToArray()).AsImplementedInterfaces();
-        builder.RegisterOpenGenericTypes(classes.TransientClasses, ServiceLifetime.Transient, false);
+        builder.RegisterTypes(singletonClasses).AsImplementedInterfaces().SingleInstance();
+        builder.RegisterOpenGenericTypes(singletonClasses, ServiceLifetime.Singleton, false);
+        builder.RegisterTypes(scopedClasses).AsImplementedInterfaces().InstancePerLifetimeScope();
+        builder.RegisterOpenGenericTypes(scopedClasses, ServiceLifetime.Scoped, false);
+        builder.RegisterTypes(transientClasses).AsImplementedInterfaces();
+        builder.RegisterOpenGenericTypes(transientClasses, ServiceLifetime.Transient, false);
     }
 
     /// <summary>
     /// Registers a set of discovered <see cref="ClassesByLifeTime"/> in the <see cref="ContainerBuilder"/>.
     /// </summary>
     /// <param name="builder">The container builder to register types in.</param>
-    /// <param name="classes">The classes grouped by lifecycle to register.</param>
-    public static void RegisterClassesByLifecycleAsSelf(this ContainerBuilder builder, ClassesByLifeTime classes)
+    /// <param name="singletonClasses">The singleton classes to register.</param>
+    /// <param name="scopedClasses">The scoped classes to register.</param>
+    /// <param name="transientClasses">The transient classes to register.</param>
+    public static void RegisterClassesByLifecycleAsSelf(this ContainerBuilder builder,
+        Type[] singletonClasses,
+        Type[] scopedClasses,
+        Type[] transientClasses)
     {
-        builder.RegisterTypes(classes.SingletonClasses.ToArray()).AsSelf().SingleInstance();
-        builder.RegisterOpenGenericTypes(classes.SingletonClasses, ServiceLifetime.Singleton, true);
-        builder.RegisterTypes(classes.ScopedClasses.ToArray()).AsSelf().InstancePerLifetimeScope();
-        builder.RegisterOpenGenericTypes(classes.ScopedClasses, ServiceLifetime.Scoped, true);
-        builder.RegisterTypes(classes.TransientClasses.ToArray()).AsSelf();
-        builder.RegisterOpenGenericTypes(classes.TransientClasses, ServiceLifetime.Transient, true);
+        builder.RegisterTypes(singletonClasses).AsSelf().SingleInstance();
+        builder.RegisterOpenGenericTypes(singletonClasses, ServiceLifetime.Singleton, true);
+        builder.RegisterTypes(scopedClasses).AsSelf().InstancePerLifetimeScope();
+        builder.RegisterOpenGenericTypes(scopedClasses, ServiceLifetime.Scoped, true);
+        builder.RegisterTypes(transientClasses).AsSelf();
+        builder.RegisterOpenGenericTypes(transientClasses, ServiceLifetime.Transient, true);
     }
 
     static void RegisterOpenGenericTypes(this ContainerBuilder builder, IEnumerable<Type> types, ServiceLifetime lifetime, bool asSelf)

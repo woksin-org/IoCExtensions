@@ -5,7 +5,9 @@ using System.Reflection;
 using Autofac;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Woksin.Extensions.IoC.Autofac.Tenancy;
 using Woksin.Extensions.IoC.Provider;
+using Woksin.Extensions.IoC.Tenancy;
 
 namespace Woksin.Extensions.IoC.Autofac;
 
@@ -43,7 +45,7 @@ public static class HostBuilderExtensions
         Action<IoCSettings>? configureOptions = default,
         Action<ContainerBuilder>? configureContainer = default) => UseAutofacIoC(
         builder, _ => IoCOptionsConfigurator.Configure(_, entryAssembly, configureOptions), configureContainer);
-    
+
     /// <summary>
     /// Use the Autofac IoC implementation.
     /// </summary>
@@ -56,13 +58,16 @@ public static class HostBuilderExtensions
         Action<IoCSettings>? configureOptions = default,
         Action<ContainerBuilder>? configureContainer = default) => UseAutofacIoC(
         builder, _ => IoCOptionsConfigurator.Configure(_, configureOptions), configureContainer);
-    
-    
+
     static IHostBuilder UseAutofacIoC(
         IHostBuilder builder,
         Action<IServiceCollection> addIocExtensionsOptions,
         Action<ContainerBuilder>? configureContainer) =>
         builder
-            .ConfigureServices((_, services) => addIocExtensionsOptions(services))
+            .ConfigureServices((_, services) =>
+            {
+                addIocExtensionsOptions(services);
+                services.AddSingleton<ICreateTenantScopedProviders, TenantScopedProviderCreator>();
+            })
             .UseServiceProviderFactory(new ServiceProviderFactory(configureContainer));
 }
