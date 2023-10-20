@@ -21,7 +21,7 @@ static class ContainerBuilderExtensions
     public static void RegisterClassesByLifecycle(this IServiceCollection builder, ClassesByLifeTime classes)
     {
         builder.RegisterTypes(classes.SingletonClasses, ServiceLifetime.Singleton);
-        builder.RegisterTypesAsSelfPerTenant(classes.PerTenantSingletonClasses, ServiceLifetime.Singleton);
+        builder.RegisterTypesPerTenant(classes.PerTenantSingletonClasses, ServiceLifetime.Singleton);
         builder.RegisterTypes(classes.ScopedClasses, ServiceLifetime.Scoped);
         builder.RegisterTypesPerTenant(classes.PerTenantScopedClasses, ServiceLifetime.Scoped);
         builder.RegisterTypes(classes.TransientClasses, ServiceLifetime.Transient);
