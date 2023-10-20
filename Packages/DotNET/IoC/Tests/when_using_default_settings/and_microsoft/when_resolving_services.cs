@@ -31,26 +31,42 @@ public class when_resolving_services : given.the_host
 		base.should_get_service_added_by_service_collection_adder();
 	}
 
-	[Fact] protected override void should_get_singleton_service()
-	{
-		base.should_get_singleton_service();
-	}
-	
-	[Fact] protected override  void should_get_scoped_service()
-	{
-		base.should_get_scoped_service();
-	}
+    [Fact] protected override void should_get_singleton_service()
+    {
+        base.should_get_singleton_service();
+    }
+    [Fact] protected override void should_get_singleton_per_tenant_service()
+    {
+        base.should_get_singleton_per_tenant_service();
+    }
 
-	[Fact] protected override void should_get_transient_service()
-	{
-		base.should_get_transient_service();
-	}
+    [Fact] protected override  void should_get_scoped_service()
+    {
+        base.should_get_scoped_service();
+    }
+    [Fact] protected override  void should_get_scoped_per_tenant_service()
+    {
+        base.should_get_scoped_per_tenant_service();
+    }
 
-	[Fact] protected override void should_get_service_without_lifetime()
-	{
-		base.should_get_service_without_lifetime();
-	}
+    [Fact] protected override void should_get_transient_service()
+    {
+        base.should_get_transient_service();
+    }
+    [Fact] protected override void should_get_transient_per_tenant_service()
+    {
+        base.should_get_transient_per_tenant_service();
+    }
 
+    [Fact] protected override void should_get_service_without_lifetime()
+    {
+        base.should_get_service_without_lifetime();
+    }
+    
+    [Fact] protected override void should_get_per_tenant_service_without_lifetime()
+    {
+        base.should_get_per_tenant_service_without_lifetime();
+    }
 	[Fact] protected override void should_get_service_with_multiple_interfaces()
 	{
 		base.should_get_service_with_multiple_interfaces();

@@ -5,6 +5,7 @@ using System.Reflection;
 using Woksin.Extensions.Specifications.XUnit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Woksin.Extensions.IoC.Tenancy;
 
 namespace Woksin.Extensions.IoC.given;
 
@@ -12,11 +13,15 @@ public partial class the_scenario : Specification
 {
 	protected IHost? host;
 	protected Assembly entry_assembly;
-	
+    protected TenantId the_tenant_id;
 	protected Services<ISingletonService> singleton;
+	protected Services<ISingletonPerTenantService> singletonPerTenant;
 	protected Services<IScopedService> scoped;
+	protected Services<IScopedPerTenantService> scopedPerTenant;
 	protected Services<ITransientService> transient;
+	protected Services<ITransientPerTenantService> transientPerTenant;
 	protected Services<IServiceWithoutLifetimeAttribute> service_without_lifetime_attribute;
+	protected Services<IPerTenantServiceWithoutLifetimeAttribute> per_tenant_service_without_lifetime_attribute;
 	protected Services<ExplicitlyAddedTransientService> explicitly_added_service;
 	protected Services<ServiceAddedByServiceCollectionAdder> service_added_by_service_collection_adder;
 	protected Services<ClassWithSomeAttribute> service_with_some_attribute;
@@ -34,6 +39,7 @@ public partial class the_scenario : Specification
 	protected Services<ITransitiveGenericService<string>> transitive_open_generic_service;
 	protected Services<IPartiallyClosedGenericService<int, string>> partially_closed_generic_service;
 	protected Services<SelfRegisteredClass> self_registered_class;
+	protected Services<PerTenantSelfRegisteredClass> per_tenant_self_registered_class;
 	protected Services<SelfRegisteredGenericClass<int>> self_registered_generic_class;
 	protected Services<SelfRegisteredClassWithScopedLifetime> self_registered_generic_with_scoped_lifetime;
 
@@ -44,10 +50,11 @@ public partial class the_scenario : Specification
 
 	void Establish()
 	{
+        the_tenant_id = "some-tenant";
 		entry_assembly = typeof(a_host_builder).Assembly;
 		default_service_lifetime = new IoCSettings().DefaultLifetime;
 		scopes = new List<IDisposable>();
-	}
+    }
 
 	void Destroy()
 	{
@@ -61,9 +68,13 @@ public partial class the_scenario : Specification
 	protected void SetupAllServices()
 	{
 		SetService(ref singleton);
+		SetService(ref singletonPerTenant, true);
 		SetService(ref scoped);
+		SetService(ref scopedPerTenant, true);
 		SetService(ref transient);
+		SetService(ref transientPerTenant, true);
 		SetService(ref service_without_lifetime_attribute);
+		SetService(ref per_tenant_service_without_lifetime_attribute, true);
 		SetService(ref explicitly_added_service);
 		SetService(ref service_added_by_service_collection_adder);
 		SetService(ref service_with_some_attribute);
@@ -81,25 +92,29 @@ public partial class the_scenario : Specification
 		SetService(ref transitive_open_generic_service);
 		SetService(ref partially_closed_generic_service);
 		SetService(ref self_registered_class);
+		SetService(ref per_tenant_self_registered_class, true);
 		SetService(ref self_registered_generic_class);
 		SetService(ref self_registered_generic_with_scoped_lifetime);
 	}
 
 	// ReSharper disable once RedundantAssignment
-	void SetService<T>(ref Services<T> services)
+	void SetService<T>(ref Services<T> services, bool perTenant = false)
 	{
-		services = GetServices<T>();
+		services = GetServices<T>(perTenant);
 	}
-	
-	protected Services<TService> GetServices<TService>()
-	{
-		var scope = host!.Services.CreateScope();
-		var otherScope = host.Services.CreateScope();
+
+	protected Services<TService> GetServices<TService>(bool perTenant)
+    {
+        var services = perTenant
+            ? host.Services.GetService<ITenantScopedServiceProviders>().ForTenant(the_tenant_id)
+            : host.Services;
+		var scope = services.CreateScope();
+		var otherScope = services.CreateScope();
 		scopes.Add(scope);
 		scopes.Add(otherScope);
 		return new Services<TService>(
-			host.Services.GetService<TService>(),
-			host.Services.GetService<TService>(),
+			services.GetService<TService>(),
+			services.GetService<TService>(),
 			scope.ServiceProvider.GetService<TService>(),
 			otherScope.ServiceProvider.GetService<TService>());
 	}

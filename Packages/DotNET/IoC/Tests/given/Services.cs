@@ -2,27 +2,53 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Microsoft.Extensions.DependencyInjection;
+using Woksin.Extensions.IoC.Tenancy;
 
 namespace Woksin.Extensions.IoC.given;
 
 public interface ISingletonService
 {
 }
+public interface ISingletonPerTenantService
+{
+    public TenantId Tenant { get;  }
+}
 
 public interface IScopedService
 {
+}
+public interface IScopedPerTenantService
+{
+    public TenantId Tenant { get;  }
 }
 
 public interface ITransientService
 {
 }
-	
+
+public interface ITransientPerTenantService
+{
+    public TenantId Tenant { get;  }
+}
+
 public interface IServiceWithoutLifetimeAttribute
 {
 }
 
+public interface IPerTenantServiceWithoutLifetimeAttribute
+{
+    public TenantId Tenant { get;  }
+}
+
 public class ServiceWithoutLifetimeAttribute : IServiceWithoutLifetimeAttribute
 {
+}
+
+[PerTenant]
+public class PerTenantServiceWithoutLifetimeAttribute : IPerTenantServiceWithoutLifetimeAttribute
+{
+    public PerTenantServiceWithoutLifetimeAttribute(TenantId tenant) => Tenant = tenant;
+    public TenantId Tenant { get; }
 }
 
 
@@ -78,14 +104,47 @@ public class SingletonService : ISingletonService
 {
 }
 
+[PerTenant, WithLifetime(ServiceLifetime.Singleton)]
+public class PerTenantSingletonService : ISingletonPerTenantService
+{
+    public PerTenantSingletonService(TenantId tenant)
+    {
+        Tenant = tenant;
+    }
+
+    public TenantId Tenant { get; }
+}
+
 [WithLifetime(ServiceLifetime.Scoped)]
 public class ScopedService : IScopedService
 {
 }
 
+[PerTenant, WithLifetime(ServiceLifetime.Scoped)]
+public class PerTenantScopedService : IScopedPerTenantService
+{
+    public PerTenantScopedService(TenantId tenant)
+    {
+        Tenant = tenant;
+    }
+
+    public TenantId Tenant { get; }
+}
+
 [WithLifetime(ServiceLifetime.Transient)]
 public class TransientService : ITransientService
 {
+}
+
+[PerTenant, WithLifetime(ServiceLifetime.Transient)]
+public class PerTenantTransientService : ITransientPerTenantService
+{
+    public PerTenantTransientService(TenantId tenant)
+    {
+        Tenant = tenant;
+    }
+
+    public TenantId Tenant { get; }
 }
 
 
@@ -116,6 +175,16 @@ public class TransitiveOpenGenericService<T> : ITransitiveGenericService<T>
 [RegisterAsSelf]
 public class SelfRegisteredClass
 {
+}
+[PerTenant, RegisterAsSelf]
+public class PerTenantSelfRegisteredClass
+{
+    public PerTenantSelfRegisteredClass(TenantId tenant)
+    {
+        Tenant = tenant;
+    }
+
+    public TenantId Tenant { get; }
 }
 
 [RegisterAsSelf]
