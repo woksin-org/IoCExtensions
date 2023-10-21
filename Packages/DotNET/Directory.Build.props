@@ -6,7 +6,7 @@
         <PackageTags>extensions;utility</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Nullable>enable</Nullable>
-		<NoWarn>$(NoWarn);CS1591;CA2017;NU1507</NoWarn>
+		<NoWarn>$(NoWarn);CS1591;CA2017;NU1507;RCS1181</NoWarn>
 
         <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)code_analysis.ruleset</CodeAnalysisRuleSet>
 
@@ -29,7 +29,7 @@
         <TargetFramework Condition="$(MSBuildProjectName.Contains('Tests'))">net7.0</TargetFramework>
         <IsTestProject Condition="$(MSBuildProjectName.Contains('Tests'))">true</IsTestProject>
         <IsPackable Condition="$(MSBuildProjectName.Contains('Tests'))">false</IsPackable>
-        <NoWarn Condition="$(MSBuildProjectName.Contains('Tests'))">$(NoWarn);CS1591;CA2017;NU1507;CS86404;CS8618;CS8604;CA1707;CA1051</NoWarn>
+        <NoWarn Condition="$(MSBuildProjectName.Contains('Tests'))">$(NoWarn);CS1591;CA2017;NU1507;CS86404;CS8618;CS8604;CA1707;CA1051;RCS1213;MA0048;IDE0051</NoWarn>
 
         <RunSettingsFilePath>$(MSBuildThisFileDirectory)\.runsettings</RunSettingsFilePath>
 	</PropertyGroup>
