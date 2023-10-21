@@ -29,9 +29,9 @@ class ServiceProviderFactory : IoCExtensionsServiceProviderFactory<IServiceColle
         IServiceCollection containerBuilder,
 	    DiscoveredServices<IServiceCollection> discoveredServices)
     {
-        containerBuilder.Add(discoveredServices.AdditionalServices);
         containerBuilder.RegisterClassesByLifecycle(discoveredServices.ClassesToRegister);
         containerBuilder.RegisterClassesByLifecycleAsSelf(discoveredServices.ClassesToRegisterAsSelf);
+        containerBuilder.Add(discoveredServices.AdditionalServices);
         _configureServices?.Invoke(containerBuilder);
         return containerBuilder.BuildServiceProvider();
     }

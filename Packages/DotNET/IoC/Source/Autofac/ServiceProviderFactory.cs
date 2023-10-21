@@ -41,7 +41,6 @@ class ServiceProviderFactory : IoCExtensionsServiceProviderFactory<ContainerBuil
             discoveredServices.ClassesToRegisterAsSelf.PerTenantScopedClasses.ToArray(),
             discoveredServices.ClassesToRegisterAsSelf.PerTenantTransientClasses.ToArray()));
 
-	    containerBuilder.Populate(discoveredServices.AdditionalServices);
         containerBuilder.RegisterClassesByLifecycle(
             discoveredServices.ClassesToRegister.SingletonClasses.ToArray(),
             discoveredServices.ClassesToRegister.ScopedClasses.ToArray(),
@@ -52,6 +51,7 @@ class ServiceProviderFactory : IoCExtensionsServiceProviderFactory<ContainerBuil
             discoveredServices.ClassesToRegisterAsSelf.ScopedClasses.ToArray(),
             discoveredServices.ClassesToRegisterAsSelf.TransientClasses.ToArray());
 
+	    containerBuilder.Populate(discoveredServices.AdditionalServices);
         containerBuilder.RegisterAssemblyModules(discoveredServices.Assemblies.ToArray());
         _configureContainer?.Invoke(containerBuilder);
         return _factory.CreateServiceProvider(containerBuilder);
