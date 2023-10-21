@@ -11,10 +11,6 @@ namespace Woksin.Extensions.IoC.Registry.Types;
 /// </summary>
 static class TypeScanner
 {
-    /// <summary>
-    /// Scans all the Runtime assemblies to find exported classes.
-    /// </summary>
-    /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Type"/> with all classes in Runtime assemblies.</returns>
     public static IEnumerable<Type> GetAllExportedTypesInRuntimeAssemblies(IoCSettings settings, out IEnumerable<Assembly> assemblies)
     {
 	    var assembliesUsed = new List<Assembly>();

@@ -26,7 +26,7 @@ public class IoCSettings
 	/// Gets the list of additional assemblies to include in the search.
 	/// </summary>
     public IList<Assembly> AdditionalAssemblies { get; } = new List<Assembly>();
-    
+
 	/// <summary>
 	/// Gets the assembly names to ignore. 
 	/// </summary>

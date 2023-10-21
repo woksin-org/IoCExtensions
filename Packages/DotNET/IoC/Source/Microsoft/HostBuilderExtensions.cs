@@ -28,7 +28,7 @@ public static class HostBuilderExtensions
 		string entryAssemblyName,
 	    Action<IoCSettings>? configureOptions = default,
 	    Action<IServiceCollection>? configureContainer = default) =>
-        UseMicrosoftIoC(builder, _ => IoCOptionsConfigurator.Configure(_,entryAssemblyName, configureOptions), configureContainer);
+        UseMicrosoftIoC(builder, _ => IoCOptionsConfigurator.Configure(_, entryAssemblyName, configureOptions), configureContainer);
 
 	/// <summary>
     /// Use the Microsoft IoC implementation.
@@ -44,19 +44,6 @@ public static class HostBuilderExtensions
 		Action<IoCSettings>? configureOptions = default,
 		Action<IServiceCollection>? configureContainer = default) =>
         UseMicrosoftIoC(builder, _ => IoCOptionsConfigurator.Configure(_, entryAssembly, configureOptions), configureContainer);
-
-    /// <summary>
-    /// Use the Microsoft IoC implementation.
-    /// </summary>
-    /// <param name="builder">The <see cref="IHostBuilder"/> to modify.</param>
-    /// <param name="configureOptions">The callback for configuring <see cref="IoCSettings"/>.</param>
-    /// <param name="configureContainer">The callback for configuring <see cref="IServiceCollection"/>.</param>
-    /// <returns>The <see cref="IHostBuilder"/> for continuation.</returns>
-    public static IHostBuilder UseMicrosoftIoC(
-        this IHostBuilder builder,
-        Action<IoCSettings>? configureOptions = default,
-        Action<IServiceCollection>? configureContainer = default) =>
-        UseMicrosoftIoC(builder, _ => IoCOptionsConfigurator.Configure(_, configureOptions), configureContainer);
 
     static IHostBuilder UseMicrosoftIoC(
         IHostBuilder builder,

@@ -46,19 +46,6 @@ public static class HostBuilderExtensions
         Action<ContainerBuilder>? configureContainer = default) => UseAutofacIoC(
         builder, _ => IoCOptionsConfigurator.Configure(_, entryAssembly, configureOptions), configureContainer);
 
-    /// <summary>
-    /// Use the Autofac IoC implementation.
-    /// </summary>
-    /// <param name="builder">The <see cref="IHostBuilder"/> to modify.</param>
-    /// <param name="configureOptions">The callback for configuring <see cref="IoCSettings"/>.</param>
-    /// <param name="configureContainer">The callback for configuring <see cref="ContainerBuilder"/>.</param>
-    /// <returns>The <see cref="IHostBuilder"/> for continuation.</returns>
-    public static IHostBuilder UseAutofacIoC(
-        this IHostBuilder builder,
-        Action<IoCSettings>? configureOptions = default,
-        Action<ContainerBuilder>? configureContainer = default) => UseAutofacIoC(
-        builder, _ => IoCOptionsConfigurator.Configure(_, configureOptions), configureContainer);
-
     static IHostBuilder UseAutofacIoC(
         IHostBuilder builder,
         Action<IServiceCollection> addIocExtensionsOptions,

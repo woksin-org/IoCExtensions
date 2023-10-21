@@ -6,7 +6,7 @@
 	</PropertyGroup>
 
   <ItemGroup>
-      <PackageReference Include="BaselineTypeDiscovery" PrivateAssets="All" />
+      <PackageReference Include="BaselineTypeDiscovery" />
 	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
 	  <PackageReference Include="Microsoft.Extensions.Configuration" />
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
