@@ -36,7 +36,7 @@ public sealed class DiscoveredServices<TContainerBuilder>
 		discoveredClasses = discoveredClasses.IgnoreClassesWithAttribute<DisableAutoRegistrationAttribute>();
 		ClassesToRegister = ClassesByLifeTime.Create(
 			settings.DefaultLifetime,
-			discoveredClasses.Where(type => !settings.DisableRegistrationByConvention || Attribute.IsDefined(type, typeof(WithLifetimeAttribute))));
+			discoveredClasses.Where(type => settings.EnableRegistrationByConvention || Attribute.IsDefined(type, typeof(WithLifetimeAttribute))));
 		ClassesToRegisterAsSelf = groupedClassesToRegisterAsSelf;
 		Assemblies = assemblies.ToArray();
 	}

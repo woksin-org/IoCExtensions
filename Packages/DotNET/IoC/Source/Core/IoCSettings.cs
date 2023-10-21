@@ -47,11 +47,10 @@ public class IoCSettings
 	/// </summary>
 	public ServiceLifetime DefaultLifetime { get; set; } = ServiceLifetime.Scoped;
 
-	/// <summary>
-	/// Gets or sets the value indicating whether to disable automatic registration of services by convention.
-	/// If set to true only services with <see cref="WithLifetimeAttribute"/>, <see cref="RegisterAsSelfAttribute" /> and services added through
-	/// <see cref="ICanAddServices{TContainerBuilder}" /> and <see cref="ICanAddServicesForTypesWith{TAttribute, TContainerBuilder}" /> will be registered in the service provider.
-	/// </summary>
-	public bool DisableRegistrationByConvention { get; set; }
-
+    /// <summary>
+    /// Gets or sets the value indicating whether to enable automatic registration of services by convention.
+    /// If set to false only services with <see cref="WithLifetimeAttribute"/>, <see cref="RegisterAsSelfAttribute" /> and services added through
+    /// <see cref="ICanAddServices{TContainerBuilder}" /> and <see cref="ICanAddServicesForTypesWith{TAttribute, TContainerBuilder}" /> will be registered in the service provider.
+    /// </summary>
+    public bool EnableRegistrationByConvention { get; set; }
 }
