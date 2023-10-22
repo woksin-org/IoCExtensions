@@ -3,12 +3,14 @@
 
 using Xunit;
 
-namespace Woksin.Extensions.Configurations.when_building_host.and_not_using_a_config_prefix.using_appsettings;
+namespace Woksin.Extensions.Configurations.Tenancy.when_building_host.using_a_config_prefix.using_appsettings;
 
 public class when_resolving_configurations : given.the_host
 {
-	void Because()
-	{
+#pragma warning disable RCS1213
+    void Because()
+#pragma warning restore RCS1213
+    {
 		SetupAllServices();
 		
 	}

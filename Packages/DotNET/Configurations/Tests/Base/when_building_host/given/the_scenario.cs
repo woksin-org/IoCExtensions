@@ -14,7 +14,7 @@ public partial class the_scenario : Specification
 {
 	protected IHost? host;
 	protected Assembly entry_assembly;
-	
+
 	protected IOptions<ConfigWithOnePrefix> config_with_one_prefix;
 	protected IOptions<ConfigWithTwoPrefixes> config_with_two_prefixes;
 	protected IOptions<ConfigWithComplexObject> config_with_complex_object;

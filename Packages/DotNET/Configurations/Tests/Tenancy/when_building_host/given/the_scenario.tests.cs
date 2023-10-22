@@ -3,31 +3,46 @@
 
 using Xunit;
 
-namespace Woksin.Extensions.Configurations.when_building_host.given;
+namespace Woksin.Extensions.Configurations.Tenancy.when_building_host.given;
 
 public partial class the_scenario
 {
 	protected virtual void should_get_expected_config_with_one_prefix() =>
 		AssertConfiguration(config_with_one_prefix.Value, expected_config_with_one_prefix);
-	
+    
+    protected virtual void should_get_expected_tenant_config_with_one_prefix() =>
+		AssertConfiguration(tenant_config_with_one_prefix.Value, expected_tenant_config_with_one_prefix);
+
 	protected virtual void should_get_expected_config_with_two_prefixes() =>
 		AssertConfiguration(config_with_two_prefixes.Value, expected_config_with_two_prefixes);
+    
+    protected virtual void should_get_expected_tenant_config_with_two_prefixes() =>
+        AssertConfiguration(tenant_config_with_two_prefixes.Value, expected_tenant_config_with_two_prefixes);
 	
 	protected virtual void should_get_expected_config_with_complex_object() =>
 		AssertConfiguration(config_with_complex_object.Value, expected_config_with_complex_object);
+    
+    protected virtual void should_get_expected_tenant_config_with_complex_object() =>
+		AssertConfiguration(tenant_config_with_complex_object.Value, expected_tenant_config_with_complex_object);
 	
 	protected virtual void should_get_expected_config_with_nested_configuration() =>
 		AssertConfiguration(config_with_nested_configuration.Value, expected_config_with_nested_configuration);
 	
+    protected virtual void should_get_expected_tenant_config_with_nested_configuration() =>
+		AssertConfiguration(tenant_config_with_nested_configuration.Value, expected_tenant_config_with_nested_configuration);
+
 	protected virtual void should_get_expected_nested_config() =>
 		AssertConfiguration(nested_config.Value, expected_nested_config);
+    
+    protected virtual void should_get_expected_tenant_nested_config() =>
+		AssertConfiguration(tenant_nested_config.Value, expected_tenant_nested_config);
 
 	protected void AssertConfiguration<T>(T config, T expected)
 	{
 		AssertCorrectType(config);
-		Assert.Equivalent(config, expected);
+		Assert.Equivalent(expected, config);
 	}
-	
+
 	protected void AssertCorrectType<T>(T service)
 		=> AssertCorrectType(service, typeof(T));
 

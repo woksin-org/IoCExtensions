@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <AssemblyName>$(AssemblyName).Tests</AssemblyName>
+        <AssemblyName>$(AssemblyName).Base.Tests</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -8,8 +8,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Source\Configurations.csproj" />
-        <ProjectReference Include="..\..\Specifications\Source\XUnit\Specifications.XUnit.csproj" />
+        <ProjectReference Include="..\..\Source\Base\Configurations.Base.csproj" />
+        <ProjectReference Include="..\..\..\Specifications\Source\XUnit\Specifications.XUnit.csproj" />
     </ItemGroup>
 
 
