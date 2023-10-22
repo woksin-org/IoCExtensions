@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
+        <TargetFrameworks>$(TargetFrameworks);netstandard2.1</TargetFrameworks>
+        <AssemblyName>$(AssemblyName).Core</AssemblyName>
         <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
     <ItemGroup>
@@ -8,6 +10,6 @@
         <PackageReference Include="Microsoft.Extensions.Options" />
     </ItemGroup>
     <ItemGroup>
-        <None Include="$(MSBuildThisFileDirectory)/../README.md" Pack="true" PackagePath="/README.md" />
+        <None Include="$(MSBuildThisFileDirectory)/../../README.md" Pack="true" PackagePath="/README.md" />
     </ItemGroup>
 </Project>

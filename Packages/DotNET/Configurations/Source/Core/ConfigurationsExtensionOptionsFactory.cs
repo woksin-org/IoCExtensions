@@ -10,7 +10,7 @@ namespace Woksin.Extensions.Configurations;
 /// Represents an implementation of <see cref="Microsoft.Extensions.Options.OptionsFactory{TOptions}"/> specific for the configuration system.
 /// </summary>
 /// <typeparam name="TOptions">The <see cref="Type"/> of the IoCExtensions configuration.</typeparam>
-class OptionsFactory<TOptions> : Microsoft.Extensions.Options.OptionsFactory<TOptions>
+public class ConfigurationsExtensionOptionsFactory<TOptions> : OptionsFactory<TOptions>
     where TOptions : class
 {
     readonly IConfiguration _configuration;
@@ -18,7 +18,7 @@ class OptionsFactory<TOptions> : Microsoft.Extensions.Options.OptionsFactory<TOp
     readonly string _configurationPrefix;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="OptionsFactory{TOptions}"/> class.
+    /// Initializes a new instance of the <see cref="ConfigurationsExtensionOptionsFactory{TOptions}"/> class.
     /// </summary>
     /// <param name="configuration">The <see cref="IConfiguration"/>.</param>
     /// <param name="configurationPrefix">The configuration prefix.</param>
@@ -26,11 +26,11 @@ class OptionsFactory<TOptions> : Microsoft.Extensions.Options.OptionsFactory<TOp
     /// <param name="setups">The <see cref="IEnumerable{T}"/> of <see cref="IConfigureOptions{TOptions}"/>.</param>
     /// <param name="postConfigures">The <see cref="IEnumerable{T}"/> of <see cref="IPostConfigureOptions{TOptions}"/>.</param>
     /// <param name="validations">The <see cref="IEnumerable{T}"/> of <see cref="IValidateOptions{TOptions}"/>.</param>
-    public OptionsFactory(
+    public ConfigurationsExtensionOptionsFactory(
 	    IConfiguration configuration,
         ConfigurationPrefix configurationPrefix,
         IEnumerable<ConfigurationObjectDefinition<TOptions>> definitions,
-        IEnumerable<IConfigureOptions<TOptions>> setups, 
+        IEnumerable<IConfigureOptions<TOptions>> setups,
         IEnumerable<IPostConfigureOptions<TOptions>> postConfigures,
         IEnumerable<IValidateOptions<TOptions>> validations)
         : base(setups, postConfigures, validations)
@@ -44,12 +44,13 @@ class OptionsFactory<TOptions> : Microsoft.Extensions.Options.OptionsFactory<TOp
     protected override TOptions CreateInstance(string name)
     {
         var definition = _definitions.FirstOrDefault();
-        if (definition == default)
-        {
-            return base.CreateInstance(name);
-        }
+        return definition == default
+            ? base.CreateInstance(name)
+            : BindConfiguration(GetConfigurationPath(definition));
+    }
 
-        var configurationPath = GetConfigurationPath(definition);
+    protected TOptions BindConfiguration(string configurationPath)
+    {
         var configurationSection = _configuration.GetSection(configurationPath);
         var instance = Activator.CreateInstance<TOptions>();
         configurationSection.Bind(instance);

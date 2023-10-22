@@ -7,7 +7,7 @@ namespace Woksin.Extensions.Configurations;
 /// Represents the definition of a IoCExtensions configuration.
 /// </summary>
 /// <typeparam name="TConfiguration">The <see cref="Type"/> of the IoCExtensions configuration object.</typeparam>
-class ConfigurationObjectDefinition<TConfiguration> : IAmAConfigurationObjectDefinition
+public class ConfigurationObjectDefinition<TConfiguration> : IAmAConfigurationObjectDefinition
     where TConfiguration : class
 {
     /// <summary>
@@ -19,7 +19,7 @@ class ConfigurationObjectDefinition<TConfiguration> : IAmAConfigurationObjectDef
 	    ConfigurationPath = configurationPath;
 	    ConfigurationObjectType = typeof(TConfiguration);
     }
-    
+
     /// <inheritdoc />
     public string ConfigurationPath { get; }
 

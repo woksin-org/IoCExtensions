@@ -8,7 +8,7 @@ namespace Woksin.Extensions.Configurations;
 /// </summary>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 // ReSharper disable once ClassNeverInstantiated.Global
-public class ConfigurationAttribute : Attribute
+public sealed class ConfigurationAttribute : Attribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ConfigurationAttribute"/> class.
@@ -23,10 +23,9 @@ public class ConfigurationAttribute : Attribute
 
         ConfigurationPath = Microsoft.Extensions.Configuration.ConfigurationPath.Combine(configurationPathParts);
     }
-    
+
     /// <summary>
     /// Gets the configuration path to parse the configuration object from.
     /// </summary>
     public string ConfigurationPath { get; }
 }
-

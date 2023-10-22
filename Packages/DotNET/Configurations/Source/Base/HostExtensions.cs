@@ -4,6 +4,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
@@ -34,7 +35,7 @@ public static class HostExtensions
     public static IServiceCollection AddConfigurationExtension(this IServiceCollection services, Assembly startupAssembly, params string[] configurationPrefixes)
 	{
 		AddConfigurationPrefix(services, configurationPrefixes);
-		services.Add(ServiceDescriptor.Singleton(typeof(IOptionsFactory<>), typeof(OptionsFactory<>)));
+		services.Add(ServiceDescriptor.Singleton(typeof(IOptionsFactory<>), typeof(ConfigurationsExtensionOptionsFactory<>)));
         foreach (var type in startupAssembly.GetTypes())
         {
             var attribute = type.GetCustomAttribute<ConfigurationAttribute>();
@@ -46,9 +47,9 @@ public static class HostExtensions
 
         return services;
 	}
-    
+
     /// <summary>
-    /// Adds a single configuration object definition.
+    /// Adds a configuration object definition.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/>.</param>
     /// <param name="configurationPathParts">The configuration path parts of the configuration object.</param>
@@ -56,16 +57,23 @@ public static class HostExtensions
     public static void AddConfigurationObjectDefinitionFor<TConfigurationType>(this IServiceCollection services, params string[] configurationPathParts)
         => services.AddConfigurationObjectDefinitionFor(typeof(TConfigurationType), configurationPathParts);
 
-
     /// <summary>
-    /// Adds a single configuration object definition.
+    /// Adds a configuration object definition.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/>.</param>
     /// <param name="type">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</param>
     /// <param name="configurationPathParts">The configuration path parts of the configuration object.</param>
     public static void AddConfigurationObjectDefinitionFor(this IServiceCollection services, Type type, params string[] configurationPathParts)
-        => AddConfigurationObjectDefinition(services, type, ConfigurationPath.Combine(configurationPathParts));
-
+        => services.AddConfigurationObjectDefinitionFor(type, ConfigurationPath.Combine(configurationPathParts));
+    
+    /// <summary>
+    /// Adds a configuration object definition.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection"/>.</param>
+    /// <param name="type">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</param>
+    /// <param name="configurationPath">The configuration path of the configuration object.</param>
+    public static void AddConfigurationObjectDefinitionFor(this IServiceCollection services, Type type, string configurationPath)
+        => AddConfigurationObjectDefinition(services, type, configurationPath);
 
     static void AddConfigurationPrefix(IServiceCollection serviceCollection, string[] configurationPrefixes)
     {
@@ -75,7 +83,7 @@ public static class HostExtensions
             prefix += ConfigurationPath.KeyDelimiter;
         }
 
-        serviceCollection.AddSingleton(new ConfigurationPrefix(prefix));
+        serviceCollection.TryAddSingleton(new ConfigurationPrefix(prefix));
     }
 
     static void AddConfigurationObjectDefinition(IServiceCollection services, Type type, string configurationPath)
@@ -83,6 +91,6 @@ public static class HostExtensions
         var definitionType = typeof(ConfigurationObjectDefinition<>).MakeGenericType(type);
         var definition = Activator.CreateInstance(definitionType, configurationPath)!;
         services.AddSingleton(definitionType, definition);
-        services.AddSingleton(typeof(IAmAConfigurationObjectDefinition), _ => _.GetRequiredService(definitionType));
+        services.AddSingleton(typeof(IAmAConfigurationObjectDefinition), provider => provider.GetRequiredService(definitionType));
     }
 }
