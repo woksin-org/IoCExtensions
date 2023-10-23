@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Configurations\Source\Tenancy\Configurations.Tenancy.csproj" />
+    <ProjectReference Include="..\..\IoC\Source\Microsoft\IoC.Microsoft.csproj" />
+  </ItemGroup>
+
+</Project>

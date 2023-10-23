@@ -108,7 +108,6 @@ sealed class UnknownServiceOnTenantContainerRegistrationSource : IRegistrationSo
             {
                 return _rootProvider.GetService(service) is not null;
             }
-            var isService = _rootProvider.GetRequiredService<IServiceProviderIsService>();
             var scopeFactory = _rootProvider.GetService<IServiceScopeFactory>();
             if (scopeFactory is null)
             {
