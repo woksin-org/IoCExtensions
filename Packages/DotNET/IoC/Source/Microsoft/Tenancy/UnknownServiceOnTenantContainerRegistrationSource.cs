@@ -29,7 +29,7 @@ sealed class UnknownServiceOnTenantContainerRegistrationSource : IRegistrationSo
         _isTenantRootContainer = isTenantRootContainer;
     }
 
-    internal IEnumerable<IComponentRegistration> Registrations { private get; set; } = Enumerable.Empty<IComponentRegistration>();
+    internal IComponentRegistry? ParentComponentRegistry { private get; set; }
 
     /// <inheritdoc />
     public IEnumerable<IComponentRegistration> RegistrationsFor(Service service, Func<Service, IEnumerable<ServiceRegistration>> registrationAccessor)
@@ -39,7 +39,7 @@ sealed class UnknownServiceOnTenantContainerRegistrationSource : IRegistrationSo
             return Enumerable.Empty<IComponentRegistration>();
         }
 
-        if (RegisteredInContainer(service) || !IsRegisteredInRootContainer(serviceWithType.ServiceType))
+        if (RegisteredInContainer(service, serviceWithType.ServiceType, registrationAccessor) || !IsRegisteredInRootContainer(serviceWithType.ServiceType))
         {
             return Enumerable.Empty<IComponentRegistration>();
         }
@@ -72,13 +72,29 @@ sealed class UnknownServiceOnTenantContainerRegistrationSource : IRegistrationSo
     /// <inheritdoc />
     public bool IsAdapterForIndividualComponents => false;
 
-    bool RegisteredInContainer(Service service)
+    bool RegisteredInContainer(Service service, Type serviceType, Func<Service, IEnumerable<ServiceRegistration>> registrationAccessor)
     {
-        foreach (var registration in Registrations)
+        if (ParentComponentRegistry is null)
+        {
+            return false;
+        }
+        foreach (var registration in ParentComponentRegistry.Registrations)
         {
             if (registration.Services.Any(service.Equals))
             {
                 return !registration.Metadata.ContainsKey(MetadataKey);
+            }
+        }
+        if (!serviceType.IsGenericType)
+        {
+            return false;
+        }
+        foreach (var registrationSource in ParentComponentRegistry.Sources.Where(source => source != this))
+        {
+            var registrations = registrationSource.RegistrationsFor(service, registrationAccessor);
+            if (registrations.Any())
+            {
+                return true;
             }
         }
         return false;
@@ -92,13 +108,12 @@ sealed class UnknownServiceOnTenantContainerRegistrationSource : IRegistrationSo
             {
                 return _rootProvider.GetService(service) is not null;
             }
-
+            var isService = _rootProvider.GetRequiredService<IServiceProviderIsService>();
             var scopeFactory = _rootProvider.GetService<IServiceScopeFactory>();
             if (scopeFactory is null)
             {
                 return _rootProvider.GetService(service) is not null;
             }
-
             using var scope = scopeFactory.CreateScope();
             return scope.ServiceProvider.GetService(service) is not null;
         }

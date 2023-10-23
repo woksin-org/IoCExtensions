@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Autofac;
+using Autofac.Builder;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Woksin.Extensions.IoC.Tenancy;
@@ -25,11 +26,12 @@ sealed class TenantScopedProviderCreator : TenantScopedProviderCreator<IServiceP
         var registrationSource = new UnknownServiceOnTenantContainerRegistrationSource(container, true);
         containerBuilder.Populate(tenantServices);
         containerBuilder.RegisterSource(registrationSource);
+        containerBuilder.RegisterSource(new CollectionRegistrationSource(container));
         containerBuilder.Register(context => new ServiceScopeFactory(
             container.GetRequiredService<IServiceScopeFactory>(),
             context.Resolve<ILifetimeScope>())).As<IServiceScopeFactory>().SingleInstance();
-        var tenantScopedContainer = containerBuilder.Build();
-        registrationSource.Registrations = tenantScopedContainer.ComponentRegistry.Registrations;
+        var tenantScopedContainer = containerBuilder.Build(ContainerBuildOptions.ExcludeDefaultModules);
+        registrationSource.ParentComponentRegistry = tenantScopedContainer.ComponentRegistry;
         return new AutofacServiceProvider(tenantScopedContainer);
     }
 }

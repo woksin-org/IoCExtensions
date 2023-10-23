@@ -33,9 +33,11 @@ sealed class ServiceScopeFactory : IServiceScopeFactory
         return new TenantServiceScope(
             rootScope,
             _lifetimeScope.BeginLifetimeScope(builder =>
-                builder.RegisterSource(new UnknownServiceOnTenantContainerRegistrationSource(rootScope.ServiceProvider, false)
-                {
-                    Registrations = _lifetimeScope.ComponentRegistry.Registrations
-                })));
+                builder
+                    .RegisterSource(new UnknownServiceOnTenantContainerRegistrationSource(rootScope.ServiceProvider, false)
+                    {
+                        ParentComponentRegistry = _lifetimeScope.ComponentRegistry
+                    })
+                    .RegisterSource(new CollectionRegistrationSource(rootScope.ServiceProvider))));
     }
 }
