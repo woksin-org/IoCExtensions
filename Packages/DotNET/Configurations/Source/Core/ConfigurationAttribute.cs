@@ -1,6 +1,8 @@
 // Copyright (c) woksin-org. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Microsoft.Extensions.Configuration;
+
 namespace Woksin.Extensions.Configurations;
 
 /// <summary>
@@ -13,19 +15,36 @@ public sealed class ConfigurationAttribute : Attribute
     /// <summary>
     /// Initializes a new instance of the <see cref="ConfigurationAttribute"/> class.
     /// </summary>
-    /// <param name="configurationPathParts">The configuration path parts to parse the object from, excluding the prefix that's configured.</param>
-    public ConfigurationAttribute(params string[] configurationPathParts)
+    /// <param name="configurationPathFirstPart">The first configuration path part.</param>
+    /// <param name="configurationPathRestParts">The configuration path parts to parse the object from, excluding the prefix that's configured.</param>
+    public ConfigurationAttribute(string configurationPathFirstPart, params string[] configurationPathRestParts) : this(new BinderOptions(), configurationPathFirstPart, configurationPathRestParts)
     {
-	    if (configurationPathParts.Length == 0)
+    }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ConfigurationAttribute"/> class.
+    /// </summary>
+    /// <param name="binderOptions">The <see cref="BinderOptions"/>.</param>
+    /// <param name="configurationPathFirstPart">The first configuration path part.</param>
+    /// <param name="configurationPathRestParts">The configuration path parts to parse the object from, excluding the prefix that's configured.</param>
+    public ConfigurationAttribute(BinderOptions binderOptions, string configurationPathFirstPart, params string[] configurationPathRestParts)
+    {
+        ConfigurationPath = configurationPathFirstPart;
+        if (configurationPathRestParts.Any())
         {
-            throw new ArgumentException("Configuration attribute must include one or more sections", nameof(configurationPathParts));
+            ConfigurationPath = Microsoft.Extensions.Configuration.ConfigurationPath.Combine(
+            ConfigurationPath,
+            Microsoft.Extensions.Configuration.ConfigurationPath.Combine(configurationPathRestParts));
         }
-
-        ConfigurationPath = Microsoft.Extensions.Configuration.ConfigurationPath.Combine(configurationPathParts);
+        BinderOptions = binderOptions ?? new BinderOptions();
     }
 
     /// <summary>
     /// Gets the configuration path to parse the configuration object from.
     /// </summary>
     public string ConfigurationPath { get; }
+    
+    /// <summary>
+    /// Gets the <see cref="BinderOptions"/>.
+    /// </summary>
+    public BinderOptions BinderOptions { get; }
 }

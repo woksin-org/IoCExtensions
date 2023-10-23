@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Woksin.Extensions.Configurations.Internal;
 
 namespace Woksin.Extensions.Configurations;
 
@@ -35,13 +36,13 @@ public static class HostExtensions
     public static IServiceCollection AddConfigurationExtension(this IServiceCollection services, Assembly startupAssembly, params string[] configurationPrefixes)
 	{
 		AddConfigurationPrefix(services, configurationPrefixes);
-		services.Add(ServiceDescriptor.Singleton(typeof(IOptionsFactory<>), typeof(ConfigurationsExtensionOptionsFactory<>)));
+		services.Add(ServiceDescriptor.Transient(typeof(IOptionsFactory<>), typeof(ConfigurationsExtensionOptionsFactory<>)));
         foreach (var type in startupAssembly.GetTypes())
         {
             var attribute = type.GetCustomAttribute<ConfigurationAttribute>();
             if (attribute is not null)
             {
-                AddConfigurationObjectDefinitionFor(services, type, attribute.ConfigurationPath);
+                AddConfigurationObjectDefinitionFor(services, type, attribute.BinderOptions, attribute.ConfigurationPath);
             }
         }
 
@@ -61,19 +62,40 @@ public static class HostExtensions
     /// Adds a configuration object definition.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/>.</param>
+    /// <param name="binderOptions">The <see cref="BinderOptions"/>.</param>
+    /// <param name="configurationPathParts">The configuration path parts of the configuration object.</param>
+    /// <typeparam name="TConfigurationType">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</typeparam>
+    public static void AddConfigurationObjectDefinitionFor<TConfigurationType>(this IServiceCollection services, BinderOptions binderOptions, params string[] configurationPathParts)
+        => services.AddConfigurationObjectDefinitionFor(typeof(TConfigurationType), binderOptions, configurationPathParts);
+
+    /// <summary>
+    /// Adds a configuration object definition.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection"/>.</param>
     /// <param name="type">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</param>
     /// <param name="configurationPathParts">The configuration path parts of the configuration object.</param>
     public static void AddConfigurationObjectDefinitionFor(this IServiceCollection services, Type type, params string[] configurationPathParts)
-        => services.AddConfigurationObjectDefinitionFor(type, ConfigurationPath.Combine(configurationPathParts));
-    
+        => services.AddConfigurationObjectDefinitionFor(type, ConfigurationPath.Combine(configurationPathParts), binderOptions: null);
+
+    /// <summary>
+    /// Adds a configuration object definition.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection"/>.</param>
+    /// <param name="type">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</param>
+    /// <param name="binderOptions">The <see cref="BinderOptions"/>.</param>
+    /// <param name="configurationPathParts">The configuration path parts of the configuration object.</param>
+    public static void AddConfigurationObjectDefinitionFor(this IServiceCollection services, Type type, BinderOptions binderOptions, params string[] configurationPathParts)
+        => services.AddConfigurationObjectDefinitionFor(type, ConfigurationPath.Combine(configurationPathParts), binderOptions);
+
     /// <summary>
     /// Adds a configuration object definition.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/>.</param>
     /// <param name="type">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</param>
     /// <param name="configurationPath">The configuration path of the configuration object.</param>
-    public static void AddConfigurationObjectDefinitionFor(this IServiceCollection services, Type type, string configurationPath)
-        => AddConfigurationObjectDefinition(services, type, configurationPath);
+    /// <param name="binderOptions">The optional <see cref="BinderOptions"/>.</param>
+    public static void AddConfigurationObjectDefinitionFor(this IServiceCollection services, Type type, string configurationPath, BinderOptions? binderOptions)
+        => ConfigurationAdder.AddToServices(services, type, configurationPath, binderOptions ?? new BinderOptions());
 
     static void AddConfigurationPrefix(IServiceCollection serviceCollection, string[] configurationPrefixes)
     {
@@ -84,13 +106,5 @@ public static class HostExtensions
         }
 
         serviceCollection.TryAddSingleton(new ConfigurationPrefix(prefix));
-    }
-
-    static void AddConfigurationObjectDefinition(IServiceCollection services, Type type, string configurationPath)
-    {
-        var definitionType = typeof(ConfigurationObjectDefinition<>).MakeGenericType(type);
-        var definition = Activator.CreateInstance(definitionType, configurationPath)!;
-        services.AddSingleton(definitionType, definition);
-        services.AddSingleton(typeof(IAmAConfigurationObjectDefinition), provider => provider.GetRequiredService(definitionType));
     }
 }

@@ -36,7 +36,14 @@ public static class HostExtensions
         services.Configure<IoCSettings>(settings => settings.AdditionalAssemblies.Add(typeof(HostExtensions).Assembly));
 		AddConfigurationPrefix(services, configurationPrefixes);
 		services.Add(ServiceDescriptor.Singleton(typeof(IOptionsFactory<>), typeof(RootContainerConfigurationsExtensionOptionsFactory<>)));
-        services.AddTenantScopedServices(tenantServices => tenantServices.Add(ServiceDescriptor.Singleton(typeof(IOptionsFactory<>), typeof(ConfigurationsExtensionOptionsFactory<>))));
+        services.AddTenantScopedServices(tenantServices =>
+        {
+            tenantServices.Add(ServiceDescriptor.Singleton(typeof(IOptions<>), typeof(UnnamedOptionsManager<>)));
+            tenantServices.Add(ServiceDescriptor.Scoped(typeof(IOptionsSnapshot<>), typeof(OptionsManager<>)));
+            tenantServices.Add(ServiceDescriptor.Singleton(typeof(IOptionsMonitor<>), typeof(OptionsMonitor<>)));
+            tenantServices.Add(ServiceDescriptor.Transient(typeof(IOptionsFactory<>), typeof(ConfigurationsExtensionOptionsFactory<>)));
+            tenantServices.Add(ServiceDescriptor.Singleton(typeof(IOptionsMonitorCache<>), typeof(OptionsCache<>)));
+        });
         return services;
 	}
 

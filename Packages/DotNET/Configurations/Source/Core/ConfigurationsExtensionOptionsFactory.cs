@@ -46,14 +46,18 @@ public class ConfigurationsExtensionOptionsFactory<TOptions> : OptionsFactory<TO
         var definition = _definitions.FirstOrDefault();
         return definition == default
             ? base.CreateInstance(name)
-            : BindConfiguration(GetConfigurationPath(definition));
+            : BindConfiguration(GetConfigurationPath(definition), definition.BinderOptions);
     }
 
-    protected TOptions BindConfiguration(string configurationPath)
+    protected TOptions BindConfiguration(string configurationPath, BinderOptions binderOptions)
     {
         var configurationSection = _configuration.GetSection(configurationPath);
         var instance = Activator.CreateInstance<TOptions>();
-        configurationSection.Bind(instance);
+        configurationSection.Bind(instance, options =>
+        {
+            options.BindNonPublicProperties = binderOptions.BindNonPublicProperties;
+            options.ErrorOnUnknownConfiguration = binderOptions.ErrorOnUnknownConfiguration;
+        });
         return instance!;
     }
 

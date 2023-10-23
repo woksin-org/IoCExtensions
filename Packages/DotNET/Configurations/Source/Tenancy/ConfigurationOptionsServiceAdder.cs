@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Woksin.Extensions.Configurations.Internal;
 using Woksin.Extensions.IoC;
 using Woksin.Extensions.IoC.Tenancy;
 
@@ -16,27 +17,21 @@ public class ConfigurationOptionsServiceAdder : ICanAddServicesForTypesWith<Conf
 {
     /// <inheritdoc />
     public void AddServiceFor(Type type, ConfigurationAttribute attribute, IServiceCollection services)
-        => AddConfigurationObjectDefinition(services, type, attribute.ConfigurationPath, type.IsPerTenant());
+        => AddConfigurationObjectDefinition(services, type, attribute, type.IsPerTenant());
 
-    static void AddConfigurationObjectDefinition(IServiceCollection services, Type type, string configurationPath, bool perTenant)
+    static void AddConfigurationObjectDefinition(IServiceCollection services, Type type, ConfigurationAttribute attribute, bool perTenant)
     {
         if (perTenant)
         {
-            services.AddTenantScopedServices((tenantId, tenantServices) => AddConfigurationObjectDefinitionTypes(
+            services.AddTenantScopedServices((tenantId, tenantServices) => ConfigurationAdder.AddToServices(
                 tenantServices,
-                typeof(ConfigurationObjectDefinition<>).MakeGenericType(type),
-                ConfigurationPath.Combine(tenantId, configurationPath)));
+                type,
+                ConfigurationPath.Combine(tenantId, attribute.ConfigurationPath),
+                attribute.BinderOptions));
         }
         else
         {
-            AddConfigurationObjectDefinitionTypes(services, typeof(ConfigurationObjectDefinition<>).MakeGenericType(type), configurationPath);
+            ConfigurationAdder.AddToServices(services, type, attribute.ConfigurationPath, attribute.BinderOptions);
         }
-    }
-
-    static void AddConfigurationObjectDefinitionTypes(IServiceCollection services, Type definitionType, string configurationPath)
-    {
-        var definition = Activator.CreateInstance(definitionType, configurationPath)!;
-        services.AddSingleton(definitionType, definition);
-        services.AddSingleton(typeof(IAmAConfigurationObjectDefinition), provider => provider.GetRequiredService(definitionType));
     }
 }
