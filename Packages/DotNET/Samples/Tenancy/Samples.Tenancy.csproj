@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Configurations\Source\Tenancy\Configurations.Tenancy.csproj" />
     <ProjectReference Include="..\..\IoC\Source\Microsoft\IoC.Microsoft.csproj" />
+    <ProjectReference Include="..\..\IoC\Source\Autofac\IoC.Autofac.csproj" />
   </ItemGroup>
 
 </Project>

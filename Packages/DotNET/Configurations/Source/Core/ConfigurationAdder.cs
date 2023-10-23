@@ -18,7 +18,7 @@ public static class ConfigurationAdder
         AddChangeTokenSource(services, configurationType);
     }
 
-    // 
+    // Need to add ConfigurationChangeTokenSource manually to listen to changes in the configuration
     static void AddChangeTokenSource(IServiceCollection services, Type configurationType)
     {
         var serviceType = typeof(IOptionsChangeTokenSource<>).MakeGenericType(configurationType);

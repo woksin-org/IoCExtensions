@@ -31,6 +31,7 @@ public class TenantSingleton : TenantService
     TenantConfig _tenantConfig; 
     public TenantSingleton(TenantId tenant, IOptions<TenantConfig> tenantConfig, IOptions<Config> config, IEnumerable<IEnumerableService> services, IOptionsMonitor<TenantConfig> tenantConfigMoniitor) : base(tenant)
     {
+        _tenantConfig = tenantConfigMoniitor.CurrentValue;
         tenantConfigMoniitor.OnChange(config =>
         {
             _tenantConfig = config;
@@ -45,6 +46,7 @@ public class Singleton : Service
     Config _config; 
     public Singleton(IOptions<Config> config, IEnumerable<IEnumerableService> services, IOptionsMonitor<Config> configMoniitor) : base()
     {
+        _config = configMoniitor.CurrentValue;
         configMoniitor.OnChange(config =>
         {
             _config = config;

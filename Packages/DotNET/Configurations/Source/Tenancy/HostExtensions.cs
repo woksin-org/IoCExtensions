@@ -22,6 +22,7 @@ public static class HostExtensions
 	/// <param name="builder">The <see cref="IHostBuilder"/>.</param>
 	/// <param name="configurationPrefixes">The configuration prefixes.</param>
 	/// <returns>The builder for continuation.</returns>
+	/// <remarks>To use this multi tenant configuration system you also need to be using one of the IoC Extensions.</remarks>
 	public static IHostBuilder UseConfigurationExtension(this IHostBuilder builder, params string[] configurationPrefixes)
         => builder.ConfigureServices((_, services) => services.AddConfigurationExtension(configurationPrefixes));
 
