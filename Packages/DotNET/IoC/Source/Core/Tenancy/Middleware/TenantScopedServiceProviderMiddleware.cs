@@ -39,7 +39,11 @@ public partial class TenantScopedServiceProviderMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         var serviceProvider = context.RequestServices;
-        var tenantIdRetrieverStrategies = serviceProvider.GetService<IEnumerable<ICanGetTenantIdFromHttpContext>>() ?? _defaultStrategies;
+        var tenantIdRetrieverStrategies = serviceProvider.GetService<IEnumerable<ICanGetTenantIdFromHttpContext>>()?.ToList();
+        if (tenantIdRetrieverStrategies?.Any() != true)
+        {
+            tenantIdRetrieverStrategies = _defaultStrategies.ToList();
+        }
         TenantId? tenantId = null;
         foreach (var strategy in tenantIdRetrieverStrategies)
         {
