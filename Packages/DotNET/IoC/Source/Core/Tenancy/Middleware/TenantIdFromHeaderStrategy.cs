@@ -30,7 +30,7 @@ public partial class TenantIdFromHeaderStrategy : TenantIdStrategy
     /// <param name="headers">The headers to look for the <see cref="TenantId"/>.</param>
     /// <returns>The created <see cref="TenantIdStrategy"/>.</returns>
     public static TenantIdFromHeaderStrategy WithHeaders(params string[] headers) => new(headers);
-    
+
     /// <summary>
     /// Creates a <see cref="TenantIdFromHeaderStrategy"/> with the provided headers and falls back to the <see cref="DefaultTenantIdHeader"/>. 
     /// </summary>
@@ -48,7 +48,7 @@ public partial class TenantIdFromHeaderStrategy : TenantIdStrategy
     }
 
     /// <inheritdoc />
-    public override bool TryGet(HttpContext context, [NotNullWhen(true)]out TenantId? tenantId)
+    protected override bool TryGet(HttpContext context, [NotNullWhen(true)]out TenantId? tenantId)
     {
         tenantId = null;
         var logger = GetLogger(context);

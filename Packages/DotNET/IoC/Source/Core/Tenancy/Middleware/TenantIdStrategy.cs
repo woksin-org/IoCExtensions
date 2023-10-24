@@ -20,7 +20,7 @@ public abstract class TenantIdStrategy : ICanGetTenantIdFromHttpContext
     /// <param name="tenantId">The output <see cref="TenantId"/>.</param>
     /// <returns>False if <see cref="TenantId"/> not found, True if it was found.</returns>
     /// <exception cref="NotImplementedException">Thrown when forgetting to override <see cref="TryGet"/> and not providing a <see cref="GetAsync"/> override.</exception>
-    public virtual bool TryGet(HttpContext context, [NotNullWhen(true)]out TenantId? tenantId)
+    protected virtual bool TryGet(HttpContext context, [NotNullWhen(true)]out TenantId? tenantId)
     {
         throw new NotImplementedException();
     }
