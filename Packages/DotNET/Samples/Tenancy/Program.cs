@@ -1,7 +1,6 @@
 using Samples.Tenancy;
 using Woksin.Extensions.Configurations.Tenancy;
 using Woksin.Extensions.IoC.Autofac;
-using Woksin.Extensions.IoC.Microsoft;
 using Woksin.Extensions.IoC.Tenancy;
 
 var builder = WebApplication.CreateBuilder(args);
