@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace Woksin.Extensions.IoC.Tenancy.Middleware;
 
 /// <summary>
-/// Represents a <see cref="TenantIdStrategy"/> that resolves the <see cref="TenantId"/> by looking at the provided headers in order. 
+/// Represents a <see cref="TenantIdStrategy"/> that resolves the <see cref="TenantId"/> by looking at the provided headers in order.
 /// </summary>
 public partial class TenantIdFromHeaderStrategy : TenantIdStrategy
 {
@@ -25,14 +25,14 @@ public partial class TenantIdFromHeaderStrategy : TenantIdStrategy
     public static readonly TenantIdFromHeaderStrategy Default = WithHeaders(DefaultTenantIdHeader);
 
     /// <summary>
-    /// Creates a <see cref="TenantIdFromHeaderStrategy"/> with only the provided headers. 
+    /// Creates a <see cref="TenantIdFromHeaderStrategy"/> with only the provided headers.
     /// </summary>
     /// <param name="headers">The headers to look for the <see cref="TenantId"/>.</param>
     /// <returns>The created <see cref="TenantIdStrategy"/>.</returns>
     public static TenantIdFromHeaderStrategy WithHeaders(params string[] headers) => new(headers);
 
     /// <summary>
-    /// Creates a <see cref="TenantIdFromHeaderStrategy"/> with the provided headers and falls back to the <see cref="DefaultTenantIdHeader"/>. 
+    /// Creates a <see cref="TenantIdFromHeaderStrategy"/> with the provided headers and falls back to the <see cref="DefaultTenantIdHeader"/>.
     /// </summary>
     /// <param name="headers">The headers to first look for the <see cref="TenantId"/>.</param>
     /// <returns>The created <see cref="TenantIdStrategy"/>.</returns>

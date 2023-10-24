@@ -42,7 +42,7 @@ public sealed class DiscoveredServices<TContainerBuilder>
 	}
 
 	/// <summary>
-	/// Gets the additional <see cref="IServiceCollection"/> to register. 
+	/// Gets the additional <see cref="IServiceCollection"/> to register.
 	/// </summary>
 	public IServiceCollection AdditionalServices { get; }
 

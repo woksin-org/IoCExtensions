@@ -69,14 +69,11 @@ static class TypeFilteringExtensions
             return type =>
             {
                 var baseTypes = GetBaseTypes(type);
-                return baseTypes
-                    .Where(_ => _.IsGenericTypeDefinition)
-                    .Any(baseType => baseType.GetGenericTypeDefinition() == implementing);
+                return baseTypes.Any(baseType => baseType.IsGenericTypeDefinition && baseType.GetGenericTypeDefinition() == implementing);
             };
         }
 
         return type => GetBaseTypes(type).Any(baseType => baseType == implementing);
-
     }
 
     static IEnumerable<Type> GetBaseTypes(Type type)

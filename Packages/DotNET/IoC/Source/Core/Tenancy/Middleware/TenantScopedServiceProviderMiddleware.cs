@@ -1,4 +1,4 @@
-// Copyright (c) Dolittle. All rights reserved.
+// Copyright (c) woksin-org. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Microsoft.AspNetCore.Http;
@@ -67,6 +67,6 @@ public partial class TenantScopedServiceProviderMiddleware
     [LoggerMessage(0, LogLevel.Debug, "Resolved tenant id {TenantId} from Http Context")]
     partial void ResolvedTenantId(TenantId tenantId);
 
-    [LoggerMessage(0, LogLevel.Warning, "No tenant id resolved. Tenant scoped provider is not being used for this request")]
+    [LoggerMessage(1, LogLevel.Warning, "No tenant id resolved. Tenant scoped provider is not being used for this request")]
     partial void NoResolvedTenantId();
 }

@@ -19,12 +19,12 @@ public static class ApplicationBuilderExtensions
     /// provided from the <see cref="ITenantScopedServiceProviders"/>.
     /// </para>
     /// <para>
-    /// Add custom <see cref="ICanGetTenantIdFromHttpContext"/> implementations by using the AddTenantIdStrategy extension methods on the <see cref="IServiceCollection"/>. 
+    /// Add custom <see cref="ICanGetTenantIdFromHttpContext"/> implementations by using the AddTenantIdStrategy extension methods on the <see cref="IServiceCollection"/>.
     /// </para>
     /// </summary>
     /// <param name="builder">The <see cref="IApplicationBuilder"/>.</param>
     /// <returns>The <see cref="IApplicationBuilder"/> for continuation.</returns>
-    /// <remarks>If no custom <see cref="ICanGetTenantIdFromHttpContext"/> are added the <see cref="TenantScopedServiceProviderMiddleware"/> will by default use <see cref="Te"/></remarks>
+    /// <remarks>If no custom <see cref="ICanGetTenantIdFromHttpContext"/> are added the <see cref="TenantScopedServiceProviderMiddleware"/> will by default use <see cref="TenantIdFromHeaderStrategy.Default"/></remarks>
     public static IApplicationBuilder UseTenantIdStrategies(this IApplicationBuilder builder)
         => builder.UseMiddleware<TenantScopedServiceProviderMiddleware>();
 }

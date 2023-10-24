@@ -23,6 +23,5 @@ public sealed class WithLifetimeAttribute : Attribute
     /// <summary>
     /// Gets the <see cref="ServiceLifetime" />.
     /// </summary>
-    /// <value></value>
     public ServiceLifetime Lifetime { get; }
 }

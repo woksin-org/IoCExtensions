@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Woksin.Extensions.IoC.Provider;
 
 /// <summary>
-/// Represents methods for adding <see cref="IoCSettings"/> the the <see cref="IServiceCollection"/>. 
+/// Represents methods for adding <see cref="IoCSettings"/> the <see cref="IServiceCollection"/>.
 /// </summary>
 public static class IoCOptionsConfigurator
 {

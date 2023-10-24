@@ -10,10 +10,4 @@ namespace Woksin.Extensions.IoC.Tenancy;
 [AttributeUsage(AttributeTargets.Class)]
 public sealed class PerTenantAttribute : Attribute
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PerTenantAttribute"/> class.
-    /// </summary>
-    public PerTenantAttribute()
-    {
-    }
 }

@@ -28,12 +28,12 @@ public class IoCSettings
     public IList<Assembly> AdditionalAssemblies { get; } = new List<Assembly>();
 
 	/// <summary>
-	/// Gets the assembly names to ignore. 
+	/// Gets the assembly names to ignore.
 	/// </summary>
 	public IList<string> IgnoredAssemblyNames { get; } = new List<string>();
 
 	/// <summary>
-	/// Gets the assembly names to ignore. 
+	/// Gets the assembly names to ignore.
 	/// </summary>
 	public IList<Assembly> IgnoredAssemblies { get; } = new List<Assembly>();
 

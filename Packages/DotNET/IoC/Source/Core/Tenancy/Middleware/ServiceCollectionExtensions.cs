@@ -27,7 +27,7 @@ public static class ServiceCollectionExtensions
     /// <remarks>The order of when a tenant id strategy is added does matter. Strategies are used in the order that they are gathered.</remarks>
     public static IServiceCollection AddCustomTenantIdStrategy<TStrategy>(this IServiceCollection services, Func<IServiceProvider, TStrategy> strategyFactory) where TStrategy : class, ICanGetTenantIdFromHttpContext
         => services.AddScoped<ICanGetTenantIdFromHttpContext, TStrategy>(strategyFactory);
-    
+
     /// <summary>
     /// Adds a <see cref="ICanGetTenantIdFromHttpContext"/> tenant id strategy to be used when resolving the <see cref="TenantId"/> for each request.
     /// </summary>
