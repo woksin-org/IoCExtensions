@@ -27,7 +27,14 @@ public sealed class TenantScopedServiceProviders : ITenantScopedServiceProviders
     }
 
     /// <inheritdoc />
-    public IServiceProvider ForTenant(TenantId tenant) => _serviceProviders.GetOrAdd(tenant, CreateTenantContainer);
+    public IServiceProvider ForTenant(TenantId tenant)
+    {
+        if (string.IsNullOrEmpty(tenant))
+        {
+            throw new ArgumentException("Cannot resolve scoped service provider for empty tenant id", nameof(tenant));
+        }
+        return _serviceProviders.GetOrAdd(tenant, CreateTenantContainer);
+    }
 
     /// <inheritdoc />
     public void Dispose()
