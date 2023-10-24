@@ -4,10 +4,6 @@
     </ItemGroup>
 	
     <ItemGroup>
-      <ProjectReference Include="..\IoC\Source\Autofac\IoC.Autofac.csproj" />
-      <ProjectReference Include="..\IoC\Source\Core\IoC.Core.csproj" />
-      <ProjectReference Include="..\IoC\Source\Microsoft\IoC.Microsoft.csproj" />
-      <ProjectReference Include="..\Configurations\Source\Configurations.csproj" />
     </ItemGroup>
 
 </Project>
