@@ -19,7 +19,7 @@ public partial class the_scenario
 		var service = singletonPerTenant;
 		AssertCorrectType<ISingletonPerTenantService, PerTenantSingletonService>(service);
 		AssertCorrectLifetime(service, ServiceLifetime.Singleton);
-        Assert.Equal(service.First.Tenant, the_tenant_id);
+        Assert.Equal(service.First!.Tenant, the_tenant_id);
 	}
 
 	protected virtual void should_get_scoped_service()
@@ -33,7 +33,7 @@ public partial class the_scenario
 		var service = scopedPerTenant;
 		AssertCorrectType<IScopedPerTenantService, PerTenantScopedService>(service);
 		AssertCorrectLifetime(service, ServiceLifetime.Scoped);
-        Assert.Equal(service.First.Tenant, the_tenant_id);
+        Assert.Equal(service.First!.Tenant, the_tenant_id);
 	}
 
 	protected virtual void should_get_transient_service()
@@ -48,7 +48,7 @@ public partial class the_scenario
         var service = transientPerTenant;
         AssertCorrectType<ITransientPerTenantService, PerTenantTransientService>(service);
         AssertCorrectLifetime(service, ServiceLifetime.Transient);
-        Assert.Equal(service.First.Tenant, the_tenant_id);
+        Assert.Equal(service.First!.Tenant, the_tenant_id);
     }
 	protected virtual void should_get_service_without_lifetime()
 	{
@@ -62,7 +62,7 @@ public partial class the_scenario
         var service = per_tenant_service_without_lifetime_attribute;
         AssertCorrectType<IPerTenantServiceWithoutLifetimeAttribute, PerTenantServiceWithoutLifetimeAttribute>(service);
         AssertDefaultLifetime(service);
-        Assert.Equal(service.First.Tenant, the_tenant_id);
+        Assert.Equal(service.First!.Tenant, the_tenant_id);
     }
 	
 	protected virtual void should_get_explicitly_added_service()

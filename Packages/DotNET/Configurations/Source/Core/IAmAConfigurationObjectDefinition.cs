@@ -19,7 +19,7 @@ public interface IAmAConfigurationObjectDefinition
     /// Gets the <see cref="Type"/> of the configuration object.
     /// </summary>
     public Type ConfigurationObjectType { get; }
-    
+
     /// <summary>
     /// Gets the <see cref="BinderOptions"/>.
     /// </summary>

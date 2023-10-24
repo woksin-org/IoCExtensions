@@ -11,7 +11,7 @@ namespace Woksin.Extensions.IoC.given;
 
 public partial class the_scenario : Specification
 {
-	protected IHost? host;
+	protected IHost host;
 	protected Assembly entry_assembly;
     protected TenantId the_tenant_id;
 	protected Services<ISingletonService> singleton;
@@ -106,7 +106,7 @@ public partial class the_scenario : Specification
 	protected Services<TService> GetServices<TService>(bool perTenant)
     {
         var services = perTenant
-            ? host.Services.GetService<ITenantScopedServiceProviders>().ForTenant(the_tenant_id)
+            ? host.Services.GetService<ITenantScopedServiceProviders>()!.ForTenant(the_tenant_id)
             : host.Services;
 		var scope = services.CreateScope();
 		var otherScope = services.CreateScope();

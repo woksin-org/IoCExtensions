@@ -42,7 +42,7 @@ public sealed class ConfigurationAttribute : Attribute
     /// Gets the configuration path to parse the configuration object from.
     /// </summary>
     public string ConfigurationPath { get; }
-    
+
     /// <summary>
     /// Gets the <see cref="BinderOptions"/>.
     /// </summary>

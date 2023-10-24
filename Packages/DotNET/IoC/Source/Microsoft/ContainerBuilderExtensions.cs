@@ -89,7 +89,7 @@ static class ContainerBuilderExtensions
             _ => throw new ArgumentOutOfRangeException(nameof(lifetime), lifetime, $"Lifetime {lifetime} not supported")
         };
     }
-    
+
     static Type MaybeGetServiceAsOpenGeneric(Type service, Type implementation)
 		=> IsOpenGeneric(implementation) && service.IsGenericType
 			? GetOpenGenericType(service)
