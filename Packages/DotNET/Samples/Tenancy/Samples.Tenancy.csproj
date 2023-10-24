@@ -9,5 +9,9 @@
     <ProjectReference Include="..\..\IoC\Source\Microsoft\IoC.Microsoft.csproj" />
     <ProjectReference Include="..\..\IoC\Source\Autofac\IoC.Autofac.csproj" />
   </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Swashbuckle.AspNetCore" VersionOverride="6.5.0"/>
+    </ItemGroup>
 
 </Project>

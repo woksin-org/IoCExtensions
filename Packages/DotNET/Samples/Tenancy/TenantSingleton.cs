@@ -2,11 +2,24 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using Woksin.Extensions.Configurations;
 using Woksin.Extensions.IoC;
 using Woksin.Extensions.IoC.Tenancy;
+using Woksin.Extensions.IoC.Tenancy.Middleware;
 
 namespace Samples.Tenancy;
+
+public class TenantIdHeaderFilter : IOperationFilter
+{
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    {
+        operation.Parameters ??= new List<OpenApiParameter>();
+
+        operation.Parameters.Add(new OpenApiParameter{Name = TenantIdFromHeaderStrategy.DefaultTenantIdHeader, In = ParameterLocation.Header, Required = false});
+    }
+}
 
 public abstract class TenantService
 {
@@ -28,7 +41,7 @@ public abstract class Service
 [PerTenant, WithLifetime(ServiceLifetime.Singleton), RegisterAsSelf]
 public class TenantSingleton : TenantService
 {
-    TenantConfig _tenantConfig; 
+    public TenantConfig _tenantConfig; 
     public TenantSingleton(TenantId tenant, IOptions<TenantConfig> tenantConfig, IOptions<Config> config, IEnumerable<IEnumerableService> services, IOptionsMonitor<TenantConfig> tenantConfigMoniitor) : base(tenant)
     {
         _tenantConfig = tenantConfigMoniitor.CurrentValue;

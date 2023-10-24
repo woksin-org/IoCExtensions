@@ -24,7 +24,7 @@ public sealed class DiscoveredServices<TContainerBuilder>
 	internal DiscoveredServices(IoCSettings settings, TContainerBuilder builder)
 	{
 		AdditionalServices = new ServiceCollection();
-        AdditionalServices.AddSingleton<ITenantScopedServiceProviders, TenantScopedServiceProviders>();
+        AdditionalServices.AddDefaultMultiTenancyServices();
 		// ReSharper disable PossibleMultipleEnumeration
 		var discoveredClasses = TypeScanner.GetAllExportedTypesInRuntimeAssemblies(settings, out var assemblies);
 		var groupedClassesToRegisterAsSelf =

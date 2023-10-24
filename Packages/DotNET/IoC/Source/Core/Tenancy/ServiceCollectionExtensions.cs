@@ -44,4 +44,10 @@ public static class ServiceCollectionExtensions
     /// <returns>The builder for continuation.</returns>
     public static IServiceCollection AddTenantScopedServices(this IServiceCollection services, ConfigureTenantServices configureTenantServices)
         => services.AddSingleton(configureTenantServices);
+
+    internal static IServiceCollection AddDefaultMultiTenancyServices(this IServiceCollection services)
+    {
+        services.AddSingleton<ITenantScopedServiceProviders, TenantScopedServiceProviders>();
+        return services;
+    }
 }
