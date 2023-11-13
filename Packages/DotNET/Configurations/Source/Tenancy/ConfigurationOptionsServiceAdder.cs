@@ -17,7 +17,7 @@ public class ConfigurationOptionsServiceAdder : ICanAddServicesForTypesWith<Conf
 {
     /// <inheritdoc />
     public void AddServiceFor(Type type, ConfigurationAttribute attribute, IServiceCollection services)
-        => AddConfigurationObjectDefinition(services, type, attribute, type.IsPerTenant());
+        => AddConfigurationObjectDefinition(services, type, attribute, type.IsPerTenantDecoratedClass());
 
     static void AddConfigurationObjectDefinition(IServiceCollection services, Type type, ConfigurationAttribute attribute, bool perTenant)
     {

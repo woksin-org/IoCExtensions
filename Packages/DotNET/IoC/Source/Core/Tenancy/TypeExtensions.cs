@@ -9,9 +9,9 @@ namespace Woksin.Extensions.IoC.Tenancy;
 public static class TypeExtensions
 {
     /// <summary>
-    /// Checks whether the <see cref="Type"/> is a per tenant.
+    /// Checks whether the <see cref="Type"/> is a class decorated with <see cref="PerTenantAttribute"/>.
     /// </summary>
     /// <param name="type">The type.</param>
     /// <returns>True if per tenant type, false if not.</returns>
-    public static bool IsPerTenant(this Type type) => Attribute.IsDefined(type, typeof(PerTenantAttribute));
+    public static bool IsPerTenantDecoratedClass(this Type type) => Attribute.IsDefined(type, typeof(PerTenantAttribute));
 }

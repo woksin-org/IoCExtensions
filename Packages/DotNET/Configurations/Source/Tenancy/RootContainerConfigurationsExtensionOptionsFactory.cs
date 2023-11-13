@@ -25,7 +25,7 @@ public class RootContainerConfigurationsExtensionOptionsFactory<TOptions> : Conf
         IEnumerable<IValidateOptions<TOptions>> validations)
         : base(configuration, configurationPrefix, definitions, setups, postConfigures, validations)
     {
-        if (typeof(TOptions).IsPerTenant())
+        if (typeof(TOptions).IsPerTenantDecoratedClass())
         {
             throw new CannotResolveTenantConfigurationFromRootContainer(typeof(TOptions));
         }

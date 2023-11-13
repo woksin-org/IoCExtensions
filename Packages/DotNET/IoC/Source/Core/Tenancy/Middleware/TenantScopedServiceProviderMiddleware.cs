@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Woksin.Extensions.IoC.Tenancy.Middleware;
 
@@ -14,7 +15,7 @@ namespace Woksin.Extensions.IoC.Tenancy.Middleware;
 public partial class TenantScopedServiceProviderMiddleware
 {
     readonly RequestDelegate _next;
-    readonly ILogger<TenantScopedServiceProviderMiddleware> _logger;
+
     static readonly IEnumerable<ICanGetTenantIdFromHttpContext> _defaultStrategies = new[]
     {
         TenantIdFromHeaderStrategy.Default
@@ -24,11 +25,9 @@ public partial class TenantScopedServiceProviderMiddleware
     /// Initializes a new instance of the <see cref="TenantScopedServiceProviderMiddleware"/> class.
     /// </summary>
     /// <param name="next">The <see cref="RequestDelegate"/>.</param>
-    /// <param name="logger">The <see cref="ILogger"/>.</param>
-    public TenantScopedServiceProviderMiddleware(RequestDelegate next, ILogger<TenantScopedServiceProviderMiddleware> logger)
+    public TenantScopedServiceProviderMiddleware(RequestDelegate next)
     {
         _next = next;
-        _logger = logger;
     }
 
     /// <summary>
@@ -38,39 +37,93 @@ public partial class TenantScopedServiceProviderMiddleware
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task InvokeAsync(HttpContext context)
     {
-        var serviceProvider = context.RequestServices;
-        var tenantIdRetrieverStrategies = serviceProvider.GetService<IEnumerable<ICanGetTenantIdFromHttpContext>>()?.ToList();
-        if (tenantIdRetrieverStrategies?.Any() != true)
-        {
-            tenantIdRetrieverStrategies = _defaultStrategies.ToList();
-        }
-        TenantId? tenantId = null;
-        foreach (var strategy in tenantIdRetrieverStrategies)
-        {
-            var result = await strategy.GetAsync(context).ConfigureAwait(false);
-            if (!result.Success)
-            {
-                continue;
-            }
-            tenantId = result.TenantId;
-            break;
-        }
+        var logger = context.RequestServices.GetService<ILogger<TenantScopedServiceProviderMiddleware>>() ?? NullLogger<TenantScopedServiceProviderMiddleware>.Instance;
+        var tenantId = await ResolveTenantId(context, logger).ConfigureAwait(false);
         if (tenantId is null)
         {
-            NoResolvedTenantId();
+            LogNoResolvedTenantId(logger);
             await _next(context).ConfigureAwait(false);
             return;
         }
-
-        var scope = serviceProvider.GetTenantScopedProvider(tenantId).CreateAsyncScope();
+        LogResolvedTenantId(logger, tenantId);
+        var scope = context.RequestServices.GetTenantScopedProvider(tenantId).CreateAsyncScope();
         await using var _ = scope.ConfigureAwait(false);
         context.RequestServices = scope.ServiceProvider;
         await _next(context).ConfigureAwait(false);
     }
 
-    [LoggerMessage(0, LogLevel.Debug, "Resolved tenant id {TenantId} from Http Context")]
-    partial void ResolvedTenantId(TenantId tenantId);
+    static async Task<TenantId?> ResolveTenantId(HttpContext context, ILogger logger)
+    {
+        var tenantIdStrategies = context.RequestServices.GetRequiredService<IEnumerable<ICanGetTenantIdFromHttpContext>>().ToArray();
+        var tenantIdFilters = context.RequestServices.GetRequiredService<IEnumerable<ITenantIdFilter>>().ToArray();
+        if (tenantIdStrategies?.Any() != true)
+        {
+            tenantIdStrategies = _defaultStrategies.ToArray();
+        }
+
+        foreach (var strategy in tenantIdStrategies)
+        {
+            var tenantId = await TryGetTenantId(strategy, context, logger).ConfigureAwait(false);
+            if (tenantId is null)
+            {
+                continue;
+            }
+            if (await ShouldUseTenantId(tenantIdFilters, context, tenantId, logger).ConfigureAwait(false))
+            {
+                return tenantId;
+            }
+        }
+        return null;
+    }
+
+    static async Task<TenantId?> TryGetTenantId(ICanGetTenantIdFromHttpContext strategy, HttpContext context, ILogger logger)
+    {
+        try
+        {
+            var result = await strategy.GetAsync(context).ConfigureAwait(false);
+            return result.TenantId;
+        }
+        catch (Exception ex)
+        {
+            LogErrorGettingTenantId(logger, ex, strategy.GetType());
+            return null;
+        }
+    }
+
+    static async Task<bool> ShouldUseTenantId(IEnumerable<ITenantIdFilter> tenantIdFilters, HttpContext context, TenantId tenantId, ILogger logger)
+    {
+        try
+        {
+            var filterResults = await Task.WhenAll(tenantIdFilters.Select(filter => filter.Filter(context, tenantId))).ConfigureAwait(false);
+            if (filterResults.All(r => r.Include))
+            {
+                return true;
+            }
+            foreach (var (_, excludeReason) in filterResults.Where(result => !result.Include))
+            {
+                LogTenantIdExcluded(logger, tenantId, excludeReason);
+            }
+        }
+        catch (Exception e)
+        {
+            LogErrorFilteringTenantId(logger, e, tenantId);
+        }
+
+        return false;
+    }
+
+    [LoggerMessage(0, LogLevel.Debug, "Resolved tenant id {TenantId} from Http Context. Using it as the tenant scoped service provider.")]
+    static partial void LogResolvedTenantId(ILogger logger, TenantId tenantId);
 
     [LoggerMessage(1, LogLevel.Warning, "No tenant id resolved. Tenant scoped provider is not being used for this request")]
-    partial void NoResolvedTenantId();
+    static partial void LogNoResolvedTenantId(ILogger logger);
+
+    [LoggerMessage(2, LogLevel.Warning, "An error occurred while resolving tenant id. {StrategyType} failed with an error")]
+    static partial void LogErrorGettingTenantId(ILogger logger, Exception error, Type strategyType);
+
+    [LoggerMessage(3, LogLevel.Warning, "An error occurred while filtering tenant id {TenantId}")]
+    static partial void LogErrorFilteringTenantId(ILogger logger, Exception error, TenantId tenantId);
+
+    [LoggerMessage(4, LogLevel.Warning, "Tenant id {TenantId} is excluded by tenant id filter. {ExclusionReason}")]
+    static partial void LogTenantIdExcluded(ILogger logger, TenantId tenantId, string exclusionReason);
 }
