@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Reflection;
+using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Woksin.Extensions.IoC.Microsoft.Tenancy;
@@ -28,7 +29,7 @@ public static class HostBuilderExtensions
 		string entryAssemblyName,
 	    Action<IoCSettings>? configureOptions = default,
 	    Action<IServiceCollection>? configureContainer = default) =>
-        UseMicrosoftIoC(builder, _ => IoCOptionsConfigurator.Configure(_, entryAssemblyName, configureOptions), configureContainer);
+        UseMicrosoftIoC(builder, services => IoCOptionsConfigurator.Configure(services, entryAssemblyName, configureOptions), configureContainer);
 
 	/// <summary>
     /// Use the Microsoft IoC implementation.
@@ -43,7 +44,7 @@ public static class HostBuilderExtensions
 		Assembly entryAssembly,
 		Action<IoCSettings>? configureOptions = default,
 		Action<IServiceCollection>? configureContainer = default) =>
-        UseMicrosoftIoC(builder, _ => IoCOptionsConfigurator.Configure(_, entryAssembly, configureOptions), configureContainer);
+        UseMicrosoftIoC(builder, services => IoCOptionsConfigurator.Configure(services, entryAssembly, configureOptions), configureContainer);
 
     static IHostBuilder UseMicrosoftIoC(
         IHostBuilder builder,
@@ -54,6 +55,7 @@ public static class HostBuilderExtensions
             {
                 addIocExtensionsOptions(services);
                 services.AddSingleton<ICreateTenantScopedProviders, TenantScopedProviderCreator>();
+                services.AddTenantIdJsonConverter();
             })
             .UseServiceProviderFactory(new ServiceProviderFactory(configureContainer));
 }

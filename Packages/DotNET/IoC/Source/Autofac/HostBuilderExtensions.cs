@@ -29,7 +29,7 @@ public static class HostBuilderExtensions
 		string entryAssemblyName,
 		Action<IoCSettings>? configureOptions = default,
 		Action<ContainerBuilder>? configureContainer = default) => UseAutofacIoC(
-        builder, _ => IoCOptionsConfigurator.Configure(_, entryAssemblyName, configureOptions), configureContainer);
+        builder, services => IoCOptionsConfigurator.Configure(services, entryAssemblyName, configureOptions), configureContainer);
 
     /// <summary>
     /// Use the Autofac IoC implementation.
@@ -44,7 +44,7 @@ public static class HostBuilderExtensions
         Assembly entryAssembly,
         Action<IoCSettings>? configureOptions = default,
         Action<ContainerBuilder>? configureContainer = default) => UseAutofacIoC(
-        builder, _ => IoCOptionsConfigurator.Configure(_, entryAssembly, configureOptions), configureContainer);
+        builder, services => IoCOptionsConfigurator.Configure(services, entryAssembly, configureOptions), configureContainer);
 
     static IHostBuilder UseAutofacIoC(
         IHostBuilder builder,
@@ -55,6 +55,7 @@ public static class HostBuilderExtensions
             {
                 addIocExtensionsOptions(services);
                 services.AddSingleton<ICreateTenantScopedProviders, TenantScopedProviderCreator>();
+                services.AddTenantIdJsonConverter();
             })
             .UseServiceProviderFactory(new ServiceProviderFactory(configureContainer));
 }
