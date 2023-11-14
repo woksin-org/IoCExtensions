@@ -1,6 +1,8 @@
 // Copyright (c) woksin-org. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.ComponentModel;
+
 namespace Woksin.Extensions.IoC.Tenancy;
 
 /// <summary>
@@ -9,6 +11,11 @@ namespace Woksin.Extensions.IoC.Tenancy;
 /// <param name="Value"></param>
 public record TenantId(string Value)
 {
+    static TenantId()
+    {
+        TypeDescriptor.AddAttributes(typeof(TenantId), new TypeConverterAttribute(typeof(TenantIdTypeConverter)));
+    }
+
     public static implicit operator string(TenantId tenantId) => tenantId.Value;
     public static implicit operator TenantId(string tenantId) => new(tenantId);
 
