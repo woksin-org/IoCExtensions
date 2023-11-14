@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddTenantIdFilterConfiguration();
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(options =>
