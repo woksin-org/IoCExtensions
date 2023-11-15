@@ -37,7 +37,7 @@ public static class TenantIdJsonConverterExtensions
     /// Adds a <see cref="TenantIdJsonConverter"/> to the <see cref="JsonSerializerOptions"/>.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/>.</param>
-    /// <returns>The <see cref="services"/>.</returns>
+    /// <returns>The <see cref="IServiceCollection"/> builder for continuation.</returns>
     /// <remarks>
     /// This method adds the <see cref="TenantIdJsonConverter"/> to both <see cref="Microsoft.AspNetCore.Mvc.JsonOptions"/> and <see cref="Microsoft.AspNetCore.Http.Json.JsonOptions"/>
     /// so that it is used when serializing/deserializing <see cref="TenantId"/> in both MVC and API controllers.

@@ -85,8 +85,8 @@ public static class ServiceCollectionExtensions
     /// Adds the <see cref="TenantIdFilterOptions"/> tenant id filter configuration to be used when getting the tenant scoped <see cref="IServiceProvider"/>.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/>.</param>
-    /// <param name="configurationPath">The configuration path to bind <see cref="TFilterOptions"/> to.</param>
-    /// <param name="configureOptions">The optional callback for configuring <see cref="TFilterOptions"/>.</param>
+    /// <param name="configurationPath">The configuration path to bind <typeparamref name="TFilterOptions"/> to.</param>
+    /// <param name="configureOptions">The optional callback for configuring <typeparamref name="TFilterOptions"/>.</param>
     /// <typeparam name="TFilterOptions">The type of the <see cref="ITenantIdFilter" /> tenant id filter to add.</typeparam>
     /// <returns>The builder for continuation.</returns>
     public static IServiceCollection AddTenantIdFilterConfiguration<TFilterOptions>(this IServiceCollection services, string configurationPath, Action<TFilterOptions>? configureOptions = null)

@@ -12,12 +12,12 @@ public class TenantIdFilterOptions : ITenantIdFilterOptions
     /// <summary>
     /// Gets or sets the included tenant ids.
     /// </summary>
-    public List<TenantId> Included { get; set; } = new();
+    public IList<TenantId> Included { get; set; } = new List<TenantId>();
 
     /// <summary>
     /// Gets or sets the included tenant ids.
     /// </summary>
-    public List<TenantId> Excluded { get; set; } = new();
+    public IList<TenantId> Excluded { get; set; } = new List<TenantId>();
 
     /// <inheritdoc />
     public IReadOnlySet<TenantId> ToInclude => Included.ToHashSet();
