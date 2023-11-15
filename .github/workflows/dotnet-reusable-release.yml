@@ -18,7 +18,7 @@ on:
         description: The list of versions of .NET to build with
         type: string
         default: |
-          7.0.x
+          8.0.x
       release-branches:
         description: The list of release versions
         type: string
