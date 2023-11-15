@@ -29,7 +29,7 @@ public sealed class ConfigurationAttribute : Attribute
     public ConfigurationAttribute(BinderOptions binderOptions, string configurationPathFirstPart, params string[] configurationPathRestParts)
     {
         ConfigurationPath = configurationPathFirstPart;
-        if (configurationPathRestParts.Any())
+        if (configurationPathRestParts.Length > 0)
         {
             ConfigurationPath = Microsoft.Extensions.Configuration.ConfigurationPath.Combine(
             ConfigurationPath,

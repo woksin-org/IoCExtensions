@@ -9,14 +9,14 @@ using IServiceCollection = Microsoft.Extensions.DependencyInjection.IServiceColl
 namespace Woksin.Extensions.IoC.Autofac.Tenancy;
 
 /// <summary>
-/// Extension methods for <see cref="Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+/// Extension methods for <see cref="IServiceCollection"/>.
 /// </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>
     /// Add tenant scoped services.
     /// </summary>
-    /// <param name="services">The root <see cref="Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.</param>
+    /// <param name="services">The root <see cref="IServiceCollection"/>.</param>
     /// <param name="configureTenantServices">The callback to configure tne tenant scoped services.</param>
     /// <returns>The builder for continuation.</returns>
     public static IServiceCollection AddTenantScopedServices(this IServiceCollection services, Action<ContainerBuilder> configureTenantServices)

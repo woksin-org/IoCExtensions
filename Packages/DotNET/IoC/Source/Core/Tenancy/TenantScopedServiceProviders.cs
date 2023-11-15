@@ -9,22 +9,14 @@ namespace Woksin.Extensions.IoC.Tenancy;
 /// <summary>
 /// Represents an implementation of <see cref="ITenantScopedServiceProviders" />.
 /// </summary>
-public sealed class TenantScopedServiceProviders : ITenantScopedServiceProviders
+/// <remarks>
+/// Initializes a new instance of the <see cref="TenantScopedServiceProviders"/> class.
+/// </remarks>
+public sealed class TenantScopedServiceProviders(IServiceProvider rootProvider, ICreateTenantScopedProviders tenantScopedProviderCreator) : ITenantScopedServiceProviders
 {
-    readonly IServiceProvider _rootProvider;
+    readonly IServiceProvider _rootProvider = rootProvider;
     readonly ConcurrentDictionary<TenantId, IServiceProvider> _serviceProviders = new();
-    readonly ICreateTenantScopedProviders _tenantScopedProviderCreator;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="TenantScopedServiceProviders"/> class.
-    /// </summary>
-    /// <param name="rootProvider">The root <see cref="IServiceProvider"/>.</param>
-    /// <param name="tenantScopedProviderCreator">The <see cref="ICreateTenantScopedProviders"/>.</param>
-    public TenantScopedServiceProviders(IServiceProvider rootProvider, ICreateTenantScopedProviders tenantScopedProviderCreator)
-    {
-        _rootProvider = rootProvider;
-        _tenantScopedProviderCreator = tenantScopedProviderCreator;
-    }
+    readonly ICreateTenantScopedProviders _tenantScopedProviderCreator = tenantScopedProviderCreator;
 
     /// <inheritdoc />
     public IServiceProvider ForTenant(TenantId tenant)

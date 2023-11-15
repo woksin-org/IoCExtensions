@@ -36,15 +36,8 @@ class CollectionRegistrationSource : IRegistrationSource, IPerScopeRegistrationS
         Justification = "Activator lifetime controlled by registry.")]
     public IEnumerable<IComponentRegistration> RegistrationsFor(Service service, Func<Service, IEnumerable<ServiceRegistration>> registrationAccessor)
     {
-        if (service == null)
-        {
-            throw new ArgumentNullException(nameof(service));
-        }
-
-        if (registrationAccessor == null)
-        {
-            throw new ArgumentNullException(nameof(registrationAccessor));
-        }
+        ArgumentNullException.ThrowIfNull(service);
+        ArgumentNullException.ThrowIfNull(registrationAccessor);
 
         if (service is not IServiceWithType swt || service is DecoratorService)
         {
@@ -156,7 +149,7 @@ class CollectionRegistrationSource : IRegistrationSource, IPerScopeRegistrationS
     {
         var parameter = Expression.Parameter(typeof(int));
         var genericType = typeof(List<>).MakeGenericType(elementType);
-        var constructor = genericType.GetMatchingConstructor(new[] { typeof(int) });
+        var constructor = genericType.GetMatchingConstructor([typeof(int)]);
 
         // We know that List<> has the constructor we need.
         var newList = Expression.New(constructor!, parameter);

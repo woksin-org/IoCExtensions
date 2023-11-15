@@ -56,7 +56,7 @@ public partial class TenantScopedServiceProviderMiddleware
     {
         var tenantIdStrategies = context.RequestServices.GetRequiredService<IEnumerable<ICanGetTenantIdFromHttpContext>>().ToArray();
         var tenantIdFilters = context.RequestServices.GetRequiredService<IEnumerable<ITenantIdFilter>>().ToArray();
-        if (tenantIdStrategies?.Any() != true)
+        if (tenantIdStrategies.Length == 0)
         {
             tenantIdStrategies = _defaultStrategies.ToArray();
         }

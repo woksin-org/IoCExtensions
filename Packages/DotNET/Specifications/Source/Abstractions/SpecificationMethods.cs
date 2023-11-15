@@ -1,6 +1,7 @@
 // Copyright (c) woksin-org. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Collections.ObjectModel;
 using System.Reflection;
 
 // ReSharper disable StaticMemberInGenericType
@@ -51,7 +52,7 @@ public static class SpecificationMethods<TTest, TSpecification>
     {
         foreach (var method in methods)
         {
-            var result = method.Invoke(unit, Array.Empty<object>());
+            var result = method.Invoke(unit, []);
             if (result is Task taskResult)
             {
                 await taskResult;
@@ -59,7 +60,7 @@ public static class SpecificationMethods<TTest, TSpecification>
         }
     }
 
-    static IEnumerable<MethodInfo> GetMethodsFor(string name, bool derivedFirst)
+    static ReadOnlyCollection<MethodInfo> GetMethodsFor(string name, bool derivedFirst)
     {
         var type = typeof(TTest);
         var methods = new List<MethodInfo>();
@@ -77,6 +78,6 @@ public static class SpecificationMethods<TTest, TSpecification>
             type = type.BaseType;
         }
 
-        return methods;
+        return methods.AsReadOnly();
     }
 }

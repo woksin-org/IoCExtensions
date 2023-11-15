@@ -10,24 +10,16 @@ namespace Woksin.Extensions.IoC.Autofac.Tenancy;
 /// <summary>
 /// Represents a default implementation of <see cref="TenantScopedProviderCreator{T}"/> providing tenant scoped container by utilizing Autofac.
 /// </summary>
-sealed class TenantScopedProviderCreator : TenantScopedProviderCreator<AutofacServiceProvider>
+sealed class TenantScopedProviderCreator(
+    IEnumerable<ConfigureTenantServices> serviceConfigurations,
+    IEnumerable<ConfigureTenantContainer> containerConfigurations) : TenantScopedProviderCreator<AutofacServiceProvider>(serviceConfigurations)
 {
-    readonly IEnumerable<ConfigureTenantContainer> _containerConfigurations;
-
-    public TenantScopedProviderCreator(
-        IEnumerable<ConfigureTenantServices> serviceConfigurations,
-        IEnumerable<ConfigureTenantContainer> containerConfigurations)
-        : base(serviceConfigurations)
-    {
-        _containerConfigurations = containerConfigurations;
-    }
-
     /// <inheritdoc />
     protected override IServiceProvider CreateFromContainer(AutofacServiceProvider container, TenantId tenant, IServiceCollection tenantServices)
         => new AutofacServiceProvider(container.LifetimeScope.BeginLifetimeScope(builder =>
         {
             builder.Populate(tenantServices);
-            foreach (var configure in _containerConfigurations)
+            foreach (var configure in containerConfigurations)
             {
                 configure?.Invoke(tenant, builder);
             }

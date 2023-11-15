@@ -95,7 +95,7 @@ static class ContainerBuilderExtensions
 			? GetOpenGenericType(service)
 			: service;
 
-    static IEnumerable<Type> GetImplementedInterfaces(Type type)
+    static Type[] GetImplementedInterfaces(Type type)
     {
 	    var interfaces = type.GetInterfaces().Where(i => i != typeof(IDisposable));
 	    return type.IsInterface ? interfaces.Append(type).ToArray() : interfaces.ToArray();

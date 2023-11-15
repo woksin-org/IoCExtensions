@@ -9,11 +9,11 @@ using Perfolizer.Horology;
 
 namespace Woksin.Extensions.IoC.Benchmarks;
 
-public class Program
+public static class Program
 {
     public static void Main(string[] args)
     {
-        var summary = BenchmarkRunner.Run(typeof(Program).Assembly, new ManualConfig()
+        BenchmarkRunner.Run(typeof(Program).Assembly, new ManualConfig()
         {
             SummaryStyle = SummaryStyle.Default
                 .WithRatioStyle(RatioStyle.Percentage)

@@ -20,13 +20,13 @@
         <RepositoryUrl>https://github.com/woksin-org/Woksin.Extensions</RepositoryUrl>
         <Authors>woksin</Authors>
         
-        <TargetFrameworks Condition="!$(MSBuildProjectName.Contains('Tests'))">net6.0;net7.0</TargetFrameworks>
+        <TargetFrameworks Condition="!$(MSBuildProjectName.Contains('Tests'))">net6.0;net7.0;net8.0</TargetFrameworks>
 
         <IsTestProject Condition="!$(MSBuildProjectName.Contains('Tests'))">false</IsTestProject>
         <IsPackable Condition="!$(MSBuildProjectName.Contains('Tests'))">true</IsPackable>
         <NoWarn Condition="!$(MSBuildProjectName.Contains('Tests'))">$(NoWarn);CS1591;CA2017;NU1507</NoWarn>
 
-        <TargetFramework Condition="$(MSBuildProjectName.Contains('Tests'))">net7.0</TargetFramework>
+        <TargetFramework Condition="$(MSBuildProjectName.Contains('Tests'))">net8.0</TargetFramework>
         <IsTestProject Condition="$(MSBuildProjectName.Contains('Tests'))">true</IsTestProject>
         <IsPackable Condition="$(MSBuildProjectName.Contains('Tests'))">false</IsPackable>
         <NoWarn Condition="$(MSBuildProjectName.Contains('Tests'))">$(NoWarn);CS1591;CA2017;NU1507;CS86404;CS8618;CS8604;CA1707;CA1051;RCS1213;MA0048;IDE0051</NoWarn>

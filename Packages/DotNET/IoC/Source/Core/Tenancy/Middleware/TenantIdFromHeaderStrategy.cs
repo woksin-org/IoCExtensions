@@ -36,7 +36,7 @@ public partial class TenantIdFromHeaderStrategy : TenantIdStrategy
     /// </summary>
     /// <param name="headers">The headers to first look for the <see cref="TenantId"/>.</param>
     /// <returns>The created <see cref="TenantIdStrategy"/>.</returns>
-    public static TenantIdFromHeaderStrategy DefaultWithHeaders(params string[] headers) => new(headers.Append(DefaultTenantIdHeader).ToArray());
+    public static TenantIdFromHeaderStrategy DefaultWithHeaders(params string[] headers) => new([.. headers, DefaultTenantIdHeader]);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TenantIdFromHeaderStrategy"/> class.
@@ -55,7 +55,7 @@ public partial class TenantIdFromHeaderStrategy : TenantIdStrategy
         foreach (var header in _headers)
         {
             LogTryingToGetTenantId(logger, header);
-            if (!context.Request.Headers.TryGetValue(header, out var tenantIdString) || !tenantIdString.Any())
+            if (!context.Request.Headers.TryGetValue(header, out var tenantIdString) || tenantIdString.Count == 0)
             {
                 continue;
             }

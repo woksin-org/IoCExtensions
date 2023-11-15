@@ -13,15 +13,9 @@ namespace Woksin.Extensions.IoC.Autofac;
 /// <summary>
 /// Represents an implementation of <see cref="IServiceProviderFactory{TContainerBuilder}"/> for the Autofac <see cref="ContainerBuilder"/> that sets up the Service Provider using Autofac.
 /// </summary>
-class ServiceProviderFactory : IoCExtensionsServiceProviderFactory<ContainerBuilder>
+class ServiceProviderFactory(Action<ContainerBuilder>? configureContainer) : IoCExtensionsServiceProviderFactory<ContainerBuilder>
 {
-	readonly Action<ContainerBuilder>? _configureContainer;
-	readonly AutofacServiceProviderFactory _factory = new();
-
-    public ServiceProviderFactory(Action<ContainerBuilder>? configureContainer)
-    {
-	    _configureContainer = configureContainer;
-    }
+    readonly AutofacServiceProviderFactory _factory = new();
 
     /// <inheritdoc />
     protected override ContainerBuilder CreateContainerBuilder(IServiceCollection services) =>
@@ -33,27 +27,27 @@ class ServiceProviderFactory : IoCExtensionsServiceProviderFactory<ContainerBuil
 	    DiscoveredServices<ContainerBuilder> discoveredServices)
     {
         discoveredServices.AdditionalServices.AddTenantScopedServices(builder => builder.RegisterClassesByLifecycle(
-            discoveredServices.ClassesToRegister.PerTenantSingletonClasses.ToArray(),
-            discoveredServices.ClassesToRegister.PerTenantScopedClasses.ToArray(),
-            discoveredServices.ClassesToRegister.PerTenantTransientClasses.ToArray()));
+            [.. discoveredServices.ClassesToRegister.PerTenantSingletonClasses],
+            [.. discoveredServices.ClassesToRegister.PerTenantScopedClasses],
+            [.. discoveredServices.ClassesToRegister.PerTenantTransientClasses]));
         discoveredServices.AdditionalServices.AddTenantScopedServices(builder => builder.RegisterClassesByLifecycleAsSelf(
-            discoveredServices.ClassesToRegisterAsSelf.PerTenantSingletonClasses.ToArray(),
-            discoveredServices.ClassesToRegisterAsSelf.PerTenantScopedClasses.ToArray(),
-            discoveredServices.ClassesToRegisterAsSelf.PerTenantTransientClasses.ToArray()));
+            [.. discoveredServices.ClassesToRegisterAsSelf.PerTenantSingletonClasses],
+            [.. discoveredServices.ClassesToRegisterAsSelf.PerTenantScopedClasses],
+            [.. discoveredServices.ClassesToRegisterAsSelf.PerTenantTransientClasses]));
 
         containerBuilder.RegisterClassesByLifecycle(
-            discoveredServices.ClassesToRegister.SingletonClasses.ToArray(),
-            discoveredServices.ClassesToRegister.ScopedClasses.ToArray(),
-            discoveredServices.ClassesToRegister.TransientClasses.ToArray());
+            [.. discoveredServices.ClassesToRegister.SingletonClasses],
+            [.. discoveredServices.ClassesToRegister.ScopedClasses],
+            [.. discoveredServices.ClassesToRegister.TransientClasses]);
 
         containerBuilder.RegisterClassesByLifecycleAsSelf(
-            discoveredServices.ClassesToRegisterAsSelf.SingletonClasses.ToArray(),
-            discoveredServices.ClassesToRegisterAsSelf.ScopedClasses.ToArray(),
-            discoveredServices.ClassesToRegisterAsSelf.TransientClasses.ToArray());
+            [.. discoveredServices.ClassesToRegisterAsSelf.SingletonClasses],
+            [.. discoveredServices.ClassesToRegisterAsSelf.ScopedClasses],
+            [.. discoveredServices.ClassesToRegisterAsSelf.TransientClasses]);
 
 	    containerBuilder.Populate(discoveredServices.AdditionalServices);
-        containerBuilder.RegisterAssemblyModules(discoveredServices.Assemblies.ToArray());
-        _configureContainer?.Invoke(containerBuilder);
+        containerBuilder.RegisterAssemblyModules([.. discoveredServices.Assemblies]);
+        configureContainer?.Invoke(containerBuilder);
         return _factory.CreateServiceProvider(containerBuilder);
     }
 }
