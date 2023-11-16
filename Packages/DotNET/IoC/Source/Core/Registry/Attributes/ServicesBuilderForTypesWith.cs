@@ -14,7 +14,7 @@ class ServicesBuilderForTypesWith<TAttribute, TContainerBuilder> : ICanAddServic
 	where TContainerBuilder : notnull
 {
 	readonly ICanAddServicesForTypesWith<TAttribute, TContainerBuilder> _builder;
-	readonly Dictionary<Type, IEnumerable<TAttribute>> _typesWithAttribute = new();
+	readonly Dictionary<Type, IEnumerable<TAttribute>> _typesWithAttribute = [];
 
     public ServicesBuilderForTypesWith(ICanAddServicesForTypesWith<TAttribute, TContainerBuilder> builder, IEnumerable<Type> discoveredClasses)
     {
@@ -22,7 +22,7 @@ class ServicesBuilderForTypesWith<TAttribute, TContainerBuilder> : ICanAddServic
         foreach (var type in discoveredClasses)
         {
             var attributes = Attribute.GetCustomAttributes(type, typeof(TAttribute)).Cast<TAttribute>().ToArray();
-            if (attributes.Any())
+            if (attributes.Length != 0)
             {
                 _typesWithAttribute.Add(type, attributes);
             }

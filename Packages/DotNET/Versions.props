@@ -1,0 +1,5 @@
+<Project>
+	<PropertyGroup>
+        <MicrosoftExtensionsVersion>8.0.0</MicrosoftExtensionsVersion>
+    </PropertyGroup>
+</Project>

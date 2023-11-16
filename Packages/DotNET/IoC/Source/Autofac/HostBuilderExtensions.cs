@@ -5,7 +5,9 @@ using System.Reflection;
 using Autofac;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Woksin.Extensions.IoC.Autofac.Tenancy;
 using Woksin.Extensions.IoC.Provider;
+using Woksin.Extensions.IoC.Tenancy;
 
 namespace Woksin.Extensions.IoC.Autofac;
 
@@ -27,7 +29,7 @@ public static class HostBuilderExtensions
 		string entryAssemblyName,
 		Action<IoCSettings>? configureOptions = default,
 		Action<ContainerBuilder>? configureContainer = default) => UseAutofacIoC(
-        builder, _ => IoCOptionsConfigurator.Configure(_, entryAssemblyName, configureOptions), configureContainer);
+        builder, services => IoCOptionsConfigurator.Configure(services, entryAssemblyName, configureOptions), configureContainer);
 
     /// <summary>
     /// Use the Autofac IoC implementation.
@@ -42,27 +44,18 @@ public static class HostBuilderExtensions
         Assembly entryAssembly,
         Action<IoCSettings>? configureOptions = default,
         Action<ContainerBuilder>? configureContainer = default) => UseAutofacIoC(
-        builder, _ => IoCOptionsConfigurator.Configure(_, entryAssembly, configureOptions), configureContainer);
-    
-    /// <summary>
-    /// Use the Autofac IoC implementation.
-    /// </summary>
-    /// <param name="builder">The <see cref="IHostBuilder"/> to modify.</param>
-    /// <param name="configureOptions">The callback for configuring <see cref="IoCSettings"/>.</param>
-    /// <param name="configureContainer">The callback for configuring <see cref="ContainerBuilder"/>.</param>
-    /// <returns>The <see cref="IHostBuilder"/> for continuation.</returns>
-    public static IHostBuilder UseAutofacIoC(
-        this IHostBuilder builder,
-        Action<IoCSettings>? configureOptions = default,
-        Action<ContainerBuilder>? configureContainer = default) => UseAutofacIoC(
-        builder, _ => IoCOptionsConfigurator.Configure(_, configureOptions), configureContainer);
-    
-    
+        builder, services => IoCOptionsConfigurator.Configure(services, entryAssembly, configureOptions), configureContainer);
+
     static IHostBuilder UseAutofacIoC(
         IHostBuilder builder,
         Action<IServiceCollection> addIocExtensionsOptions,
         Action<ContainerBuilder>? configureContainer) =>
         builder
-            .ConfigureServices((_, services) => addIocExtensionsOptions(services))
+            .ConfigureServices((_, services) =>
+            {
+                addIocExtensionsOptions(services);
+                services.AddSingleton<ICreateTenantScopedProviders, TenantScopedProviderCreator>();
+                services.AddTenantIdJsonConverter();
+            })
             .UseServiceProviderFactory(new ServiceProviderFactory(configureContainer));
 }

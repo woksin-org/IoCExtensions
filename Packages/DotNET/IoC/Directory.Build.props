@@ -5,4 +5,11 @@
 		<RootNamespace>Woksin.Extensions.IoC</RootNamespace>
         <AssemblyName>Woksin.Extensions.IoC</AssemblyName>
 	</PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" PrivateAssets="All"/>
+        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="All"/>
+        <PackageReference Include="Roslynator.Analyzers" PrivateAssets="All"/>
+        <PackageReference Include="Meziantou.Analyzer" PrivateAssets="All"/>
+    </ItemGroup>
 </Project>

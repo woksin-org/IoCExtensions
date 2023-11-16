@@ -6,6 +6,9 @@
     <RootNamespace>$(RootNamespace).Benchmarks</RootNamespace>
     <AssemblyName>$(AssemblyName).Benchmarks</AssemblyName>
     <IsPackable>false</IsPackable>
+
+    <WarningsAsErrors>false</WarningsAsErrors>
+    <RunAnalyzers>false</RunAnalyzers>
   </PropertyGroup>
 
   <ItemGroup>

@@ -16,6 +16,8 @@ static class GenericTypeExtensions
     /// <param name="type">The <see cref="Type"/> to get the implemented generic interface type from.</param>
     /// <param name="openGenericInterface">The open generic interface.</param>
     /// <returns>The generic type of an implemented generic interface.</returns>
+    /// <exception cref="TypeDoesNotImplementGenericInterface"></exception>
+    /// <exception cref="TypeImplementsGenericInterfaceMultipleTimes"></exception>
     public static Type GetImplementedGenericInterfaceFirstGenericArgumentType(this Type type, Type openGenericInterface)
     {
         var implementedInterfaces = type

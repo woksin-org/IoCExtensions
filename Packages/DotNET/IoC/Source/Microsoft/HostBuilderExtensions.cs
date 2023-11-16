@@ -4,7 +4,9 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Woksin.Extensions.IoC.Microsoft.Tenancy;
 using Woksin.Extensions.IoC.Provider;
+using Woksin.Extensions.IoC.Tenancy;
 
 namespace Woksin.Extensions.IoC.Microsoft;
 
@@ -26,7 +28,7 @@ public static class HostBuilderExtensions
 		string entryAssemblyName,
 	    Action<IoCSettings>? configureOptions = default,
 	    Action<IServiceCollection>? configureContainer = default) =>
-        UseMicrosoftIoC(builder, _ => IoCOptionsConfigurator.Configure(_,entryAssemblyName, configureOptions), configureContainer);
+        UseMicrosoftIoC(builder, services => IoCOptionsConfigurator.Configure(services, entryAssemblyName, configureOptions), configureContainer);
 
 	/// <summary>
     /// Use the Microsoft IoC implementation.
@@ -41,26 +43,18 @@ public static class HostBuilderExtensions
 		Assembly entryAssembly,
 		Action<IoCSettings>? configureOptions = default,
 		Action<IServiceCollection>? configureContainer = default) =>
-        UseMicrosoftIoC(builder, _ => IoCOptionsConfigurator.Configure(_, entryAssembly, configureOptions), configureContainer);
-    
-    /// <summary>
-    /// Use the Microsoft IoC implementation.
-    /// </summary>
-    /// <param name="builder">The <see cref="IHostBuilder"/> to modify.</param>
-    /// <param name="configureOptions">The callback for configuring <see cref="IoCSettings"/>.</param>
-    /// <param name="configureContainer">The callback for configuring <see cref="IServiceCollection"/>.</param>
-    /// <returns>The <see cref="IHostBuilder"/> for continuation.</returns>
-    public static IHostBuilder UseMicrosoftIoC(
-        this IHostBuilder builder,
-        Action<IoCSettings>? configureOptions = default,
-        Action<IServiceCollection>? configureContainer = default) =>
-        UseMicrosoftIoC(builder, _ => IoCOptionsConfigurator.Configure(_, configureOptions), configureContainer);
-    
+        UseMicrosoftIoC(builder, services => IoCOptionsConfigurator.Configure(services, entryAssembly, configureOptions), configureContainer);
+
     static IHostBuilder UseMicrosoftIoC(
         IHostBuilder builder,
         Action<IServiceCollection> addIocExtensionsOptions,
         Action<IServiceCollection>? configureContainer) =>
         builder
-            .ConfigureServices((_, services) => addIocExtensionsOptions(services))
+            .ConfigureServices((_, services) =>
+            {
+                addIocExtensionsOptions(services);
+                services.AddSingleton<ICreateTenantScopedProviders, TenantScopedProviderCreator>();
+                services.AddTenantIdJsonConverter();
+            })
             .UseServiceProviderFactory(new ServiceProviderFactory(configureContainer));
 }

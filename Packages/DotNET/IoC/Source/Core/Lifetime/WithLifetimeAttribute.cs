@@ -9,7 +9,7 @@ namespace Woksin.Extensions.IoC;
 /// Indicates the <see cref="ServiceLifetime" />
 /// </summary>
 [AttributeUsage(AttributeTargets.Class)]
-public class WithLifetimeAttribute : Attribute
+public sealed class WithLifetimeAttribute : Attribute
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WithLifetimeAttribute"/>-
@@ -23,6 +23,5 @@ public class WithLifetimeAttribute : Attribute
     /// <summary>
     /// Gets the <see cref="ServiceLifetime" />.
     /// </summary>
-    /// <value></value>
     public ServiceLifetime Lifetime { get; }
 }

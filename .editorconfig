@@ -84,6 +84,9 @@ dotnet_naming_symbols.public_symbols.applicable_accessibilities = public
 dotnet_naming_symbols.public_symbols.required_modifiers = readonly
 
 ## Specific rule suppression
+dotnet_diagnostic.CA1019.severity = none
+dotnet_diagnostic.CA1021.severity = none
+dotnet_diagnostic.CA1031.severity = none
 # CA1822: Mark members as static
 dotnet_diagnostic.CA1822.severity = none
 # CA2016: Forward the CancellationToken parameter to methods that take one
@@ -114,9 +117,12 @@ dotnet_diagnostic.CA1000.severity = none
 dotnet_diagnostic.RCS1018.severity = none
 # IDE0130: Namespace does not correspond to file location
 dotnet_diagnostic.IDE0130.severity = none
+dotnet_diagnostic.IDE0290.severity = none
 # IDE0058: Remove unnecessary expression value
 dotnet_diagnostic.IDE0058.severity = none
-
+# Implement standard exception constructors
+dotnet_diagnostic.CA1032.severity = none
+dotnet_diagnostic.CA1062.severity = none
 # IDE0160: Convert to file-scoped namespace
 csharp_style_namespace_declarations = file_scoped:warning
 

@@ -12,7 +12,11 @@ public class the_host : a_host_builder
 	{
 		host_builder.UseMicrosoftIoC(
 			entry_assembly,
-			_ => _.IgnoredBaseTypes.Add(typeof(IPartiallyClosedGenericService<,>)));
+			settings =>
+            {
+                settings.EnableRegistrationByConvention = true;
+                settings.IgnoredBaseTypes.Add(typeof(IPartiallyClosedGenericService<,>));
+            });
 		BuildHost();
 	}
 }

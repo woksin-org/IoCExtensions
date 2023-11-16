@@ -25,14 +25,14 @@ class ServiceProviderFactory : IoCExtensionsServiceProviderFactory<IServiceColle
     protected override IServiceCollection CreateContainerBuilder(IServiceCollection services) => services;
 
     /// <inheritdoc />
-    protected override IServiceProvider CreateServiceProvider(IServiceCollection containerBuilder,
+    protected override IServiceProvider CreateServiceProvider(
+        IServiceCollection containerBuilder,
 	    DiscoveredServices<IServiceCollection> discoveredServices)
     {
-        containerBuilder.Add(discoveredServices.AdditionalServices);
         containerBuilder.RegisterClassesByLifecycle(discoveredServices.ClassesToRegister);
         containerBuilder.RegisterClassesByLifecycleAsSelf(discoveredServices.ClassesToRegisterAsSelf);
+        containerBuilder.Add(discoveredServices.AdditionalServices);
         _configureServices?.Invoke(containerBuilder);
-        var provider = containerBuilder.BuildServiceProvider();
-        return provider;
+        return containerBuilder.BuildServiceProvider();
     }
 }

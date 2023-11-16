@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Woksin.Extensions.IoC.Provider;
 
 /// <summary>
-/// Represents methods for adding <see cref="IoCSettings"/> the the <see cref="IServiceCollection"/>. 
+/// Represents methods for adding <see cref="IoCSettings"/> the <see cref="IServiceCollection"/>.
 /// </summary>
 public static class IoCOptionsConfigurator
 {
@@ -22,14 +22,14 @@ public static class IoCOptionsConfigurator
 	{
 		services
 			.AddOptions<IoCSettings>()
-			.Configure(_ =>
+			.Configure(settings =>
 			{
-				_.AssemblySearchNamePrefix = entryAssembly;
-				configureOptions?.Invoke(_);
+				settings.AssemblySearchNamePrefix = entryAssembly;
+				configureOptions?.Invoke(settings);
 			});
 		return services;
 	}
-    
+
     /// <summary>
     /// Adds the <see cref="IoCSettings"/> configuration to the <see cref="IServiceCollection"/>.
     /// </summary>
@@ -37,25 +37,6 @@ public static class IoCOptionsConfigurator
     /// <param name="entryAssembly">The entry point assembly.</param>
     /// <param name="configureOptions">The optional callback for configuring the <see cref="IoCSettings"/>.</param>
     /// <returns>The builder for continuation.</returns>
-	public static IServiceCollection Configure(IServiceCollection services, Assembly entryAssembly, Action<IoCSettings>? configureOptions = default)
-	{
-		services
-			.AddOptions<IoCSettings>()
-			.Configure(_ =>
-			{
-				_.AssemblySearchNamePrefix = entryAssembly.GetName().Name!;
-				configureOptions?.Invoke(_);
-			});
-		return services;
-	}
-
-    
-    /// <summary>
-    /// Adds the <see cref="IoCSettings"/> configuration to the <see cref="IServiceCollection"/>.
-    /// </summary>
-    /// <param name="services">The service collection.</param>
-    /// <param name="configureOptions">The optional callback for configuring the <see cref="IoCSettings"/>.</param>
-    /// <returns>The builder for continuation.</returns>
-    public static IServiceCollection Configure(IServiceCollection services, Action<IoCSettings>? configureOptions = default) =>
-        Configure(services, Assembly.GetExecutingAssembly(), configureOptions);
+    public static IServiceCollection Configure(IServiceCollection services, Assembly entryAssembly, Action<IoCSettings>? configureOptions = default)
+        => Configure(services, entryAssembly.GetName().Name!, configureOptions);
 }

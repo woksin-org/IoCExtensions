@@ -3,7 +3,6 @@
 
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using Woksin.Extensions.IoC.Lifetime;
 
 namespace Woksin.Extensions.IoC;
 
@@ -27,14 +26,14 @@ public class IoCSettings
 	/// Gets the list of additional assemblies to include in the search.
 	/// </summary>
     public IList<Assembly> AdditionalAssemblies { get; } = new List<Assembly>();
-    
+
 	/// <summary>
-	/// Gets the assembly names to ignore. 
+	/// Gets the assembly names to ignore.
 	/// </summary>
 	public IList<string> IgnoredAssemblyNames { get; } = new List<string>();
 
 	/// <summary>
-	/// Gets the assembly names to ignore. 
+	/// Gets the assembly names to ignore.
 	/// </summary>
 	public IList<Assembly> IgnoredAssemblies { get; } = new List<Assembly>();
 
@@ -42,17 +41,16 @@ public class IoCSettings
 	/// Gets the types to ignore. Every class implementing one of these types will be ignored.
 	/// </summary>
 	public IList<Type> IgnoredBaseTypes { get; } = new List<Type>();
-	
+
 	/// <summary>
 	/// Gets or sets the default fallback <see cref="ServiceLifetime"/> for services that will be automatically registered.
 	/// </summary>
 	public ServiceLifetime DefaultLifetime { get; set; } = ServiceLifetime.Scoped;
 
-	/// <summary>
-	/// Gets or sets the value indicating whether to disable automatic registration of services by convention.
-	/// If set to true only services with <see cref="WithLifetimeAttribute"/>, <see cref="RegisterAsSelfAttribute" /> and services added through
-	/// <see cref="ICanAddServices{TContainerBuilder}" /> and <see cref="ICanAddServicesForTypesWith{TAttribute, TContainerBuilder}" /> will be registered in the service provider.
-	/// </summary>
-	public bool DisableRegistrationByConvention { get; set; }
-
+    /// <summary>
+    /// Gets or sets the value indicating whether to enable automatic registration of services by convention.
+    /// If set to false only services with <see cref="WithLifetimeAttribute"/>, <see cref="RegisterAsSelfAttribute" /> and services added through
+    /// <see cref="ICanAddServices{TContainerBuilder}" /> and <see cref="ICanAddServicesForTypesWith{TAttribute, TContainerBuilder}" /> will be registered in the service provider.
+    /// </summary>
+    public bool EnableRegistrationByConvention { get; set; }
 }

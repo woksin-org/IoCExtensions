@@ -11,10 +11,6 @@ namespace Woksin.Extensions.IoC.Registry.Types;
 /// </summary>
 static class TypeScanner
 {
-    /// <summary>
-    /// Scans all the Runtime assemblies to find exported classes.
-    /// </summary>
-    /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Type"/> with all classes in Runtime assemblies.</returns>
     public static IEnumerable<Type> GetAllExportedTypesInRuntimeAssemblies(IoCSettings settings, out IEnumerable<Assembly> assemblies)
     {
 	    var assembliesUsed = new List<Assembly>();
@@ -22,10 +18,10 @@ static class TypeScanner
             _ => { },
             assembly => !string.IsNullOrEmpty(assembly.FullName) && assembly.FullName.StartsWith(settings.AssemblySearchNamePrefix, StringComparison.InvariantCulture)
                         && settings.IgnoredAssemblies.All(ignoredAssembly => assembly != ignoredAssembly)
-                        && settings.IgnoredAssemblyNames.All(_ => !assembly.FullName.StartsWith(_, StringComparison.InvariantCulture)),
+                        && settings.IgnoredAssemblyNames.All(ignoredName => !assembly.FullName.StartsWith(ignoredName, StringComparison.InvariantCulture)),
             true));
         assembliesUsed.AddRange(settings.AdditionalAssemblies);
         assemblies = assembliesUsed;
-        return assemblies.SelectMany(_ => _.ExportedTypes).Where(_ => _ is { IsClass: true, IsAbstract: false });
+        return assemblies.SelectMany(assembly => assembly.ExportedTypes).Where(assembly => assembly is { IsClass: true, IsAbstract: false });
     }
 }
