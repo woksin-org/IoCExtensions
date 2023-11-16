@@ -8,6 +8,7 @@
 
 	<ItemGroup>
         <ProjectReference Include="..\Source\Autofac\IoC.Autofac.csproj" />
+        <ProjectReference Include="..\Source\Core\IoC.Core.csproj" />
         <ProjectReference Include="..\Source\Microsoft\IoC.Microsoft.csproj" />
         <ProjectReference Include="..\..\Specifications\Source\XUnit\Specifications.XUnit.csproj" />
 	</ItemGroup>

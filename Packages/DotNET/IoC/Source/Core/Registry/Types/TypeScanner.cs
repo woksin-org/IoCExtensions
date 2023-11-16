@@ -18,10 +18,10 @@ static class TypeScanner
             _ => { },
             assembly => !string.IsNullOrEmpty(assembly.FullName) && assembly.FullName.StartsWith(settings.AssemblySearchNamePrefix, StringComparison.InvariantCulture)
                         && settings.IgnoredAssemblies.All(ignoredAssembly => assembly != ignoredAssembly)
-                        && settings.IgnoredAssemblyNames.All(_ => !assembly.FullName.StartsWith(_, StringComparison.InvariantCulture)),
+                        && settings.IgnoredAssemblyNames.All(ignoredName => !assembly.FullName.StartsWith(ignoredName, StringComparison.InvariantCulture)),
             true));
         assembliesUsed.AddRange(settings.AdditionalAssemblies);
         assemblies = assembliesUsed;
-        return assemblies.SelectMany(_ => _.ExportedTypes).Where(_ => _ is { IsClass: true, IsAbstract: false });
+        return assemblies.SelectMany(assembly => assembly.ExportedTypes).Where(assembly => assembly is { IsClass: true, IsAbstract: false });
     }
 }

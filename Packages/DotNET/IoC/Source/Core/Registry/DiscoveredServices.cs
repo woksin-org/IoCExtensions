@@ -1,6 +1,7 @@
 ﻿// Copyright (c) woksin-org. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Collections.ObjectModel;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Woksin.Extensions.IoC.Registry.Attributes;
@@ -16,30 +17,28 @@ namespace Woksin.Extensions.IoC.Registry;
 public sealed class DiscoveredServices<TContainerBuilder>
 	where TContainerBuilder : notnull
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DiscoveredServices{TContainerBuilder}"/> class.
-    /// </summary>
-    /// <param name="settings">The options.</param>
-    /// <param name="builder">The container builder.</param>
 	internal DiscoveredServices(IoCSettings settings, TContainerBuilder builder)
-	{
-		AdditionalServices = new ServiceCollection();
-        AdditionalServices.AddDefaultMultiTenancyServices();
-		// ReSharper disable PossibleMultipleEnumeration
-		var discoveredClasses = TypeScanner.GetAllExportedTypesInRuntimeAssemblies(settings, out var assemblies);
-		var groupedClassesToRegisterAsSelf =
-			ClassesByLifeTime.Create(
-				settings.DefaultLifetime,
-				discoveredClasses.Where(type => Attribute.IsDefined(type, typeof(RegisterAsSelfAttribute))));
-		discoveredClasses = IgnoreTypes(settings, discoveredClasses);
-		discoveredClasses = FilterServiceAdders(discoveredClasses, builder);
-		discoveredClasses = discoveredClasses.IgnoreClassesWithAttribute<DisableAutoRegistrationAttribute>();
-		ClassesToRegister = ClassesByLifeTime.Create(
-			settings.DefaultLifetime,
-			discoveredClasses.Where(type => settings.EnableRegistrationByConvention || Attribute.IsDefined(type, typeof(WithLifetimeAttribute))));
-		ClassesToRegisterAsSelf = groupedClassesToRegisterAsSelf;
-		Assemblies = assemblies.ToArray();
+	    : this(TypeScanner.GetAllExportedTypesInRuntimeAssemblies(settings, out var assemblies), assemblies, settings, builder)
+    {
 	}
+
+    public DiscoveredServices(IEnumerable<Type> types, IEnumerable<Assembly> assemblies, IoCSettings settings, TContainerBuilder builder)
+    {
+        AdditionalServices = new ServiceCollection();
+        AdditionalServices.AddDefaultMultiTenancyServices();
+        var groupedClassesToRegisterAsSelf =
+            ClassesByLifeTime.Create(
+                settings.DefaultLifetime,
+                types.Where(type => Attribute.IsDefined(type, typeof(RegisterAsSelfAttribute))));
+        types = IgnoreTypes(settings, types);
+        types = FilterServiceAdders(types, builder);
+        types = types.IgnoreClassesWithAttribute<DisableAutoRegistrationAttribute>();
+        ClassesToRegister = ClassesByLifeTime.Create(
+            settings.DefaultLifetime,
+            types.Where(type => settings.EnableRegistrationByConvention || Attribute.IsDefined(type, typeof(WithLifetimeAttribute))));
+        ClassesToRegisterAsSelf = groupedClassesToRegisterAsSelf;
+        Assemblies = new ReadOnlyCollection<Assembly>(assemblies.ToArray());
+    }
 
 	/// <summary>
 	/// Gets the additional <see cref="IServiceCollection"/> to register.
