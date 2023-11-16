@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695040188654,
+  "lastUpdate": 1700147632599,
   "repoUrl": "https://github.com/woksin-org/Woksin.Extensions",
   "entries": {
     "Woksin.Extensions.IoC Benchmarks": [
@@ -504,6 +504,42 @@ window.BENCHMARK_DATA = {
             "value": 74603.01587301587,
             "unit": "ns",
             "range": "± 3403.175867276763"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "woksin@users.noreply.github.com",
+            "name": "Sindre Alstad Wilting",
+            "username": "woksin"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0cb7c0ced72448abb69abc793f28ee0e74621ec6",
+          "message": "Merge pull request #25 from woksin-org/mulit-tenancy\n\nMulit tenancy support",
+          "timestamp": "2023-11-16T16:12:57+01:00",
+          "tree_id": "651a3528cda12cb44cf40ca73eb7081798495545",
+          "url": "https://github.com/woksin-org/Woksin.Extensions/commit/0cb7c0ced72448abb69abc793f28ee0e74621ec6"
+        },
+        "date": 1700147631503,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "Woksin.Extensions.IoC.Benchmarks.BuildHost.MicrosoftIoC",
+            "value": 6348268.533333333,
+            "unit": "ns",
+            "range": "± 85983.86181958522"
+          },
+          {
+            "name": "Woksin.Extensions.IoC.Benchmarks.BuildHost.AutofacIoC",
+            "value": 25210591.180851065,
+            "unit": "ns",
+            "range": "± 2217973.753075836"
           }
         ]
       }
