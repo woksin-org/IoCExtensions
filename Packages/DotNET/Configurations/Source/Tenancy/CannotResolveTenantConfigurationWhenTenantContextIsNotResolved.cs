@@ -4,11 +4,11 @@
 namespace Woksin.Extensions.Configurations.Tenancy;
 
 /// <summary>
-/// Exception that gets thrown when options for a tenant configuration is being resolved from the root container.
+/// Exception that gets thrown when options for a tenant configuration is being resolved when the current tenant context is not set.
 /// </summary>
-public class CannotResolveTenantConfigurationFromRootContainer : Exception
+public class CannotResolveTenantConfigurationWhenTenantContextIsNotResolved : Exception
 {
-    public CannotResolveTenantConfigurationFromRootContainer(Type tenantConfigurationType)
+    public CannotResolveTenantConfigurationWhenTenantContextIsNotResolved(Type tenantConfigurationType)
         : base($"Cannot create tenant configuration '{tenantConfigurationType}' from root container")
     {
     }
