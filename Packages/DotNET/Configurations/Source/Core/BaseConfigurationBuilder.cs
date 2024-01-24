@@ -8,9 +8,13 @@ using Microsoft.Extensions.Options;
 
 namespace Woksin.Extensions.Configurations.Internal;
 
-public abstract class BaseConfigurationExtensionBuilder<TBuilder> where TBuilder : BaseConfigurationExtensionBuilder<TBuilder>
+/// <summary>
+/// Represents the base builder for the configuration system.
+/// </summary>
+/// <typeparam name="TBuilder"></typeparam>
+public abstract class BaseConfigurationBuilder<TBuilder> where TBuilder : BaseConfigurationBuilder<TBuilder>
 {
-    protected BaseConfigurationExtensionBuilder(IServiceCollection services, string[] configurationPrefixes)
+    protected BaseConfigurationBuilder(IServiceCollection services, string[] configurationPrefixes)
     {
         Services = services;
         AddConfigurationPrefix(configurationPrefixes);
@@ -18,10 +22,22 @@ public abstract class BaseConfigurationExtensionBuilder<TBuilder> where TBuilder
         // Replace the standard generic IOptionsFactory
         services.Add(ServiceDescriptor.Transient(typeof(IOptionsFactory<>), typeof(ConfigurationsExtensionOptionsFactory<>)));
     }
+
+    /// <summary>
+    /// Gets the <see cref="IServiceCollection"/>.
+    /// </summary>
     protected IServiceCollection Services { get; }
 
+    /// <summary>
+    /// Gets the specific builder used for chaining calls.
+    /// </summary>
     protected abstract TBuilder Builder { get; }
 
+    /// <summary>
+    /// Adds an assembly for discovering configuration types.
+    /// </summary>
+    /// <param name="assembly">The <see cref="Assembly"/> to get types from.</param>
+    /// <returns>The builder for continuation.</returns>
     public TBuilder WithAssembly(Assembly assembly)
     {
         foreach (var type in assembly.GetTypes())
@@ -32,6 +48,10 @@ public abstract class BaseConfigurationExtensionBuilder<TBuilder> where TBuilder
         return Builder;
     }
 
+    /// <summary>
+    /// Overridable method that looks for the correct custom attribute and adds configuration service bindings for a configuration type.
+    /// </summary>
+    /// <param name="type">The type to check.</param>
     protected virtual void AddForType(Type type)
     {
         var attribute = type.GetCustomAttribute<ConfigurationAttribute>();
@@ -75,16 +95,9 @@ public abstract class BaseConfigurationExtensionBuilder<TBuilder> where TBuilder
     public TBuilder AddConfiguration(Type type, BinderOptions binderOptions, params string[] configurationPathParts)
         => AddConfigurationObjectDefinitionFor(type, ConfigurationPath.Combine(configurationPathParts), binderOptions);
 
-    /// <summary>
-    /// Adds a configuration object definition.
-    /// </summary>
-    /// <param name="type">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</param>
-    /// <param name="configurationPath">The configuration path of the configuration object.</param>
-    /// <param name="binderOptions">The optional <see cref="BinderOptions"/>.</param>
-    protected TBuilder AddConfigurationObjectDefinitionFor(Type type, string configurationPath, BinderOptions? binderOptions)
+    TBuilder AddConfigurationObjectDefinitionFor(Type type, string configurationPath, BinderOptions? binderOptions)
     {
         ConfigurationAdder.AddConfigurationDefinitionToServices(Services, type, configurationPath, binderOptions ?? new BinderOptions());
-        AddAdditionalServicesFor(type);
         return Builder;
     }
 
@@ -98,6 +111,4 @@ public abstract class BaseConfigurationExtensionBuilder<TBuilder> where TBuilder
 
         Services.AddSingleton(new ConfigurationPrefix(prefix));
     }
-
-    protected abstract void AddAdditionalServicesFor(Type optionsType);
 }
