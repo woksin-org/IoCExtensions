@@ -48,7 +48,7 @@ public partial class HeaderStrategy : ITenantResolutionStrategy
     {
         _headers = headers;
     }
-    
+
     /// <inheritdoc />
     public Task<string?> Resolve(object resolutionContext)
     {

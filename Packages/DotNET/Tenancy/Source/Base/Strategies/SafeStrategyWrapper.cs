@@ -38,7 +38,7 @@ public partial class SafeStrategyWrapper(ITenantResolutionStrategy strategy, ILo
         return null;
     }
 
-    [LoggerMessage(0, LogLevel.Debug, "Tenant identifier was not resolved from strategy {StrategyType}")]
+    [LoggerMessage(0, LogLevel.Debug, "Tenant identifier {Identifier} was resolved from strategy {StrategyType}")]
     public static partial void LogResolved(ILogger logger, string identifier, Type strategyType);
 
     [LoggerMessage(1, LogLevel.Debug, "Tenant identifier was not resolved from strategy {StrategyType}")]

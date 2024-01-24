@@ -42,7 +42,7 @@ public partial class TenancyMiddleware
 
     [LoggerMessage(0, LogLevel.Debug, "Getting current tenant context")]
     static partial void LogGettingTenantContext(ILogger logger);
-    
+
     [LoggerMessage(1, LogLevel.Debug, "Not in the context of a tenant. Resolving tenant identifier")]
     static partial void LogResolvingTenantContext(ILogger logger);
 

@@ -51,13 +51,13 @@ public class TenancyBuilder<TTenant>
         _services.Configure(configure);
         return this;
     }
-    
+
     public TenancyBuilder<TTenant> WithStrategy(ITenantResolutionStrategy strategy)
     {
         _services.AddSingleton(strategy);
         return this;
     }
-    
+
     public TenancyBuilder<TTenant> WithStaticStrategy(string tenantId)
     {
         _services.AddSingleton<ITenantResolutionStrategy>(new StaticStrategy(tenantId));
