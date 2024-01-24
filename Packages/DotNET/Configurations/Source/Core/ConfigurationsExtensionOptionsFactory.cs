@@ -67,7 +67,7 @@ public class ConfigurationsExtensionOptionsFactory<TOptions> : OptionsFactory<TO
     /// <param name="definition">The <see cref="ConfigurationObjectDefinition{TOptions}"/> of the IoCExtensions configuration to get the configuration path for.</param>
     /// <returns>The configuration path string.</returns>
     // ReSharper disable once SuggestBaseTypeForParameter
-    string GetConfigurationPath(ConfigurationObjectDefinition<TOptions> definition)
+    protected virtual string GetConfigurationPath(ConfigurationObjectDefinition<TOptions> definition)
 	    => GetConfigurationPathWithPrefix(definition.ConfigurationPath);
 
     /// <summary>
@@ -75,6 +75,6 @@ public class ConfigurationsExtensionOptionsFactory<TOptions> : OptionsFactory<TO
     /// </summary>
     /// <param name="configurationPath">The configuration path to prefix.</param>
     /// <returns>The correctly prefixed configuration path string.</returns>
-    string GetConfigurationPathWithPrefix(string configurationPath)
+    protected string GetConfigurationPathWithPrefix(string configurationPath)
         => $"{_configurationPrefix}{configurationPath}";
 }

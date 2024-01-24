@@ -10,14 +10,15 @@ namespace Woksin.Extensions.Configurations;
 /// </summary>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 // ReSharper disable once ClassNeverInstantiated.Global
-public sealed class ConfigurationAttribute : Attribute
+public class ConfigurationAttribute : BaseConfigurationAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ConfigurationAttribute"/> class.
     /// </summary>
     /// <param name="configurationPathFirstPart">The first configuration path part.</param>
     /// <param name="configurationPathRestParts">The configuration path parts to parse the object from, excluding the prefix that's configured.</param>
-    public ConfigurationAttribute(string configurationPathFirstPart, params string[] configurationPathRestParts) : this(new BinderOptions(), configurationPathFirstPart, configurationPathRestParts)
+    public ConfigurationAttribute(string configurationPathFirstPart, params string[] configurationPathRestParts)
+        : this(new BinderOptions(), configurationPathFirstPart, configurationPathRestParts)
     {
     }
     /// <summary>
@@ -27,24 +28,7 @@ public sealed class ConfigurationAttribute : Attribute
     /// <param name="configurationPathFirstPart">The first configuration path part.</param>
     /// <param name="configurationPathRestParts">The configuration path parts to parse the object from, excluding the prefix that's configured.</param>
     public ConfigurationAttribute(BinderOptions binderOptions, string configurationPathFirstPart, params string[] configurationPathRestParts)
+        : base(binderOptions, configurationPathFirstPart, configurationPathRestParts)
     {
-        ConfigurationPath = configurationPathFirstPart;
-        if (configurationPathRestParts.Length > 0)
-        {
-            ConfigurationPath = Microsoft.Extensions.Configuration.ConfigurationPath.Combine(
-            ConfigurationPath,
-            Microsoft.Extensions.Configuration.ConfigurationPath.Combine(configurationPathRestParts));
-        }
-        BinderOptions = binderOptions ?? new BinderOptions();
     }
-
-    /// <summary>
-    /// Gets the configuration path to parse the configuration object from.
-    /// </summary>
-    public string ConfigurationPath { get; }
-
-    /// <summary>
-    /// Gets the <see cref="BinderOptions"/>.
-    /// </summary>
-    public BinderOptions BinderOptions { get; }
 }

@@ -3,13 +3,14 @@
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace Woksin.Extensions.Configurations.Internal;
 
 public static class ConfigurationAdder
 {
-    public static void AddToServices(IServiceCollection services, Type configurationType, string configurationPath, BinderOptions binderOptions )
+    public static void AddConfigurationDefinitionToServices(IServiceCollection services, Type configurationType, string configurationPath, BinderOptions binderOptions)
     {
         var definitionType = typeof(ConfigurationObjectDefinition<>).MakeGenericType(configurationType);
         var definition = Activator.CreateInstance(definitionType, configurationPath, binderOptions)!;
@@ -23,6 +24,6 @@ public static class ConfigurationAdder
     {
         var serviceType = typeof(IOptionsChangeTokenSource<>).MakeGenericType(configurationType);
         var implementationType = typeof(ConfigurationChangeTokenSource<>).MakeGenericType(configurationType);
-        services.AddSingleton(serviceType, provider => ActivatorUtilities.CreateInstance(provider, implementationType));
+        services.TryAddSingleton(serviceType, provider => ActivatorUtilities.CreateInstance(provider, implementationType));
     }
 }
