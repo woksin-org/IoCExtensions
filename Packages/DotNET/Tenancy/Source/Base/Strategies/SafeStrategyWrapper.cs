@@ -34,17 +34,17 @@ public partial class SafeStrategyWrapper(ITenantResolutionStrategy strategy, ILo
         {
             LogError(logger, ex, strategy.GetType());
         }
-        
+
         return null;
     }
 
     [LoggerMessage(0, LogLevel.Debug, "Tenant identifier was not resolved from strategy {StrategyType}")]
     public static partial void LogResolved(ILogger logger, string identifier, Type strategyType);
-    
+
     [LoggerMessage(1, LogLevel.Debug, "Tenant identifier was not resolved from strategy {StrategyType}")]
     public static partial void LogNotResolved(ILogger logger, Type strategyType);
 
-    [LoggerMessage(2, LogLevel.Warning, "Error while resolving tenant identifier from strategy {StrategyType}")]
+    [LoggerMessage(2, LogLevel.Debug, "Error while resolving tenant identifier from strategy {StrategyType}")]
     public static partial void LogError(ILogger logger, Exception error, Type strategyType);
 
     [LoggerMessage(3, LogLevel.Debug, "Strategy {StrategyType} trying to resolve tenant identifier")]

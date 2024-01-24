@@ -18,7 +18,6 @@ public static class HostExtensions
         {
             var tenancyBuilder = services.AddTenancyExtension<TTenant>();
             configureTenancy?.Invoke(tenancyBuilder);
-            tenancyBuilder.WithDefaultStrategies();
         });
     }
 
@@ -28,13 +27,12 @@ public static class HostExtensions
         {
             var tenancyBuilder = services.AddTenancyExtension<TenantInfo>();
             configureTenancy?.Invoke(tenancyBuilder);
-            tenancyBuilder.WithDefaultStrategies();
         });
     }
 
     public static TenancyBuilder<TTenant> AddTenancyExtension<TTenant>(this IServiceCollection services) where TTenant : class, ITenantInfo, new()
         => new(services);
-    
+
     public static TenancyBuilder<TenantInfo> AddTenancyExtension(this IServiceCollection services)
         => new(services);
 }

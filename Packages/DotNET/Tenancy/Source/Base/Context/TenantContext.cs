@@ -4,7 +4,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Woksin.Extensions.Tenancy.Strategies;
 
-namespace Woksin.Extensions.Tenancy;
+namespace Woksin.Extensions.Tenancy.Context;
 
 /// <summary>
 /// Represents an implementation of <see cref="ITenantContext"/> and <see cref="ITenantContext{TTenant}"/>.

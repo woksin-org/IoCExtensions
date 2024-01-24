@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Microsoft.Extensions.DependencyInjection;
+using Woksin.Extensions.Tenancy.Context;
 using Woksin.Extensions.Tenancy.Strategies;
 
 namespace Woksin.Extensions.Tenancy;
@@ -30,12 +31,11 @@ public class TenancyBuilder<TTenant>
             return tenantInfo;
         });
         _services.AddScoped<ITenantInfo>(sp => sp.GetService<TTenant>()!);
-
         _services.AddSingleton<ITenantContextAccessor<TTenant>, AsyncLocalTenantContextAccessor<TTenant>>();
         _services.AddSingleton<ITenantContextAccessor>(sp =>
             (ITenantContextAccessor)sp.GetRequiredService<ITenantContextAccessor<TTenant>>());
     }
-    
+
     public TenancyBuilder<TTenant> WithTenantInfo(TTenant tenantInfo)
     {
         _services.Configure((TenantsConfigurationOption<TTenant> op) => op.Tenants.Add(tenantInfo));
@@ -51,16 +51,10 @@ public class TenancyBuilder<TTenant>
         _services.Configure(configure);
         return this;
     }
-
-    public TenancyBuilder<TTenant> WithDefaultStrategies()
-    {
-        // TODO: 
-        return this;
-    }
     
     public TenancyBuilder<TTenant> WithStrategy(ITenantResolutionStrategy strategy)
     {
-        _services.AddSingleton<ITenantResolutionStrategy>(strategy);
+        _services.AddSingleton(strategy);
         return this;
     }
     

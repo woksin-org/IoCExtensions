@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Woksin.Extensions.Tenancy.Strategies;
 
-namespace Woksin.Extensions.Tenancy;
+namespace Woksin.Extensions.Tenancy.Context;
 
 /// <summary>
 /// Represents an implementation of <see cref="IResolveTenant"/> and <see cref="IResolveTenant{TTenant}"/> that resolves tenant context using the configured strategies.

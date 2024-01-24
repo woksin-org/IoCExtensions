@@ -4,6 +4,7 @@
 using System.Collections.Concurrent;
 using Microsoft.Extensions.Options;
 using Woksin.Extensions.Tenancy;
+using Woksin.Extensions.Tenancy.Context;
 
 namespace Woksin.Extensions.Configurations.Tenancy;
 

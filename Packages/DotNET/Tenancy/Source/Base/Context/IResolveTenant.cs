@@ -3,7 +3,7 @@
 
 using Woksin.Extensions.Tenancy.Strategies;
 
-namespace Woksin.Extensions.Tenancy;
+namespace Woksin.Extensions.Tenancy.Context;
 
 /// <summary>
 /// Defines a system that can resolve the <see cref="ITenantContext"/>.

@@ -4,7 +4,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Woksin.Extensions.Tenancy.Strategies;
 
-namespace Woksin.Extensions.Tenancy;
+namespace Woksin.Extensions.Tenancy.Context;
 
 /// <summary>
 /// Defines the tenant context, mostly used to represent the tenant that's currently in use.
