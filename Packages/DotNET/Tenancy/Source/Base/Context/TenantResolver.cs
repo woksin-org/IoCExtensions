@@ -13,10 +13,10 @@ namespace Woksin.Extensions.Tenancy.Context;
 /// Represents an implementation of <see cref="IResolveTenant"/> and <see cref="IResolveTenant{TTenant}"/> that resolves tenant context using the configured strategies.
 /// </summary>
 /// <param name="strategies">The <see cref="ITenantResolutionStrategy"/> strategies to resolve tenant identifier.</param>
-/// <param name="options">The <see cref="IOptionsMonitor{TOptions}"/> for the configured <see cref="TenantsConfigurationOption{TTenant}"/>.</param>
+/// <param name="options">The <see cref="IOptionsMonitor{TOptions}"/> for the configured <see cref="TenancyOptions{TTenant}"/>.</param>
 /// <param name="loggerFactory">The <see cref="ILoggerFactory"/>.</param>
 /// <typeparam name="TTenant">The <see cref="Type"/> of the <see cref="ITenantInfo"/>.</typeparam>
-public partial class TenantResolver<TTenant>(IEnumerable<ITenantResolutionStrategy> strategies, IOptionsMonitor<TenantsConfigurationOption<TTenant>> options, ILoggerFactory loggerFactory) : IResolveTenant<TTenant>, IResolveTenant
+public partial class TenantResolver<TTenant>(IEnumerable<ITenantResolutionStrategy> strategies, IOptionsMonitor<TenancyOptions<TTenant>> options, ILoggerFactory loggerFactory) : IResolveTenant<TTenant>, IResolveTenant
     where TTenant : class, ITenantInfo, new()
 {
     /// <inheritdoc />
@@ -41,7 +41,7 @@ public partial class TenantResolver<TTenant>(IEnumerable<ITenantResolutionStrate
         return TenantContext<TTenant>.Unresolved();
     }
 
-    async Task<(bool, string?)> TryResolveIdentifier(TenantsConfigurationOption<TTenant> config, ITenantResolutionStrategy strategy, object context)
+    async Task<(bool, string?)> TryResolveIdentifier(TenancyOptions<TTenant> config, ITenantResolutionStrategy strategy, object context)
     {
         var wrappedStrategy = new SafeStrategyWrapper(strategy, loggerFactory?.CreateLogger(strategy.GetType()) ?? NullLogger.Instance);
         var identifier = await wrappedStrategy.Resolve(context);
@@ -55,7 +55,7 @@ public partial class TenantResolver<TTenant>(IEnumerable<ITenantResolutionStrate
         return (false, null);
     }
 
-    bool TryGetTenantContext(TenantsConfigurationOption<TTenant> config, string identifier, ITenantResolutionStrategy strategy, [NotNullWhen(true)]out ITenantContext<TTenant>? tenantContext)
+    bool TryGetTenantContext(TenancyOptions<TTenant> config, string identifier, ITenantResolutionStrategy strategy, [NotNullWhen(true)]out ITenantContext<TTenant>? tenantContext)
     {
         tenantContext = null;
         var configuredTenant = config.Tenants.FirstOrDefault(tenant => tenant.Id.Equals(identifier, StringComparison.OrdinalIgnoreCase));

@@ -7,7 +7,7 @@ namespace Woksin.Extensions.Tenancy;
 /// Represents the options for tenancy system.
 /// </summary>
 /// <typeparam name="TTenant">The <see cref="Type"/> of the <see cref="ITenantInfo"/>.</typeparam>
-public class TenantsConfigurationOption<TTenant>
+public class TenancyOptions<TTenant>
     where TTenant : class, ITenantInfo, new()
 {
     public IList<TTenant> Tenants { get; set; } = new List<TTenant>();

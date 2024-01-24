@@ -9,6 +9,17 @@ using Microsoft.Extensions.Options;
 namespace Woksin.Extensions.Configurations.Internal;
 
 /// <summary>
+/// Exception that gets thrown when a configuration type has more than 1 configuration decorator.
+/// </summary>
+public class NoMoreThanOneConfigurationAttributeAllowed : Exception
+{
+    public NoMoreThanOneConfigurationAttributeAllowed(Type optionsType, IEnumerable<Attribute> attributes)
+        : base($"Configuration '{optionsType}' is decorated with multiple configuration attributes. [{string.Join(", ",  attributes)}]")
+    {
+    }
+}
+
+/// <summary>
 /// Represents the base builder for the configuration system.
 /// </summary>
 /// <typeparam name="TBuilder"></typeparam>
@@ -38,11 +49,22 @@ public abstract class BaseConfigurationBuilder<TBuilder> where TBuilder : BaseCo
     /// </summary>
     /// <param name="assembly">The <see cref="Assembly"/> to get types from.</param>
     /// <returns>The builder for continuation.</returns>
+    /// <exception cref="NoMoreThanOneConfigurationAttributeAllowed">When options type has more than one configuration attribute.</exception>
     public TBuilder WithAssembly(Assembly assembly)
     {
         foreach (var type in assembly.GetTypes())
         {
-            AddForType(type);
+            var configurationAttributes = type.GetCustomAttributes<BaseConfigurationAttribute>().ToArray();
+            switch  (configurationAttributes.Length)
+            {
+                case <= 0:
+                    continue;
+                case > 1:
+                    throw new NoMoreThanOneConfigurationAttributeAllowed(type, configurationAttributes);
+                default:
+                    AddForType(type, configurationAttributes[0]);
+                    break;
+            }
         }
 
         return Builder;
@@ -52,12 +74,12 @@ public abstract class BaseConfigurationBuilder<TBuilder> where TBuilder : BaseCo
     /// Overridable method that looks for the correct custom attribute and adds configuration service bindings for a configuration type.
     /// </summary>
     /// <param name="type">The type to check.</param>
-    protected virtual void AddForType(Type type)
+    /// <param name="attribute">The <see cref="BaseConfigurationAttribute"/>.</param>
+    protected virtual void AddForType(Type type, BaseConfigurationAttribute attribute)
     {
-        var attribute = type.GetCustomAttribute<ConfigurationAttribute>();
-        if (attribute is not null)
+        if (attribute is ConfigurationAttribute configurationAttribute)
         {
-            AddConfiguration(type, attribute.BinderOptions, attribute.ConfigurationPath);
+            AddConfiguration(type, configurationAttribute.BinderOptions, configurationAttribute.ConfigurationPath);
         }
     }
 

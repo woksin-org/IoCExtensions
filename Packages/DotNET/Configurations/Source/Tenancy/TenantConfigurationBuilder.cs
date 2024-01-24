@@ -1,7 +1,6 @@
 // Copyright (c) woksin-org. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -21,11 +20,11 @@ public class TenantConfigurationBuilder<TTenant> : BaseConfigurationBuilder<Tena
     {
     }
 
-    public TenantConfigurationBuilder<TTenant> ConfigureTenancy(Action<TenancyBuilder<TTenant>>? configureTenancy = null, Action<TenantsConfigurationOption<TTenant>>? configureTenancyOptions = null, params string[] configurationPathParts)
+    public TenantConfigurationBuilder<TTenant> ConfigureTenancy(Action<TenancyBuilder<TTenant>>? configureTenancy = null, Action<TenancyOptions<TTenant>>? configureTenancyOptions = null, params string[] configurationPathParts)
     {
         var tenancyBuilder = Services.AddTenancyExtension<TTenant>();
         configureTenancy?.Invoke(tenancyBuilder);
-        AddConfiguration<TenantsConfigurationOption<TTenant>>(configurationPathParts);
+        AddConfiguration<TenancyOptions<TTenant>>(configurationPathParts);
         configureTenancyOptions ??= _ => { };
         Services.Configure(configureTenancyOptions);
         return Builder;
@@ -85,17 +84,16 @@ public class TenantConfigurationBuilder<TTenant> : BaseConfigurationBuilder<Tena
         return this;
     }
 
-    protected override void AddForType(Type type)
+    protected override void AddForType(Type type, BaseConfigurationAttribute attribute)
     {
-        var attribute = type.GetCustomAttribute<TenantConfigurationAttribute>();
-        if (attribute is not null)
+        if (attribute is TenantConfigurationAttribute tenantAttribute)
         {
-            AddTenantConfiguration(type, attribute.BinderOptions, attribute.ConfigurationPath);
+            AddTenantConfiguration(type, tenantAttribute.BinderOptions, tenantAttribute.ConfigurationPath);
             AddTenantSpecificServicesFor(type);
         }
         else
         {
-            base.AddForType(type);
+            base.AddForType(type, attribute);
         }
     }
 

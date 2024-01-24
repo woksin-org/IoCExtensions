@@ -38,15 +38,15 @@ public class TenancyBuilder<TTenant>
 
     public TenancyBuilder<TTenant> WithTenantInfo(TTenant tenantInfo)
     {
-        _services.Configure((TenantsConfigurationOption<TTenant> op) => op.Tenants.Add(tenantInfo));
+        _services.Configure((TenancyOptions<TTenant> op) => op.Tenants.Add(tenantInfo));
         return this;
     }
     public TenancyBuilder<TTenant> IgnoreTenant(string tenantId)
     {
-        _services.Configure((TenantsConfigurationOption<TTenant> op) => op.Ignored.Add(tenantId));
+        _services.Configure((TenancyOptions<TTenant> op) => op.Ignored.Add(tenantId));
         return this;
     }
-    public TenancyBuilder<TTenant> Configure(Action<TenantsConfigurationOption<TTenant>> configure)
+    public TenancyBuilder<TTenant> Configure(Action<TenancyOptions<TTenant>> configure)
     {
         _services.Configure(configure);
         return this;
