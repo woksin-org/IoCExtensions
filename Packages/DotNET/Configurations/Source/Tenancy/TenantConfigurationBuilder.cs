@@ -21,6 +21,16 @@ public class TenantConfigurationBuilder<TTenant> : BaseConfigurationBuilder<Tena
     {
     }
 
+    public TenantConfigurationBuilder<TTenant> ConfigureTenancy(Action<TenancyBuilder<TTenant>>? configureTenancy = null, Action<TenantsConfigurationOption<TTenant>>? configureTenancyOptions = null, params string[] configurationPathParts)
+    {
+        var tenancyBuilder = Services.AddTenancyExtension<TTenant>();
+        configureTenancy?.Invoke(tenancyBuilder);
+        AddConfiguration<TenantsConfigurationOption<TTenant>>(configurationPathParts);
+        configureTenancyOptions ??= _ => { };
+        Services.Configure(configureTenancyOptions);
+        return Builder;
+    }
+
     /// <summary>
     /// Adds a configuration object definition.
     /// </summary>

@@ -22,6 +22,10 @@ public class ConfigurationObjectDefinition<TConfiguration> : IAmAConfigurationOb
 	    ConfigurationPath = configurationPath;
         BinderOptions = binderOptions;
         ConfigurationObjectType = typeof(TConfiguration);
+        if (string.IsNullOrWhiteSpace(ConfigurationPath))
+        {
+            ConfigurationPath = ConfigurationObjectType.Name;
+        }
     }
 
     /// <inheritdoc />

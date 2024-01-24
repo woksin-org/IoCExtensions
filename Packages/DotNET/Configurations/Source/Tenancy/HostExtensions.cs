@@ -65,7 +65,7 @@ public static class HostExtensions
             configure?.Invoke(configBuilder);
         });
     }
-    
+
     /// <summary>
     /// Use the tenant configuration system.
     /// </summary>
@@ -84,7 +84,7 @@ public static class HostExtensions
             configure?.Invoke(configBuilder);
         });
     }
-    
+
     /// <summary>
     /// Use the tenant configuration system.
     /// </summary>

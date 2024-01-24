@@ -1,5 +1,5 @@
-// Copyright Finbuckle LLC, Andrew White, and Contributors.
-// Refer to the solution LICENSE file for more information.
+// Copyright (c) woksin-org. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Collections.Concurrent;
 using Microsoft.Extensions.Options;
