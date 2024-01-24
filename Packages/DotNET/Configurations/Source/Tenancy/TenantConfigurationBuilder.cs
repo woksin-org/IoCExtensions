@@ -61,7 +61,7 @@ public class TenantConfigurationBuilder<TTenant> : BaseConfigurationBuilder<Tena
         AddTenantSpecificServicesFor(type);
         return this;
     }
-    
+
     /// <summary>
     /// Adds a <see cref="IConfigureTenantOptions{TOptions,TTenant}"/> that configures the specified <typeparamref name="TOption"/> configuration.
     /// </summary>

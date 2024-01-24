@@ -16,7 +16,7 @@ public class AsyncLocalTenantContextAccessor<TTenant> : ITenantContextAccessor<T
     {
         CurrentTenant = TenantContext<TTenant>.Unresolved();
     }
-    
+
     /// <inheritdoc />
     public ITenantContext<TTenant> CurrentTenant
     {

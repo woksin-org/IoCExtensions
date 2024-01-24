@@ -29,7 +29,7 @@ public static class HostExtensions
                 .AddTenantConfigurationExtension<TTenant>(configurationPrefixes)
                 .WithAssembly(assembly);
         });
-    
+
     /// <summary>
     /// Use the tenant configuration system.
     /// </summary>
