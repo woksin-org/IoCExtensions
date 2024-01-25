@@ -26,17 +26,11 @@ public interface ITenantContext
     /// </summary>
     /// <param name="tenantInfo">The outputted <see cref="ITenantInfo"/>.</param>
     /// <param name="strategyInfo">The outputted <see cref="StrategyInfo"/>.</param>
-    bool Resolved([NotNullWhen(true)] out ITenantInfo? tenantInfo, [NotNullWhen(true)] out StrategyInfo? strategyInfo)
+    bool Resolved([NotNullWhen(true)] out ITenantInfo? tenantInfo, out StrategyInfo? strategyInfo)
     {
-        tenantInfo = null;
-        strategyInfo = null;
-        if (Tenant is null)
-        {
-            return false;
-        }
-        tenantInfo = Tenant!;
-        strategyInfo = Strategy!;
-        return true;
+        tenantInfo = Tenant;
+        strategyInfo = Strategy;
+        return Tenant is not null;
     }
 }
 
@@ -52,5 +46,5 @@ public interface ITenantContext<TTenantInfo>
     /// </summary>
     /// <param name="tenantInfo">The outputted <see cref="ITenantInfo"/>.</param>
     /// <param name="strategyInfo">The outputted <see cref="StrategyInfo"/>.</param>
-    bool Resolved([NotNullWhen(true)] out TTenantInfo? tenantInfo, [NotNullWhen(true)] out StrategyInfo? strategyInfo);
+    bool Resolved([NotNullWhen(true)] out TTenantInfo? tenantInfo, out StrategyInfo? strategyInfo);
 }

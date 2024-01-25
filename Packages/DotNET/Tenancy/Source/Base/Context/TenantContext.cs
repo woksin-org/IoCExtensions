@@ -13,14 +13,14 @@ namespace Woksin.Extensions.Tenancy.Context;
 public record TenantContext<TTenant> : ITenantContext<TTenant>, ITenantContext
     where TTenant : class, ITenantInfo, new()
 {
-    public static TenantContext<TTenant> Resolved(TTenant tenant, StrategyInfo strategyInfo) => new(tenant, strategyInfo);
+    public static TenantContext<TTenant> Resolved(TTenant tenant, StrategyInfo? strategyInfo = null) => new(tenant, strategyInfo);
     public static TenantContext<TTenant> Unresolved() => new();
 
     TenantContext()
     {
     }
 
-    TenantContext(TTenant tenant, StrategyInfo strategyInfo)
+    TenantContext(TTenant tenant, StrategyInfo? strategyInfo)
     {
         Tenant = tenant;
         Strategy = strategyInfo;
@@ -34,10 +34,10 @@ public record TenantContext<TTenant> : ITenantContext<TTenant>, ITenantContext
     /// <inheritdoc />
     ITenantInfo? ITenantContext.Tenant => Tenant;
 
-    public bool Resolved([NotNullWhen(true)] out TTenant? tenantInfo, [NotNullWhen(true)] out StrategyInfo? strategyInfo)
+    public bool Resolved([NotNullWhen(true)] out TTenant? tenantInfo, out StrategyInfo? strategyInfo)
     {
         tenantInfo = Tenant;
         strategyInfo = Strategy;
-        return Tenant is not null && Strategy is not null;
+        return Tenant is not null;
     }
 }

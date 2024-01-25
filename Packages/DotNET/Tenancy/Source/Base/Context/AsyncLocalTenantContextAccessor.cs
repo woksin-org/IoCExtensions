@@ -20,7 +20,7 @@ public class AsyncLocalTenantContextAccessor<TTenant> : ITenantContextAccessor<T
     /// <inheritdoc />
     public ITenantContext<TTenant> CurrentTenant
     {
-        get => _local.Value!;
+        get => _local.Value ?? TenantContext<TTenant>.Unresolved();
 
         set => _local.Value = value ?? throw new ArgumentNullException(nameof(value));
     }
@@ -28,7 +28,7 @@ public class AsyncLocalTenantContextAccessor<TTenant> : ITenantContextAccessor<T
     /// <inheritdoc />
     ITenantContext ITenantContextAccessor.CurrentTenant
     {
-        get => (CurrentTenant as ITenantContext)!;
-        set => CurrentTenant = value as ITenantContext<TTenant> ?? CurrentTenant;
+        get => CurrentTenant as ITenantContext ?? TenantContext<TTenant>.Unresolved();
+        set => CurrentTenant = value as ITenantContext<TTenant> ?? throw new ArgumentNullException(nameof(value));
     }
 }

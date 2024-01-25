@@ -9,6 +9,12 @@ namespace Woksin.Extensions.Tenancy.Strategies;
 /// <param name="identifier">The tenant identifier.</param>
 public class StaticStrategy(string identifier) : ITenantResolutionStrategy
 {
+    public bool CanResolveFromContext(object context, out string cannotResolveReason)
+    {
+        cannotResolveReason = string.Empty;
+        return true;
+    }
+
     /// <inheritdoc />
     public Task<string?> Resolve(object resolutionContext)
         => Task.FromResult(identifier)!;

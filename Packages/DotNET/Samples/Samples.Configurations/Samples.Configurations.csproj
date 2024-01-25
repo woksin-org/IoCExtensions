@@ -6,6 +6,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Configurations\Source\Tenancy\Configurations.Tenancy.csproj" />
+        <ProjectReference Include="..\..\Tenancy\Source\AspNetCore\Tenancy.AspNetCore.csproj" />
     </ItemGroup>
 
 </Project>

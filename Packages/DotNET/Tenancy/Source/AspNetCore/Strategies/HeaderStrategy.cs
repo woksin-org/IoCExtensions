@@ -2,9 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using Woksin.Extensions.Tenancy.Strategies;
 
 namespace Woksin.Extensions.Tenancy.AspNetCore.Strategies;
@@ -12,7 +10,7 @@ namespace Woksin.Extensions.Tenancy.AspNetCore.Strategies;
 /// <summary>
 /// Represents an <see cref="ITenantResolutionStrategy"/> that resolves the tenant identifier by looking at the provided headers in order.
 /// </summary>
-public partial class HeaderStrategy : ITenantResolutionStrategy
+public partial class HeaderStrategy : HttpContextStrategy
 {
     /// <summary>
     /// The default fallback header to look for the tenant identifier in the headers.
@@ -50,14 +48,8 @@ public partial class HeaderStrategy : ITenantResolutionStrategy
     }
 
     /// <inheritdoc />
-    public Task<string?> Resolve(object resolutionContext)
+    protected override Task<string?> Resolve(HttpContext context, ILogger logger)
     {
-        if (resolutionContext is not HttpContext context)
-        {
-            throw new ArgumentException("Expected resolution context to be HttpContext", nameof(resolutionContext));
-        }
-
-        var logger = context.RequestServices.GetService<ILogger<HeaderStrategy>>() ?? NullLogger<HeaderStrategy>.Instance;
         foreach (var header in _headers)
         {
             LogTryingToGetTenantId(logger, header);

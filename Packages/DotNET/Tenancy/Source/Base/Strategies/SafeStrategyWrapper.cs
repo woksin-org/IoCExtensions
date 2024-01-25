@@ -12,6 +12,19 @@ namespace Woksin.Extensions.Tenancy.Strategies;
 /// <param name="logger">The <see cref="ILogger"/> to use.</param>
 public partial class SafeStrategyWrapper(ITenantResolutionStrategy strategy, ILogger logger) : ITenantResolutionStrategy
 {
+    public bool CanResolveFromContext(object context, out string cannotResolveReason)
+    {
+        try
+        {
+            return strategy.CanResolveFromContext(context, out cannotResolveReason);
+        }
+        catch (Exception e)
+        {
+            LogFailedCheckingCanResolve(logger, e);   
+            throw;
+        }
+    }
+
     /// <inheritdoc />
     public async Task<string?> Resolve(object resolutionContext)
     {
@@ -49,4 +62,7 @@ public partial class SafeStrategyWrapper(ITenantResolutionStrategy strategy, ILo
 
     [LoggerMessage(3, LogLevel.Debug, "Strategy {StrategyType} trying to resolve tenant identifier")]
     public static partial void LogTryResolve(ILogger logger, Type strategyType);
+    
+    [LoggerMessage(4, LogLevel.Warning, "Failed to check if could resolve from context")]
+    public static partial void LogFailedCheckingCanResolve(ILogger logger, Exception ex);
 }

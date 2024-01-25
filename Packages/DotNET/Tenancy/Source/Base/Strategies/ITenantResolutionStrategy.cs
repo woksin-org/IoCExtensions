@@ -9,6 +9,14 @@ namespace Woksin.Extensions.Tenancy.Strategies;
 public interface ITenantResolutionStrategy
 {
     /// <summary>
+    /// Check if tenant id can be attempted resolved from the given context.
+    /// </summary>
+    /// <param name="context">The context.</param>
+    /// <param name="cannotResolveReason">The reason why it cannot be resolved using this strategy.</param>
+    /// <returns>True if can resolve, false if not.</returns>
+    bool CanResolveFromContext(object context, out string cannotResolveReason);
+
+    /// <summary>
     /// Resolves the tenant identifier from a given context.
     /// </summary>
     /// <param name="resolutionContext">The context used to resolve the tenant identifier.</param>
