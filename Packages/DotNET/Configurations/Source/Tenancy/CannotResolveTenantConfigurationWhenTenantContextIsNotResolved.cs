@@ -9,7 +9,7 @@ namespace Woksin.Extensions.Configurations.Tenancy;
 public class CannotResolveTenantConfigurationWhenTenantContextIsNotResolved : Exception
 {
     public CannotResolveTenantConfigurationWhenTenantContextIsNotResolved(Type tenantConfigurationType)
-        : base($"Cannot create tenant configuration '{tenantConfigurationType}' from root container")
+        : base($"Cannot create tenant configuration '{tenantConfigurationType}' when tenant context is not resolved")
     {
     }
 }

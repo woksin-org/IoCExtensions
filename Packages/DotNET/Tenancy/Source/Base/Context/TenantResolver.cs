@@ -29,8 +29,15 @@ public partial class TenantResolver<TTenant>(IEnumerable<ITenantResolutionStrate
     {
         var config = options.CurrentValue;
         foreach (var strategy in Strategies)
-        {
-            var (resolvedIdentifier, identifier) = await TryResolveIdentifier(config, strategy, context);
+        {        
+            var wrappedStrategy = new SafeStrategyWrapper(strategy, loggerFactory?.CreateLogger(strategy.GetType()) ?? NullLogger.Instance);
+            if (!wrappedStrategy.CanResolveFromContext(context, out var cannotResolveReason))
+            {
+                LogCannotNotResolveFromContext(_logger, strategy.GetType(), cannotResolveReason);
+                continue;
+            }
+            LogTryingToResolve(_logger, strategy.GetType());
+            var (resolvedIdentifier, identifier) = await TryResolveIdentifier(config, wrappedStrategy, context);
             if (resolvedIdentifier && TryGetTenantContext(config, identifier!, strategy, out var tenantContext))
             {
                 return tenantContext;
@@ -41,10 +48,9 @@ public partial class TenantResolver<TTenant>(IEnumerable<ITenantResolutionStrate
         return TenantContext<TTenant>.Unresolved();
     }
 
-    async Task<(bool, string?)> TryResolveIdentifier(TenancyOptions<TTenant> config, ITenantResolutionStrategy strategy, object context)
+    async Task<(bool, string?)> TryResolveIdentifier(TenancyOptions<TTenant> config, SafeStrategyWrapper strategy, object context)
     {
-        var wrappedStrategy = new SafeStrategyWrapper(strategy, loggerFactory?.CreateLogger(strategy.GetType()) ?? NullLogger.Instance);
-        var identifier = await wrappedStrategy.Resolve(context);
+        var identifier = await strategy.Resolve(context);
         if (!config.Ignored.Contains(identifier, StringComparer.OrdinalIgnoreCase))
         {
             return string.IsNullOrWhiteSpace(identifier)
@@ -86,7 +92,7 @@ public partial class TenantResolver<TTenant>(IEnumerable<ITenantResolutionStrate
     [LoggerMessage(0, LogLevel.Debug, "Resolved tenant identifier {Identifier} is configured to be ignored")]
     static partial void LogIgnoreTenant(ILogger logger, string identifier);
 
-    [LoggerMessage(1, LogLevel.Debug, "Resolved tenant identifier {Identifier} is not configured and should not be used")]
+    [LoggerMessage(1, LogLevel.Warning, "Resolved tenant identifier {Identifier} is not configured and should not be used")]
     static partial void LogTenantNotConfigured(ILogger logger, string identifier);
 
     [LoggerMessage(2, LogLevel.Debug, "Resolved tenant identifier {Identifier} is not configured but will be used")]
@@ -95,6 +101,12 @@ public partial class TenantResolver<TTenant>(IEnumerable<ITenantResolutionStrate
     [LoggerMessage(3, LogLevel.Debug, "Resolved tenant identifier {Identifier} with name {TenantName} is configured")]
     static partial void LogUsingConfiguredTenant(ILogger logger, string identifier, string? tenantName);
 
-    [LoggerMessage(4, LogLevel.Warning, "Could not resolve tenant from any strategy")]
+    [LoggerMessage(4, LogLevel.Debug, "Could not resolve tenant from any strategy")]
     static partial void LogCouldNotResolveTenant(ILogger logger);
+    
+    [LoggerMessage(5, LogLevel.Debug, "Could not resolve tenant from context using strategy {StrategyType}. {Reason}")]
+    static partial void LogCannotNotResolveFromContext(ILogger logger, Type strategyType, string reason);
+    
+    [LoggerMessage(6, LogLevel.Debug, "Trying to resolve tenant from context using strategy {StrategyType}")]
+    static partial void LogTryingToResolve(ILogger logger, Type strategyType);
 }
