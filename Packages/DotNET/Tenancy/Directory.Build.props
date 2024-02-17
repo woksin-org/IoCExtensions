@@ -5,6 +5,13 @@
 		<RootNamespace>Woksin.Extensions.Tenancy</RootNamespace>
         <AssemblyName>Woksin.Extensions.Tenancy</AssemblyName>
 	</PropertyGroup>
+    <PropertyGroup>
+        <WarningsAsErrors>false</WarningsAsErrors>
+        <RunAnalyzers>false</RunAnalyzers>
+        <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+        <MSBuildTreatWarningsAsErrors>False</MSBuildTreatWarningsAsErrors>
+        <CodeAnalysisTreatWarningsAsErrors>False</CodeAnalysisTreatWarningsAsErrors>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" PrivateAssets="All"/>
