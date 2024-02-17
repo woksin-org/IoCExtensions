@@ -1,0 +1,18 @@
+name: DotNET - Tenancy - Release
+
+on:
+  pull_request:
+    types: [closed]
+    paths: 
+      - Packages/DotNET/Tenancy/**
+      - .github/workflows/dotnet-tenancy-*
+
+jobs:
+  release:
+    permissions: 
+      contents: write
+    uses: ./.github/workflows/dotnet-reusable-release.yml
+    with:
+      working-directory: Packages/DotNET/Tenancy
+      library-name: Woksin.Extensions.Tenancy
+    secrets: inherit
