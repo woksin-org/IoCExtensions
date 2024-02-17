@@ -10,28 +10,54 @@ using Woksin.Extensions.Tenancy;
 
 namespace Woksin.Extensions.Configurations.Tenancy;
 
+/// <summary>
+/// Represents a builder that builds the tenant configuration system and the underlying tenancy system.
+/// </summary>
+/// <typeparam name="TTenant">The <see cref="Type"/> of the <see cref="ITenantInfo"/>.</typeparam>
+/// <remarks>ConfigureTenancy has to be called at some point.</remarks>
 public class TenantConfigurationBuilder<TTenant> : BaseConfigurationBuilder<TenantConfigurationBuilder<TTenant>>
     where TTenant : class, ITenantInfo, new()
 {
     protected override TenantConfigurationBuilder<TTenant> Builder => this;
 
+    readonly TenancyBuilder<TTenant> _tenancyBuilder;
+    bool _tenancyConfigAdded;
+
     public TenantConfigurationBuilder(IServiceCollection services, string[] configurationPrefixes)
         : base(services, configurationPrefixes)
     {
-    }
-
-    public TenantConfigurationBuilder<TTenant> ConfigureTenancy(Action<TenancyBuilder<TTenant>>? configureTenancy = null, Action<TenancyOptions<TTenant>>? configureTenancyOptions = null, params string[] configurationPathParts)
-    {
-        var tenancyBuilder = Services.AddTenancyExtension<TTenant>();
-        configureTenancy?.Invoke(tenancyBuilder);
-        AddConfiguration<TenancyOptions<TTenant>>(configurationPathParts);
-        configureTenancyOptions ??= _ => { };
-        Services.Configure(configureTenancyOptions);
-        return Builder;
+        _tenancyBuilder = Services.AddTenancyExtension<TTenant>();
     }
 
     /// <summary>
-    /// Adds a configuration object definition.
+    /// Configures the underlying tenancy system.
+    /// </summary>
+    /// <param name="configureTenancy">Callback for configuring tenancy using <see cref="TenancyBuilder{TTenant}"/>.</param>
+    /// <param name="configureTenancyOptions">Callback for configuring <see cref="TenancyOptions{TTenant}"/>.</param>
+    /// <param name="tenancyConfigurationPathParts">The optional configuration path parts to the <see cref="TenancyOptions{TTenant}"/> configuration. If no path is given then it defaults to "Tenancy".</param>
+    /// <returns>The builder for continuation.</returns>
+    public TenantConfigurationBuilder<TTenant> ConfigureTenancy(Action<TenancyBuilder<TTenant>>? configureTenancy = null, Action<TenancyOptions<TTenant>>? configureTenancyOptions = null, params string[] tenancyConfigurationPathParts)
+    {
+        if (!_tenancyConfigAdded)
+        {
+            AddTenancyConfiguration(tenancyConfigurationPathParts);
+            _tenancyConfigAdded = true;
+        }
+        configureTenancy?.Invoke(_tenancyBuilder);
+        if (configureTenancyOptions is not null)
+        {
+            Services.Configure(configureTenancyOptions);
+        }
+        return Builder;
+    }
+
+    void AddTenancyConfiguration(string[] tenancyConfigurationPathParts)
+    {
+        AddConfiguration<TenancyOptions<TTenant>>(tenancyConfigurationPathParts.Length == 0 ? ["Tenancy"] : tenancyConfigurationPathParts);
+    }
+    
+    /// <summary>
+    /// Adds a tenant configuration object definition.
     /// </summary>
     /// <param name="configurationPathParts">The configuration path parts of the configuration object.</param>
     /// <typeparam name="TConfigurationType">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</typeparam>
@@ -39,7 +65,7 @@ public class TenantConfigurationBuilder<TTenant> : BaseConfigurationBuilder<Tena
         => AddTenantConfiguration(typeof(TConfigurationType), configurationPathParts);
 
     /// <summary>
-    /// Adds a configuration object definition.
+    /// Adds a tenant configuration object definition.
     /// </summary>
     /// <param name="binderOptions">The <see cref="Microsoft.Extensions.Configuration.BinderOptions"/>.</param>
     /// <param name="configurationPathParts">The configuration path parts of the configuration object.</param>
@@ -48,7 +74,7 @@ public class TenantConfigurationBuilder<TTenant> : BaseConfigurationBuilder<Tena
         => AddTenantConfiguration(typeof(TConfigurationType), binderOptions, configurationPathParts);
 
     /// <summary>
-    /// Adds a configuration object definition.
+    /// Adds a tenant configuration object definition.
     /// </summary>
     /// <param name="type">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</param>
     /// <param name="configurationPathParts">The configuration path parts of the configuration object.</param>
@@ -56,7 +82,7 @@ public class TenantConfigurationBuilder<TTenant> : BaseConfigurationBuilder<Tena
         => AddTenantConfigurationObjectDefinitionFor(type, ConfigurationPath.Combine(configurationPathParts), binderOptions: null);
 
     /// <summary>
-    /// Adds a configuration object definition.
+    /// Adds a tenant configuration object definition.
     /// </summary>
     /// <param name="type">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</param>
     /// <param name="binderOptions">The <see cref="BinderOptions"/>.</param>
@@ -72,7 +98,7 @@ public class TenantConfigurationBuilder<TTenant> : BaseConfigurationBuilder<Tena
     }
 
     /// <summary>
-    /// Adds a <see cref="IConfigureTenantOptions{TOptions,TTenant}"/> that configures the specified <typeparamref name="TOption"/> configuration.
+    /// Adds a <see cref="IConfigureTenantOptions{TOptions,TTenant}"/> that configures the specified tenant <typeparamref name="TOption"/> configuration.
     /// </summary>
     /// <param name="configure">The callback to configure the options.</param>
     /// <typeparam name="TOption">The <see cref="Type"/> of the options to configure.</typeparam>

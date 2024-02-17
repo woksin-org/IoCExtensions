@@ -27,7 +27,8 @@ public static class HostExtensions
         {
             services
                 .AddTenantConfigurationExtension<TTenant>(configurationPrefixes)
-                .WithAssembly(assembly);
+                .WithAssembly(assembly)
+                .ConfigureTenancy();
         });
 
     /// <summary>
@@ -42,7 +43,8 @@ public static class HostExtensions
         {
             services
                 .AddTenantConfigurationExtension<TenantInfo>(configurationPrefixes)
-                .WithAssembly(assembly);
+                .WithAssembly(assembly)
+                .ConfigureTenancy();
         });
 
     /// <summary>
@@ -63,6 +65,7 @@ public static class HostExtensions
                 .AddTenantConfigurationExtension<TTenant>(configurationPrefixes)
                 .WithAssembly(assembly);
             configure?.Invoke(configBuilder);
+            configBuilder.ConfigureTenancy();
         });
     }
 
@@ -82,6 +85,7 @@ public static class HostExtensions
                 .AddTenantConfigurationExtension<TenantInfo>(configurationPrefixes)
                 .WithAssembly(assembly);
             configure?.Invoke(configBuilder);
+            configBuilder.ConfigureTenancy();
         });
     }
 
@@ -101,6 +105,7 @@ public static class HostExtensions
             var configBuilder = services
                 .AddTenantConfigurationExtension<TTenant>(configurationPrefixes);
             configure?.Invoke(configBuilder);
+            configBuilder.ConfigureTenancy();
         });
     }
 
@@ -118,6 +123,7 @@ public static class HostExtensions
             var configBuilder = services
                 .AddTenantConfigurationExtension<TenantInfo>(configurationPrefixes);
             configure?.Invoke(configBuilder);
+            configBuilder.ConfigureTenancy();
         });
     }
 

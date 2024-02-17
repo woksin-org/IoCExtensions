@@ -8,6 +8,6 @@ public class a_host_builder : when_building_host.given.a_host_builder
 	void Establish()
 	{
 		host_builder
-			.UseConfigurationExtension();
+			.UseTenantConfigurationExtension(typeof(a_host_builder).Assembly, _ => _.ConfigureTenancy(configureTenancyOptions: _ => _.StaticTenantId = "the_tenant"));
 	}
 }

@@ -23,7 +23,7 @@ public class TenantOptionsCache<TOptions, TTenantInfo> : IOptionsMonitorCache<TO
     /// <summary>
     /// Constructs a new instance of MultiTenantOptionsCache.
     /// </summary>
-    /// <param name="multiTenantContextAccessor"></param>
+    /// <param name="multiTenantContextAccessor">The <see cref="ITenantContextAccessor"/></param>
     /// <exception cref="ArgumentNullException"></exception>
     public TenantOptionsCache(ITenantContextAccessor<TTenantInfo> multiTenantContextAccessor)
     {

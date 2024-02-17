@@ -6,8 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Woksin.Extensions.Configurations.Tenancy.given;
-using Woksin.Extensions.IoC.Tenancy;
 using Woksin.Extensions.Specifications.XUnit;
+using Woksin.Extensions.Tenancy;
+using Woksin.Extensions.Tenancy.Context;
 
 namespace Woksin.Extensions.Configurations.Tenancy.when_building_host.given;
 
@@ -16,7 +17,7 @@ public partial class the_scenario : Specification
 	protected IHost? host;
 	protected Assembly entry_assembly;
 
-    protected TenantId the_tenant;
+    protected string the_tenant;
 
 	protected IOptions<ConfigWithOnePrefix> config_with_one_prefix;
 	protected IOptions<TenantConfigWithOnePrefix> tenant_config_with_one_prefix;
@@ -54,15 +55,15 @@ public partial class the_scenario : Specification
 	protected void SetupAllServices()
 	{
 		SetService(ref config_with_one_prefix);
-		SetTenantService(ref tenant_config_with_one_prefix);
+        tenant_config_with_one_prefix = GetTenantOptions<TenantConfigWithOnePrefix>().Result;
 		SetService(ref config_with_two_prefixes);
-		SetTenantService(ref tenant_config_with_two_prefixes);
+        tenant_config_with_two_prefixes = GetTenantOptions<TenantConfigWithTwoPrefixes>().Result;
 		SetService(ref config_with_complex_object);
-		SetTenantService(ref tenant_config_with_complex_object);
+        tenant_config_with_complex_object = GetTenantOptions<TenantConfigWithComplexObject>().Result;
 		SetService(ref config_with_nested_configuration);
-		SetTenantService(ref tenant_config_with_nested_configuration);
+        tenant_config_with_nested_configuration = GetTenantOptions<TenantConfigWithNestedConfiguration>().Result;
 		SetService(ref nested_config);
-		SetTenantService(ref tenant_nested_config);
+        tenant_nested_config = GetTenantOptions<TenantNestedConfig>().Result;
 
 		expected_config_with_one_prefix = new ConfigWithOnePrefix { SomeInt = 43 };
         expected_tenant_config_with_one_prefix = new TenantConfigWithOnePrefix { SomeInt = 44 };
@@ -82,9 +83,12 @@ public partial class the_scenario : Specification
 
 	// ReSharper disable once RedundantAssignment
 	void SetService<T>(ref T services) => services = host!.Services.GetService<T>()!;
-	void SetTenantService<T>(ref T services)
+	async Task<IOptions<T>> GetTenantOptions<T>() where T : class
     {
-        var provider = host!.Services.GetRequiredService<ITenantScopedServiceProviders>().ForTenant(the_tenant); 
-        services = provider.GetService<T>()!;
+        return await Task.Run(() =>
+        {
+            host!.Services.GetRequiredService<ITenantContextAccessor>().CurrentTenant = TenantContext.Static(the_tenant);
+            return host!.Services.GetRequiredService<IOptions<T>>(); 
+        });
     }
 }

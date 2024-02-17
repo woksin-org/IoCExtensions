@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Woksin.Extensions.Tenancy.Context;
 using Woksin.Extensions.Tenancy.Strategies;
 
@@ -15,13 +16,13 @@ public class TenancyBuilder<TTenant>
     public TenancyBuilder(IServiceCollection services)
     {
         _services = services;
-        _services.AddScoped<IResolveTenant<TTenant>, TenantResolver<TTenant>>();
-        _services.AddScoped<IResolveTenant>(sp => (IResolveTenant)sp.GetRequiredService<IResolveTenant<TTenant>>());
+        _services.TryAddScoped<IResolveTenant<TTenant>, TenantResolver<TTenant>>();
+        _services.TryAddScoped<IResolveTenant>(sp => (IResolveTenant)sp.GetRequiredService<IResolveTenant<TTenant>>());
 
-        _services.AddScoped<ITenantContext<TTenant>>(sp =>
+        _services.TryAddScoped<ITenantContext<TTenant>>(sp =>
             sp.GetRequiredService<ITenantContextAccessor<TTenant>>().CurrentTenant);
 
-        _services.AddScoped<TTenant>(sp =>
+        _services.TryAddScoped<TTenant>(sp =>
         {
             var accessor = sp.GetRequiredService<ITenantContextAccessor<TTenant>>();
             if (!accessor.CurrentTenant.Resolved(out var tenantInfo, out _))
@@ -30,10 +31,13 @@ public class TenancyBuilder<TTenant>
             }
             return tenantInfo;
         });
-        _services.AddScoped<ITenantInfo>(sp => sp.GetService<TTenant>()!);
-        _services.AddSingleton<ITenantContextAccessor<TTenant>, AsyncLocalTenantContextAccessor<TTenant>>();
-        _services.AddSingleton<ITenantContextAccessor>(sp =>
+        _services.TryAddScoped<ITenantInfo>(sp => sp.GetService<TTenant>()!);
+        _services.TryAddSingleton<ITenantContextAccessor<TTenant>, TenantContextAccessor<TTenant>>();
+        _services.TryAddSingleton<ITenantContextAccessor>(sp =>
             (ITenantContextAccessor)sp.GetRequiredService<ITenantContextAccessor<TTenant>>());
+        _services.TryAddSingleton<IPerformActionInTenantContext<TTenant>, ActionInTenantContextPerformer<TTenant>>();
+        _services.TryAddSingleton<IPerformActionInTenantContext>(sp =>
+            (IPerformActionInTenantContext)sp.GetRequiredService<IPerformActionInTenantContext<TTenant>>());
     }
 
     public TenancyBuilder<TTenant> WithTenantInfo(TTenant tenantInfo)

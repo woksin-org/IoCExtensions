@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseTenantConfigurationExtension(typeof(Config).Assembly, _ =>
 {
-    _.ConfigureTenancy(_ => _.WithStrategy(QueryStrategy.Default), configurationPathParts: "Tenancy");
+    _.ConfigureTenancy(_ => _.WithStrategy(QueryStrategy.Default), tenancyConfigurationPathParts: "Tenancy");
     
 });
 var app = builder.Build();

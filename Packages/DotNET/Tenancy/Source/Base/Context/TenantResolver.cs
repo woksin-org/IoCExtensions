@@ -28,6 +28,14 @@ public partial class TenantResolver<TTenant>(IEnumerable<ITenantResolutionStrate
     public async Task<ITenantContext<TTenant>> Resolve(object context)
     {
         var config = options.CurrentValue;
+        if (config.IsUsingStaticTenant(out var staticTenantId))
+        { 
+            LogUsingStaticTenantId(_logger, staticTenantId!);
+            return TenantContext<TTenant>.Static(new TTenant
+            {
+                Id = staticTenantId
+            });
+        }
         foreach (var strategy in Strategies)
         {        
             var wrappedStrategy = new SafeStrategyWrapper(strategy, loggerFactory?.CreateLogger(strategy.GetType()) ?? NullLogger.Instance);
@@ -45,6 +53,10 @@ public partial class TenantResolver<TTenant>(IEnumerable<ITenantResolutionStrate
         }
 
         LogCouldNotResolveTenant(_logger);
+        if (!Strategies.Any())
+        {
+            LogNoStrategiesConfigured(_logger);
+        }
         return TenantContext<TTenant>.Unresolved();
     }
 
@@ -109,4 +121,10 @@ public partial class TenantResolver<TTenant>(IEnumerable<ITenantResolutionStrate
     
     [LoggerMessage(6, LogLevel.Debug, "Trying to resolve tenant from context using strategy {StrategyType}")]
     static partial void LogTryingToResolve(ILogger logger, Type strategyType);
+    
+    [LoggerMessage(7, LogLevel.Warning, "No tenant resolution strategy is configured")]
+    static partial void LogNoStrategiesConfigured(ILogger logger);
+    
+    [LoggerMessage(8, LogLevel.Debug, "Tenant resolution is skipped because global static tenant id {StaticTenantId}")]
+    static partial void LogUsingStaticTenantId(ILogger logger, string staticTenantId);
 }
