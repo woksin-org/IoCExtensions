@@ -4,7 +4,6 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Woksin.Extensions.IoC.Registry.Types;
-using Woksin.Extensions.IoC.Tenancy;
 
 namespace Woksin.Extensions.IoC.Microsoft;
 
@@ -21,11 +20,8 @@ static class ContainerBuilderExtensions
     public static void RegisterClassesByLifecycle(this IServiceCollection builder, ClassesByLifeTime classes)
     {
         builder.RegisterTypes(classes.SingletonClasses, ServiceLifetime.Singleton);
-        builder.RegisterTypesPerTenant(classes.PerTenantSingletonClasses, ServiceLifetime.Singleton);
         builder.RegisterTypes(classes.ScopedClasses, ServiceLifetime.Scoped);
-        builder.RegisterTypesPerTenant(classes.PerTenantScopedClasses, ServiceLifetime.Scoped);
         builder.RegisterTypes(classes.TransientClasses, ServiceLifetime.Transient);
-        builder.RegisterTypesPerTenant(classes.PerTenantTransientClasses, ServiceLifetime.Transient);
     }
 
     /// <summary>
@@ -36,11 +32,8 @@ static class ContainerBuilderExtensions
     public static void RegisterClassesByLifecycleAsSelf(this IServiceCollection builder, ClassesByLifeTime classes)
     {
         builder.RegisterTypesAsSelf(classes.SingletonClasses, ServiceLifetime.Singleton);
-        builder.RegisterTypesAsSelfPerTenant(classes.PerTenantSingletonClasses, ServiceLifetime.Singleton);
         builder.RegisterTypesAsSelf(classes.ScopedClasses, ServiceLifetime.Scoped);
-        builder.RegisterTypesAsSelfPerTenant(classes.PerTenantScopedClasses, ServiceLifetime.Scoped);
         builder.RegisterTypesAsSelf(classes.TransientClasses, ServiceLifetime.Transient);
-        builder.RegisterTypesAsSelfPerTenant(classes.PerTenantTransientClasses, ServiceLifetime.Transient);
     }
 
     static void RegisterTypes(this IServiceCollection builder, IEnumerable<Type> services, ServiceLifetime lifetime)
@@ -53,28 +46,11 @@ static class ContainerBuilderExtensions
 		    }
 	    }
     }
-    static void RegisterTypesPerTenant(this IServiceCollection builder, IEnumerable<Type> services, ServiceLifetime lifetime)
-    {
-	    foreach (var implementationType in services)
-	    {
-		    foreach (var implementedInterface in GetImplementedInterfaces(implementationType))
-		    {
-			    builder.AddTenantScopedServices(AddWithLifeTime(implementedInterface, implementationType, lifetime));
-		    }
-	    }
-    }
     static void RegisterTypesAsSelf(this IServiceCollection builder, IEnumerable<Type> services, ServiceLifetime lifetime)
     {
 	    foreach (var service in services)
 	    {
 		    AddWithLifeTime(service, service, lifetime)(builder);
-	    }
-    }
-    static void RegisterTypesAsSelfPerTenant(this IServiceCollection builder, IEnumerable<Type> services, ServiceLifetime lifetime)
-    {
-	    foreach (var service in services)
-	    {
-		    builder.AddTenantScopedServices(AddWithLifeTime(service, service, lifetime));
 	    }
     }
 

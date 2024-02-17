@@ -4,7 +4,6 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using Woksin.Extensions.IoC.Autofac.Tenancy;
 using Woksin.Extensions.IoC.Provider;
 using Woksin.Extensions.IoC.Registry;
 
@@ -26,15 +25,6 @@ class ServiceProviderFactory(Action<ContainerBuilder>? configureContainer) : IoC
         ContainerBuilder containerBuilder,
 	    DiscoveredServices<ContainerBuilder> discoveredServices)
     {
-        discoveredServices.AdditionalServices.AddTenantScopedServices(builder => builder.RegisterClassesByLifecycle(
-            [.. discoveredServices.ClassesToRegister.PerTenantSingletonClasses],
-            [.. discoveredServices.ClassesToRegister.PerTenantScopedClasses],
-            [.. discoveredServices.ClassesToRegister.PerTenantTransientClasses]));
-        discoveredServices.AdditionalServices.AddTenantScopedServices(builder => builder.RegisterClassesByLifecycleAsSelf(
-            [.. discoveredServices.ClassesToRegisterAsSelf.PerTenantSingletonClasses],
-            [.. discoveredServices.ClassesToRegisterAsSelf.PerTenantScopedClasses],
-            [.. discoveredServices.ClassesToRegisterAsSelf.PerTenantTransientClasses]));
-
         containerBuilder.RegisterClassesByLifecycle(
             [.. discoveredServices.ClassesToRegister.SingletonClasses],
             [.. discoveredServices.ClassesToRegister.ScopedClasses],

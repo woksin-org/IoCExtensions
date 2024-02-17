@@ -4,9 +4,7 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Woksin.Extensions.IoC.Microsoft.Tenancy;
 using Woksin.Extensions.IoC.Provider;
-using Woksin.Extensions.IoC.Tenancy;
 
 namespace Woksin.Extensions.IoC.Microsoft;
 
@@ -50,11 +48,6 @@ public static class HostBuilderExtensions
         Action<IServiceCollection> addIocExtensionsOptions,
         Action<IServiceCollection>? configureContainer) =>
         builder
-            .ConfigureServices((_, services) =>
-            {
-                addIocExtensionsOptions(services);
-                services.AddSingleton<ICreateTenantScopedProviders, TenantScopedProviderCreator>();
-                services.AddTenantIdJsonConverter();
-            })
+            .ConfigureServices((_, services) => addIocExtensionsOptions(services))
             .UseServiceProviderFactory(new ServiceProviderFactory(configureContainer));
 }
