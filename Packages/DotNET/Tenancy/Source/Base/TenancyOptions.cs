@@ -37,7 +37,7 @@ public class TenancyOptions<TTenant>
 
     public bool IsUsingStaticTenant([NotNullWhen(true)]out string? staticTenantId)
     {
-        staticTenantId = StaticTenantId;
-        return staticTenantId is not null;
+        staticTenantId = string.IsNullOrEmpty(StaticTenantId) ? null : StaticTenantId;
+        return !string.IsNullOrEmpty(staticTenantId);
     }
 }
