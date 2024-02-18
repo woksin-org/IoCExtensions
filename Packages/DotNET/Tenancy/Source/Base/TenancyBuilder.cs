@@ -16,9 +16,8 @@ public class TenancyBuilder<TTenant>
     public TenancyBuilder(IServiceCollection services)
     {
         _services = services;
-        _services.TryAddScoped<IResolveTenant<TTenant>, TenantResolver<TTenant>>();
-        _services.TryAddScoped<IResolveTenant>(sp => (IResolveTenant)sp.GetRequiredService<IResolveTenant<TTenant>>());
-
+        _services.TryAddTransient<IResolveTenant<TTenant>, TenantResolver<TTenant>>();
+        _services.TryAddTransient<IResolveTenant>(sp => (IResolveTenant)sp.GetRequiredService<IResolveTenant<TTenant>>());
         _services.TryAddScoped<ITenantContext<TTenant>>(sp =>
             sp.GetRequiredService<ITenantContextAccessor<TTenant>>().CurrentTenant);
 
@@ -35,8 +34,8 @@ public class TenancyBuilder<TTenant>
         _services.TryAddSingleton<ITenantContextAccessor<TTenant>, TenantContextAccessor<TTenant>>();
         _services.TryAddSingleton<ITenantContextAccessor>(sp =>
             (ITenantContextAccessor)sp.GetRequiredService<ITenantContextAccessor<TTenant>>());
-        _services.TryAddSingleton<IPerformActionInTenantContext<TTenant>, ActionInTenantContextPerformer<TTenant>>();
-        _services.TryAddSingleton<IPerformActionInTenantContext>(sp =>
+        _services.TryAddTransient<IPerformActionInTenantContext<TTenant>, ActionInTenantContextPerformer<TTenant>>();
+        _services.TryAddTransient<IPerformActionInTenantContext>(sp =>
             (IPerformActionInTenantContext)sp.GetRequiredService<IPerformActionInTenantContext<TTenant>>());
     }
 
