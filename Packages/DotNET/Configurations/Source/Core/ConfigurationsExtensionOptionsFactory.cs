@@ -46,7 +46,7 @@ public class ConfigurationsExtensionOptionsFactory<TOptions> : OptionsFactory<TO
         var definition = _definitions.FirstOrDefault();
         return definition == default
             ? base.CreateInstance(name)
-            : BindConfiguration(GetConfigurationPath(definition), definition.BinderOptions);
+            : BindConfiguration(GetConfigurationPath(definition), definition.ConfigurationOptions.BinderOptions);
     }
 
     protected TOptions BindConfiguration(string configurationPath, BinderOptions binderOptions)

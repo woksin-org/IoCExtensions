@@ -18,17 +18,17 @@ public class ConfigurationAttribute : BaseConfigurationAttribute
     /// <param name="configurationPathFirstPart">The first configuration path part.</param>
     /// <param name="configurationPathRestParts">The configuration path parts to parse the object from, excluding the prefix that's configured.</param>
     public ConfigurationAttribute(string configurationPathFirstPart, params string[] configurationPathRestParts)
-        : this(new BinderOptions(), configurationPathFirstPart, configurationPathRestParts)
+        : this(new ConfigurationOptions(), configurationPathFirstPart, configurationPathRestParts)
     {
     }
     /// <summary>
     /// Initializes a new instance of the <see cref="ConfigurationAttribute"/> class.
     /// </summary>
-    /// <param name="binderOptions">The <see cref="BinderOptions"/>.</param>
+    /// <param name="configurationOptions">The <see cref="ConfigurationOptions"/>.</param>
     /// <param name="configurationPathFirstPart">The first configuration path part.</param>
     /// <param name="configurationPathRestParts">The configuration path parts to parse the object from, excluding the prefix that's configured.</param>
-    public ConfigurationAttribute(BinderOptions binderOptions, string configurationPathFirstPart, params string[] configurationPathRestParts)
-        : base(binderOptions, configurationPathFirstPart, configurationPathRestParts)
+    public ConfigurationAttribute(ConfigurationOptions configurationOptions, string configurationPathFirstPart, params string[] configurationPathRestParts)
+        : base(configurationOptions, configurationPathFirstPart, configurationPathRestParts)
     {
     }
 }

@@ -79,7 +79,7 @@ public abstract class BaseConfigurationBuilder<TBuilder> where TBuilder : BaseCo
     {
         if (attribute is ConfigurationAttribute configurationAttribute)
         {
-            AddConfiguration(type, configurationAttribute.BinderOptions, configurationAttribute.ConfigurationPath);
+            AddConfiguration(type, configurationAttribute.ConfigurationOptions, configurationAttribute.ConfigurationPath);
         }
     }
 
@@ -94,11 +94,11 @@ public abstract class BaseConfigurationBuilder<TBuilder> where TBuilder : BaseCo
     /// <summary>
     /// Adds a configuration object definition.
     /// </summary>
-    /// <param name="binderOptions">The <see cref="BinderOptions"/>.</param>
+    /// <param name="configurationOptions">The <see cref="ConfigurationOptions"/>.</param>
     /// <param name="configurationPathParts">The configuration path parts of the configuration object.</param>
     /// <typeparam name="TConfigurationType">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</typeparam>
-    public TBuilder AddConfiguration<TConfigurationType>(BinderOptions binderOptions, params string[] configurationPathParts)
-        => AddConfiguration(typeof(TConfigurationType), binderOptions, configurationPathParts);
+    public TBuilder AddConfiguration<TConfigurationType>(ConfigurationOptions configurationOptions, params string[] configurationPathParts)
+        => AddConfiguration(typeof(TConfigurationType), configurationOptions, configurationPathParts);
 
     /// <summary>
     /// Adds a configuration object definition.
@@ -106,20 +106,20 @@ public abstract class BaseConfigurationBuilder<TBuilder> where TBuilder : BaseCo
     /// <param name="type">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</param>
     /// <param name="configurationPathParts">The configuration path parts of the configuration object.</param>
     public TBuilder AddConfiguration(Type type, params string[] configurationPathParts)
-        => AddConfigurationObjectDefinitionFor(type, ConfigurationPath.Combine(configurationPathParts), binderOptions: null);
+        => AddConfigurationObjectDefinitionFor(type, ConfigurationPath.Combine(configurationPathParts), configurationOptions: null);
 
     /// <summary>
     /// Adds a configuration object definition.
     /// </summary>
     /// <param name="type">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</param>
-    /// <param name="binderOptions">The <see cref="BinderOptions"/>.</param>
+    /// <param name="configurationOptions">The <see cref="ConfigurationOptions"/>.</param>
     /// <param name="configurationPathParts">The configuration path parts of the configuration object.</param>
-    public TBuilder AddConfiguration(Type type, BinderOptions binderOptions, params string[] configurationPathParts)
-        => AddConfigurationObjectDefinitionFor(type, ConfigurationPath.Combine(configurationPathParts), binderOptions);
+    public TBuilder AddConfiguration(Type type, ConfigurationOptions configurationOptions, params string[] configurationPathParts)
+        => AddConfigurationObjectDefinitionFor(type, ConfigurationPath.Combine(configurationPathParts), configurationOptions);
 
-    TBuilder AddConfigurationObjectDefinitionFor(Type type, string configurationPath, BinderOptions? binderOptions)
+    TBuilder AddConfigurationObjectDefinitionFor(Type type, string configurationPath, ConfigurationOptions? configurationOptions)
     {
-        ConfigurationAdder.AddConfigurationDefinitionToServices(Services, type, configurationPath, binderOptions ?? new BinderOptions());
+        ConfigurationAdder.AddConfigurationDefinitionToServices(Services, type, configurationPath, configurationOptions ?? new ConfigurationOptions());
         return Builder;
     }
 

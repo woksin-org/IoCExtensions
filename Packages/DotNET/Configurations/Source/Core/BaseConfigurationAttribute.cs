@@ -16,10 +16,10 @@ public abstract class BaseConfigurationAttribute : Attribute
     /// <summary>
     /// Initializes a new instance of the <see cref="BaseConfigurationAttribute"/> class.
     /// </summary>
-    /// <param name="binderOptions">The <see cref="BinderOptions"/>.</param>
+    /// <param name="configurationOptions">The <see cref="ConfigurationOptions"/>.</param>
     /// <param name="configurationPathFirstPart">The first configuration path part.</param>
     /// <param name="configurationPathRestParts">The configuration path parts to parse the object from, excluding the prefix that's configured.</param>
-    protected BaseConfigurationAttribute(BinderOptions binderOptions, string configurationPathFirstPart, params string[] configurationPathRestParts)
+    protected BaseConfigurationAttribute(ConfigurationOptions configurationOptions, string configurationPathFirstPart, params string[] configurationPathRestParts)
     {
         ConfigurationPath = configurationPathFirstPart;
         if (configurationPathRestParts.Length > 0)
@@ -28,7 +28,7 @@ public abstract class BaseConfigurationAttribute : Attribute
                 ConfigurationPath,
                 Microsoft.Extensions.Configuration.ConfigurationPath.Combine(configurationPathRestParts));
         }
-        BinderOptions = binderOptions ?? new BinderOptions();
+        ConfigurationOptions = configurationOptions ?? new ConfigurationOptions();
     }
 
     /// <summary>
@@ -37,7 +37,7 @@ public abstract class BaseConfigurationAttribute : Attribute
     public string ConfigurationPath { get; }
 
     /// <summary>
-    /// Gets the <see cref="BinderOptions"/>.
+    /// Gets the <see cref="ConfigurationOptions"/>.
     /// </summary>
-    public BinderOptions BinderOptions { get; }
+    public ConfigurationOptions ConfigurationOptions { get; }
 }

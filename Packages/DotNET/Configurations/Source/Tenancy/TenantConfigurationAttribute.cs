@@ -12,12 +12,12 @@ namespace Woksin.Extensions.Configurations.Tenancy;
 public class TenantConfigurationAttribute : ConfigurationAttribute
 {
     public TenantConfigurationAttribute(string configurationPathFirstPart, params string[] configurationPathRestParts)
-        : this(new BinderOptions(), configurationPathFirstPart, configurationPathRestParts)
+        : this(new ConfigurationOptions(), configurationPathFirstPart, configurationPathRestParts)
     {
     }
 
-    public TenantConfigurationAttribute(BinderOptions binderOptions, string configurationPathFirstPart, params string[] configurationPathRestParts)
-        : base(binderOptions, configurationPathFirstPart, configurationPathRestParts)
+    public TenantConfigurationAttribute(ConfigurationOptions configurationOptions, string configurationPathFirstPart, params string[] configurationPathRestParts)
+        : base(configurationOptions, configurationPathFirstPart, configurationPathRestParts)
     {
     }
 }

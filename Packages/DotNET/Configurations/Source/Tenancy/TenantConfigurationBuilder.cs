@@ -67,11 +67,11 @@ public class TenantConfigurationBuilder<TTenant> : BaseConfigurationBuilder<Tena
     /// <summary>
     /// Adds a tenant configuration object definition.
     /// </summary>
-    /// <param name="binderOptions">The <see cref="Microsoft.Extensions.Configuration.BinderOptions"/>.</param>
+    /// <param name="configurationOptions">The <see cref="ConfigurationOptions"/>.</param>
     /// <param name="configurationPathParts">The configuration path parts of the configuration object.</param>
     /// <typeparam name="TConfigurationType">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</typeparam>
-    public TenantConfigurationBuilder<TTenant> AddTenantConfiguration<TConfigurationType>(BinderOptions binderOptions, params string[] configurationPathParts)
-        => AddTenantConfiguration(typeof(TConfigurationType), binderOptions, configurationPathParts);
+    public TenantConfigurationBuilder<TTenant> AddTenantConfiguration<TConfigurationType>(ConfigurationOptions configurationOptions, params string[] configurationPathParts)
+        => AddTenantConfiguration(typeof(TConfigurationType), configurationOptions, configurationPathParts);
 
     /// <summary>
     /// Adds a tenant configuration object definition.
@@ -79,20 +79,20 @@ public class TenantConfigurationBuilder<TTenant> : BaseConfigurationBuilder<Tena
     /// <param name="type">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</param>
     /// <param name="configurationPathParts">The configuration path parts of the configuration object.</param>
     public TenantConfigurationBuilder<TTenant> AddTenantConfiguration(Type type, params string[] configurationPathParts)
-        => AddTenantConfigurationObjectDefinitionFor(type, ConfigurationPath.Combine(configurationPathParts), binderOptions: null);
+        => AddTenantConfigurationObjectDefinitionFor(type, ConfigurationPath.Combine(configurationPathParts), configurationOptions: null);
 
     /// <summary>
     /// Adds a tenant configuration object definition.
     /// </summary>
     /// <param name="type">The <see cref="Type"/> of the <see cref="ConfigurationObjectDefinition{TConfiguration}"/>.</param>
-    /// <param name="binderOptions">The <see cref="BinderOptions"/>.</param>
+    /// <param name="configurationOptions">The <see cref="ConfigurationOptions"/>.</param>
     /// <param name="configurationPathParts">The configuration path parts of the configuration object.</param>
-    public TenantConfigurationBuilder<TTenant> AddTenantConfiguration(Type type, BinderOptions binderOptions, params string[] configurationPathParts)
-        => AddTenantConfigurationObjectDefinitionFor(type, ConfigurationPath.Combine(configurationPathParts), binderOptions);
+    public TenantConfigurationBuilder<TTenant> AddTenantConfiguration(Type type, ConfigurationOptions configurationOptions, params string[] configurationPathParts)
+        => AddTenantConfigurationObjectDefinitionFor(type, ConfigurationPath.Combine(configurationPathParts), configurationOptions);
 
-    TenantConfigurationBuilder<TTenant> AddTenantConfigurationObjectDefinitionFor(Type type, string configurationPath, BinderOptions? binderOptions)
+    TenantConfigurationBuilder<TTenant> AddTenantConfigurationObjectDefinitionFor(Type type, string configurationPath, ConfigurationOptions? configurationOptions)
     {
-        ConfigurationAdder.AddConfigurationDefinitionToServices(Services, type, configurationPath, binderOptions ?? new BinderOptions());
+        ConfigurationAdder.AddConfigurationDefinitionToServices(Services, type, configurationPath, configurationOptions ?? new ConfigurationOptions());
         AddTenantSpecificServicesFor(type);
         return this;
     }
@@ -114,7 +114,7 @@ public class TenantConfigurationBuilder<TTenant> : BaseConfigurationBuilder<Tena
     {
         if (attribute is TenantConfigurationAttribute tenantAttribute)
         {
-            AddTenantConfiguration(type, tenantAttribute.BinderOptions, tenantAttribute.ConfigurationPath);
+            AddTenantConfiguration(type, tenantAttribute.ConfigurationOptions, tenantAttribute.ConfigurationPath);
             AddTenantSpecificServicesFor(type);
         }
         else
