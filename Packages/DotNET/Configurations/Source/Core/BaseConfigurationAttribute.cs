@@ -17,16 +17,12 @@ public abstract class BaseConfigurationAttribute : Attribute
     /// Initializes a new instance of the <see cref="BaseConfigurationAttribute"/> class.
     /// </summary>
     /// <param name="configurationOptions">The <see cref="ConfigurationOptions"/>.</param>
-    /// <param name="configurationPathFirstPart">The first configuration path part.</param>
-    /// <param name="configurationPathRestParts">The configuration path parts to parse the object from, excluding the prefix that's configured.</param>
-    protected BaseConfigurationAttribute(ConfigurationOptions configurationOptions, string configurationPathFirstPart, params string[] configurationPathRestParts)
+    /// <param name="configurationPathParts">The configuration path parts to parse the object from, excluding the prefix that's configured.</param>
+    protected BaseConfigurationAttribute(ConfigurationOptions configurationOptions, params string[] configurationPathParts)
     {
-        ConfigurationPath = configurationPathFirstPart;
-        if (configurationPathRestParts.Length > 0)
+        if (configurationPathParts.Length > 0)
         {
-            ConfigurationPath = Microsoft.Extensions.Configuration.ConfigurationPath.Combine(
-                ConfigurationPath,
-                Microsoft.Extensions.Configuration.ConfigurationPath.Combine(configurationPathRestParts));
+            ConfigurationPath = Microsoft.Extensions.Configuration.ConfigurationPath.Combine(configurationPathParts);
         }
         ConfigurationOptions = configurationOptions ?? new ConfigurationOptions();
     }
@@ -34,7 +30,7 @@ public abstract class BaseConfigurationAttribute : Attribute
     /// <summary>
     /// Gets the configuration path to parse the configuration object from.
     /// </summary>
-    public string ConfigurationPath { get; }
+    public string ConfigurationPath { get; } = "";
 
     /// <summary>
     /// Gets the <see cref="ConfigurationOptions"/>.
