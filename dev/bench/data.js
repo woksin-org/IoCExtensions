@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1700147656998,
+  "lastUpdate": 1708957045156,
   "repoUrl": "https://github.com/woksin-org/Woksin.Extensions",
   "entries": {
     "Woksin.Extensions.IoC Benchmarks": [
@@ -600,6 +600,42 @@ window.BENCHMARK_DATA = {
             "value": 96849.79,
             "unit": "ns",
             "range": "± 48487.67445971203"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "woksin@users.noreply.github.com",
+            "name": "Sindre Alstad Wilting",
+            "username": "woksin"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "fa86816ca54ae185d0085b665086858ed33bd018",
+          "message": "Merge pull request #26 from woksin-org/change-tenancy-model\n\nChange tenancy model",
+          "timestamp": "2024-02-26T15:16:36+01:00",
+          "tree_id": "f1f8a4e6d8b524e9bdfe440271300a7379671f61",
+          "url": "https://github.com/woksin-org/Woksin.Extensions/commit/fa86816ca54ae185d0085b665086858ed33bd018"
+        },
+        "date": 1708957044514,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "Woksin.Extensions.IoC.Benchmarks.BuildHost.MicrosoftIoC",
+            "value": 6342131.866666666,
+            "unit": "ns",
+            "range": "± 76345.20774731674"
+          },
+          {
+            "name": "Woksin.Extensions.IoC.Benchmarks.BuildHost.AutofacIoC",
+            "value": 28501860.73529412,
+            "unit": "ns",
+            "range": "± 544620.2670881714"
           }
         ]
       }
