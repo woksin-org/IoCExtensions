@@ -9,32 +9,16 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
         <PackageReference Include="Microsoft.Extensions.Options" />
+        
+        <PackageReference Include="Woksin.Extensions.Tenancy" VersionOverride="1.0.1"/>
     </ItemGroup>
     
     <ItemGroup>
         <ProjectReference Include="..\Core\Configurations.Core.csproj" />
-        <ProjectReference Include="..\..\..\Tenancy\Source\Base\Tenancy.Base.csproj" />
+<!--        <ProjectReference Include="..\..\..\Tenancy\Source\Base\Tenancy.Base.csproj" />-->
     </ItemGroup>
     <ItemGroup>
         <None Include="$(MSBuildThisFileDirectory)/../../README.md" Pack="true" PackagePath="/README.md" />
     </ItemGroup>
 
-<!--    <Target Name="UseExplicitPackageVersions" BeforeTargets="GenerateNuspec">-->
-<!--        <ItemGroup>-->
-<!--            <_ProjectReferenceWithExplicitPackageVersion Include="@(ProjectReference->'%(FullPath)')"-->
-<!--                                                         Condition="'%(ProjectReference.PackageVersion)' != ''" />-->
-<!--            <_ProjectReferenceWithExactPackageVersion Include="@(ProjectReference->'%(FullPath)')"-->
-<!--                                                      Condition="'%(ProjectReference.ExactVersion)' == 'true'" />-->
-<!--            <_ProjectReferenceWithReassignedVersion Include="@(_ProjectReferencesWithVersions)"-->
-<!--                                                    Condition="'%(Identity)' != '' And '@(_ProjectReferencesWithVersions)' == '@(_ProjectReferenceWithExplicitPackageVersion)'">-->
-<!--                <ProjectVersion>@(_ProjectReferenceWithExplicitPackageVersion->'%(PackageVersion)')</ProjectVersion>-->
-<!--            </_ProjectReferenceWithReassignedVersion>-->
-<!--            <_ProjectReferenceWithReassignedVersion Include="@(_ProjectReferencesWithVersions)"-->
-<!--                                                    Condition="'%(Identity)' != '' And '@(_ProjectReferencesWithVersions)' == '@(_ProjectReferenceWithExactPackageVersion)'">-->
-<!--                <ProjectVersion>[@(_ProjectReferencesWithVersions->'%(ProjectVersion)')]</ProjectVersion>-->
-<!--            </_ProjectReferenceWithReassignedVersion>-->
-<!--            <_ProjectReferencesWithVersions Remove="@(_ProjectReferenceWithReassignedVersion)" />-->
-<!--            <_ProjectReferencesWithVersions Include="@(_ProjectReferenceWithReassignedVersion)" />-->
-<!--        </ItemGroup>-->
-<!--    </Target>-->
 </Project>
