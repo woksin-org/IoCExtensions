@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RootNamespace>$(RootNamespace).AspNetCore</RootNamespace>
+        <AssemblyName>$(AssemblyName).AspNetCore</AssemblyName>
+    </PropertyGroup>
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="../Base/Tenancy.Base.csproj" />
+        <None Include="$(MSBuildThisFileDirectory)/../../README.md" Pack="true" PackagePath="/README.md" />
+    </ItemGroup>
+</Project>

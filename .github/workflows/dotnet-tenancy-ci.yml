@@ -1,0 +1,19 @@
+name: DotNET - Tenancy - Build
+
+on:
+  push:
+    branches: ['**']
+    paths: 
+      - Packages/DotNET/Tenancy/**
+      - Packages/DotNET/Specifications/**
+      - .github/workflows/dotnet-tenancy-*
+      - .github/workflows/dotnet-reusable-build.yml
+
+
+jobs:
+  build:
+    uses: ./.github/workflows/dotnet-reusable-build.yml
+    with:
+      working-directory: Packages/DotNET/Tenancy
+      library-name: Woksin.Extensions.Tenancy
+    secrets: inherit

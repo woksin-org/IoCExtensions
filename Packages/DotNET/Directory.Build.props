@@ -31,6 +31,7 @@
         <IsPackable Condition="$(MSBuildProjectName.Contains('Tests'))">false</IsPackable>
         <NoWarn Condition="$(MSBuildProjectName.Contains('Tests'))">$(NoWarn);CS1591;CA2017;NU1507;CS86404;CS8618;CS8604;CA1707;CA1051;RCS1213;MA0048;IDE0051</NoWarn>
 
+        <IsPackable Condition="$(MSBuildProjectName.Contains('Samples'))">false</IsPackable>
         <RunSettingsFilePath>$(MSBuildThisFileDirectory)\.runsettings</RunSettingsFilePath>
 	</PropertyGroup>
 

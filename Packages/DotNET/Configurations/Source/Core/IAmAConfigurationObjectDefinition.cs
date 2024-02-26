@@ -21,7 +21,7 @@ public interface IAmAConfigurationObjectDefinition
     public Type ConfigurationObjectType { get; }
 
     /// <summary>
-    /// Gets the <see cref="BinderOptions"/>.
+    /// Gets the <see cref="ConfigurationOptions"/>.
     /// </summary>
-    public BinderOptions BinderOptions { get; }
+    public ConfigurationOptions ConfigurationOptions { get; }
 }

@@ -6,7 +6,6 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Woksin.Extensions.IoC.Registry.Attributes;
 using Woksin.Extensions.IoC.Registry.Types;
-using Woksin.Extensions.IoC.Tenancy;
 
 namespace Woksin.Extensions.IoC.Registry;
 
@@ -25,7 +24,6 @@ public sealed class DiscoveredServices<TContainerBuilder>
     public DiscoveredServices(IEnumerable<Type> types, IEnumerable<Assembly> assemblies, IoCSettings settings, TContainerBuilder builder)
     {
         AdditionalServices = new ServiceCollection();
-        AdditionalServices.AddDefaultMultiTenancyServices();
         var groupedClassesToRegisterAsSelf =
             ClassesByLifeTime.Create(
                 settings.DefaultLifetime,

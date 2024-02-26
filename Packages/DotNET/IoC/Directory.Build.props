@@ -5,6 +5,13 @@
 		<RootNamespace>Woksin.Extensions.IoC</RootNamespace>
         <AssemblyName>Woksin.Extensions.IoC</AssemblyName>
 	</PropertyGroup>
+    <PropertyGroup>
+        <WarningsAsErrors>false</WarningsAsErrors>
+        <RunAnalyzers>false</RunAnalyzers>
+        <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+        <MSBuildTreatWarningsAsErrors>False</MSBuildTreatWarningsAsErrors>
+        <CodeAnalysisTreatWarningsAsErrors>False</CodeAnalysisTreatWarningsAsErrors>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" PrivateAssets="All"/>

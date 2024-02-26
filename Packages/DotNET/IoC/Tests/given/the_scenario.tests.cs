@@ -14,28 +14,12 @@ public partial class the_scenario
 		AssertCorrectType<ISingletonService, SingletonService>(service);
 		AssertCorrectLifetime(service, ServiceLifetime.Singleton);
 	}
-    protected virtual void should_get_singleton_per_tenant_service()
-	{
-		var service = singletonPerTenant;
-		AssertCorrectType<ISingletonPerTenantService, PerTenantSingletonService>(service);
-		AssertCorrectLifetime(service, ServiceLifetime.Singleton);
-        Assert.Equal(service.First!.Tenant, the_tenant_id);
-	}
-
 	protected virtual void should_get_scoped_service()
 	{
 		var service = scoped;
 		AssertCorrectType<IScopedService, ScopedService>(service);
 		AssertCorrectLifetime(service, ServiceLifetime.Scoped);
 	}
-    protected virtual void should_get_scoped_per_tenant_service()
-	{
-		var service = scopedPerTenant;
-		AssertCorrectType<IScopedPerTenantService, PerTenantScopedService>(service);
-		AssertCorrectLifetime(service, ServiceLifetime.Scoped);
-        Assert.Equal(service.First!.Tenant, the_tenant_id);
-	}
-
 	protected virtual void should_get_transient_service()
 	{
 		var service = transient;
@@ -43,13 +27,6 @@ public partial class the_scenario
 		AssertCorrectLifetime(service, ServiceLifetime.Transient);
 	}
     
-    protected virtual void should_get_transient_per_tenant_service()
-    {
-        var service = transientPerTenant;
-        AssertCorrectType<ITransientPerTenantService, PerTenantTransientService>(service);
-        AssertCorrectLifetime(service, ServiceLifetime.Transient);
-        Assert.Equal(service.First!.Tenant, the_tenant_id);
-    }
 	protected virtual void should_get_service_without_lifetime()
 	{
 		var service = service_without_lifetime_attribute;
@@ -57,14 +34,6 @@ public partial class the_scenario
 		AssertDefaultLifetime(service);
 	}
 
-    protected virtual void should_get_per_tenant_service_without_lifetime()
-    {
-        var service = per_tenant_service_without_lifetime_attribute;
-        AssertCorrectType<IPerTenantServiceWithoutLifetimeAttribute, PerTenantServiceWithoutLifetimeAttribute>(service);
-        AssertDefaultLifetime(service);
-        Assert.Equal(service.First!.Tenant, the_tenant_id);
-    }
-	
 	protected virtual void should_get_explicitly_added_service()
 	{
 		var service = explicitly_added_service;

@@ -4,7 +4,6 @@
 using System.Collections.ObjectModel;
 using Microsoft.Extensions.DependencyInjection;
 using Woksin.Extensions.IoC.Lifetime;
-using Woksin.Extensions.IoC.Tenancy;
 
 namespace Woksin.Extensions.IoC.Registry.Types;
 
@@ -38,15 +37,9 @@ public class ClassesByLifeTime
 		IEnumerable<Type> scopedClasses,
 		IEnumerable<Type> transientClasses)
 	{
-		SingletonClasses = new ReadOnlyCollection<Type>(singletonClasses
-            .FilterClassesWithAttribute<PerTenantAttribute>(out var perTenantSingleton).ToList());
-		PerTenantSingletonClasses = new ReadOnlyCollection<Type>(perTenantSingleton.ToList());
-		ScopedClasses = new ReadOnlyCollection<Type>(scopedClasses
-            .FilterClassesWithAttribute<PerTenantAttribute>(out var perTenantScoped).ToList());
-		PerTenantScopedClasses = new ReadOnlyCollection<Type>(perTenantScoped.ToList());
-		TransientClasses = new ReadOnlyCollection<Type>(transientClasses
-            .FilterClassesWithAttribute<PerTenantAttribute>(out var perTenantTransient).ToList());
-		PerTenantTransientClasses = new ReadOnlyCollection<Type>(perTenantTransient.ToList());
+		SingletonClasses = new ReadOnlyCollection<Type>(singletonClasses.ToList());
+		ScopedClasses = new ReadOnlyCollection<Type>(scopedClasses.ToList());
+		TransientClasses = new ReadOnlyCollection<Type>(transientClasses.ToList());
 	}
 
 	/// <summary>
@@ -55,27 +48,12 @@ public class ClassesByLifeTime
     public IReadOnlyCollection<Type> SingletonClasses { get; }
 
     /// <summary>
-    /// Gets the discovered classes that should be registered as per tenant singleton.
-    /// </summary>
-    public IReadOnlyCollection<Type> PerTenantSingletonClasses { get; }
-
-    /// <summary>
     /// Gets the discovered classes that should be registered as scoped.
     /// </summary>
     public IReadOnlyCollection<Type> ScopedClasses { get; }
 
     /// <summary>
-    /// Gets the discovered classes that should be registered as per tenant scoped.
-    /// </summary>
-    public IReadOnlyCollection<Type> PerTenantScopedClasses { get; }
-
-    /// <summary>
     /// Gets the discovered classes that should be registered as transient.
     /// </summary>
     public IReadOnlyCollection<Type> TransientClasses { get; }
-
-    /// <summary>
-    /// Gets the discovered classes that should be registered as per tenant transient.
-    /// </summary>
-    public IReadOnlyCollection<Type> PerTenantTransientClasses { get; }
 }

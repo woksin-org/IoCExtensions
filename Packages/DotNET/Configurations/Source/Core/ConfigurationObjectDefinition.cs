@@ -16,19 +16,23 @@ public class ConfigurationObjectDefinition<TConfiguration> : IAmAConfigurationOb
     /// Initializes a new instance of the <see cref="ConfigurationObjectDefinition{TOptions}"/> class.
     /// </summary>
     /// <param name="configurationPath">The configuration path.</param>
-    /// <param name="binderOptions">The binder options.</param>
-    public ConfigurationObjectDefinition(string configurationPath, BinderOptions binderOptions)
+    /// <param name="configurationOptions">The configuration options.</param>
+    public ConfigurationObjectDefinition(string configurationPath, ConfigurationOptions configurationOptions)
     {
 	    ConfigurationPath = configurationPath;
-        BinderOptions = binderOptions;
+        ConfigurationOptions = configurationOptions;
         ConfigurationObjectType = typeof(TConfiguration);
+        if (string.IsNullOrWhiteSpace(ConfigurationPath))
+        {
+            ConfigurationPath = ConfigurationObjectType.Name;
+        }
     }
 
     /// <inheritdoc />
     public string ConfigurationPath { get; }
 
     /// <inheritdoc />
-    public BinderOptions BinderOptions { get; }
+    public ConfigurationOptions ConfigurationOptions { get; }
 
     /// <inheritdoc />
     public Type ConfigurationObjectType { get; }
