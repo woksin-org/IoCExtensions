@@ -5,6 +5,7 @@
         <AssemblyName>$(AssemblyName).MSTest</AssemblyName>
         <IsTestProject>false</IsTestProject>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageVersion>$(MyPackageVersion)</PackageVersion>
 	</PropertyGroup>
 
     <ItemGroup>
