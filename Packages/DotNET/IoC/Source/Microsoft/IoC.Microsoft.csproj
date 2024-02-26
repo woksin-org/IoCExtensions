@@ -2,6 +2,7 @@
 	<PropertyGroup>
 		<RootNamespace>$(RootNamespace).Microsoft</RootNamespace>
         <AssemblyName>$(AssemblyName).Microsoft</AssemblyName>
+        <PackageVersion>$(MyPackageVersion)</PackageVersion>
 	</PropertyGroup>
 
     <ItemGroup>

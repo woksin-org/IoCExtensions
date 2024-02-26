@@ -3,6 +3,7 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RootNamespace>$(RootNamespace).AspNetCore</RootNamespace>
         <AssemblyName>$(AssemblyName).AspNetCore</AssemblyName>
+        <PackageVersion>$(MyPackageVersion)</PackageVersion>
     </PropertyGroup>
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />

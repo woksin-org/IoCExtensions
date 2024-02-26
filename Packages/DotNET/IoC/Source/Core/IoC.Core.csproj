@@ -3,6 +3,7 @@
 		<RootNamespace>$(RootNamespace)</RootNamespace>
         <AssemblyName>$(AssemblyName).Core</AssemblyName>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageVersion>$(MyPackageVersion)</PackageVersion>
 	</PropertyGroup>
 
     <ItemGroup>
