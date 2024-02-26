@@ -1,3 +1,9 @@
+# [3.0.2] - 2024-2-26[PR: #29](https://github.com/woksin-org/Woksin.Extensions/pull/29)
+## Summary
+
+Reference package explicitly
+
+
 # [3.0.1] - 2024-2-26[PR: #28](https://github.com/woksin-org/Woksin.Extensions/pull/28)
 ## Summary
 
