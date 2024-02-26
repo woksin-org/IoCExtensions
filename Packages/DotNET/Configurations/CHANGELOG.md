@@ -1,3 +1,9 @@
+# [3.0.0] - 2024-2-26[PR: #26](https://github.com/woksin-org/Woksin.Extensions/pull/26)
+## Summary
+
+Massively changed how tenancy is handled. Tenancy is now not a strictly IoC bound concept
+
+
 # [2.0.0] - 2023-11-16[PR: #25](https://github.com/woksin-org/Woksin.Extensions/pull/25)
 ## Summary
 
