@@ -27,6 +27,8 @@ public class TenantConfigurationBuilder<TTenant> : BaseConfigurationBuilder<Tena
         : base(services, configurationPrefixes)
     {
         _tenancyBuilder = Services.AddTenancyExtension<TTenant>();
+        Services.TryAddSingleton<ITenantOptions<TTenant>, TenantOptions<TTenant>>();
+        Services.TryAddSingleton<ITenantOptions>(sp => (ITenantOptions)sp.GetRequiredService<ITenantOptions<TTenant>>());
     }
 
     /// <summary>
