@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using Woksin.Extensions.Tenancy.Context;
 
 namespace Woksin.Extensions.Tenancy;
@@ -11,15 +12,23 @@ public class ActionInTenantContextPerformer<TTenant> : IPerformActionInTenantCon
 {
     readonly ITenantContextAccessor<TTenant> _tenantContextAccessor;
     readonly ITenantContextAccessor _nonTypedTenantContextAccessor;
+    readonly IOptionsMonitor<TenancyOptions<TTenant>> _options;
 
-    public ActionInTenantContextPerformer(ITenantContextAccessor<TTenant> tenantContextAccessor, ITenantContextAccessor nonTypedTenantContextAccessor)
+    public ActionInTenantContextPerformer(ITenantContextAccessor<TTenant> tenantContextAccessor, ITenantContextAccessor nonTypedTenantContextAccessor, IOptionsMonitor<TenancyOptions<TTenant>> options)
     {
         _tenantContextAccessor = tenantContextAccessor;
         _nonTypedTenantContextAccessor = nonTypedTenantContextAccessor;
+        _options = options;
     }
 
+    void ThrowIfTenantContextDisabled()
+    {
+        ITenantContextAccessor<TTenant>.ThrowIfDisabledTenantContext(_tenantContextAccessor, _options.CurrentValue);
+    }
+    
     public async Task<TResult> Perform<TResult>(ITenantContext<TTenant> tenant, Func<ITenantContext<TTenant>, TResult> callback)
     {
+        ThrowIfTenantContextDisabled();
         return await Task.Run(() =>
         {
             _tenantContextAccessor.CurrentTenant = tenant;
@@ -28,6 +37,7 @@ public class ActionInTenantContextPerformer<TTenant> : IPerformActionInTenantCon
     }
     public async Task<TResult> Perform<TResult>(ITenantContext<TTenant> tenant, Func<ITenantContext<TTenant>, Task<TResult>> callback)
     {
+        ThrowIfTenantContextDisabled();
         return await Task.Run(async() =>
         {
             _tenantContextAccessor.CurrentTenant = tenant;
@@ -37,6 +47,7 @@ public class ActionInTenantContextPerformer<TTenant> : IPerformActionInTenantCon
 
     public async Task Perform<TResult>(ITenantContext<TTenant> tenant, Action<ITenantContext<TTenant>> callback)
     {
+        ThrowIfTenantContextDisabled();
         await Task.Run(() =>
         {
             _tenantContextAccessor.CurrentTenant = tenant;
@@ -46,6 +57,7 @@ public class ActionInTenantContextPerformer<TTenant> : IPerformActionInTenantCon
     
     public async Task Perform<TResult>(ITenantContext<TTenant> tenant, Func<ITenantContext<TTenant>, Task> callback)
     {
+        ThrowIfTenantContextDisabled();
         await Task.Run(async () =>
         {
             _tenantContextAccessor.CurrentTenant = tenant;

@@ -15,6 +15,7 @@ namespace Woksin.Extensions.Tenancy.AspNetCore;
 public partial class TenancyMiddleware
 {
     readonly RequestDelegate _next;
+    public static readonly object TenantContextItemKey = new();
 
     public TenancyMiddleware(RequestDelegate next)
     {
@@ -26,15 +27,18 @@ public partial class TenancyMiddleware
         var logger = context.RequestServices.GetService<ILogger<TenancyMiddleware>>() ?? NullLogger<TenancyMiddleware>.Instance;
         LogGettingTenantContext(logger);
         var accessor = context.RequestServices.GetRequiredService<ITenantContextAccessor>();
-        if (!accessor.CurrentTenant.Resolved(out var tenantInfo, out _))
+        if (!accessor.CurrentTenant.Resolved(out var tenantInfo, out var currentTenantContext))
         {
             LogResolvingTenantContext(logger);
             var resolver = context.RequestServices.GetRequiredService<IResolveTenant>();
-            accessor.CurrentTenant = await resolver.Resolve(context);
+            var resolvedTenant = await resolver.Resolve(context);
+            accessor.CurrentTenant = resolvedTenant;
+            context.Items[TenantContextItemKey] = resolvedTenant;
         }
         else
         {
             LogTenantContextExists(logger, tenantInfo.Id, tenantInfo.Name);
+            context.Items[TenantContextItemKey] = currentTenantContext;
         }
 
         await _next(context);
