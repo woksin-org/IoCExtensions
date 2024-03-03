@@ -73,28 +73,24 @@ public partial class TenantResolver<TTenant>(IEnumerable<ITenantResolutionStrate
         return (false, null);
     }
 
-    bool TryGetTenantContext(TenancyOptions<TTenant> config, string identifier, ITenantResolutionStrategy strategy, [NotNullWhen(true)]out ITenantContext<TTenant>? tenantContext)
+    bool TryGetTenantContext(TenancyOptions<TTenant> config, string identifier, ITenantResolutionStrategy strategy, out ITenantContext<TTenant> tenantContext)
     {
-        tenantContext = null;
-        var configuredTenant = config.Tenants.FirstOrDefault(tenant => tenant.Id.Equals(identifier, StringComparison.OrdinalIgnoreCase));
-        if (configuredTenant is not null)
-        {
-            LogUsingConfiguredTenant(_logger, identifier, configuredTenant.Name);
-            tenantContext = TenantContext<TTenant>.Resolved(configuredTenant, new StrategyInfo(strategy.GetType(), strategy));
-            return true;
-        }
-
-        if (config.Strict)
+        var (isResolved, isResolvedFromConfig) = config.TryGetTenantContext(identifier, strategy, out tenantContext);
+        if (!isResolved)
         {
             LogTenantNotConfigured(_logger, identifier);
             return false;
         }
-        LogUsingNonConfiguredTenant(_logger, identifier);
-        configuredTenant = new TTenant
+        
+        if (isResolvedFromConfig)
         {
-            Id = identifier
-        };
-        tenantContext = TenantContext<TTenant>.Resolved(configuredTenant, new StrategyInfo(strategy.GetType(), strategy));
+            tenantContext.Resolved(out var tenantInfo, out _);
+            LogUsingConfiguredTenant(_logger, identifier, tenantInfo!.Name);
+        }
+        else
+        {
+            LogUsingNonConfiguredTenant(_logger, identifier);
+        }
         return true;
     }
 
