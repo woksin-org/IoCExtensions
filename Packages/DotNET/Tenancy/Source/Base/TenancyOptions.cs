@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System.Diagnostics.CodeAnalysis;
+using Woksin.Extensions.Tenancy.Context;
 using Woksin.Extensions.Tenancy.Strategies;
 
 namespace Woksin.Extensions.Tenancy;
@@ -40,4 +41,43 @@ public class TenancyOptions<TTenant>
         staticTenantId = string.IsNullOrEmpty(StaticTenantId) ? null : StaticTenantId;
         return !string.IsNullOrEmpty(staticTenantId);
     }
+
+    /// <summary>
+    /// Tries to get the resolved <see cref="ITenantContext{TTenant}"/> from the <see cref="TenancyOptions{TTenant}"/>.
+    /// </summary>
+    /// <param name="tenantId">The tenant identifier.</param>
+    /// <param name="strategy">The optional strategy that resolved the tenant identifier.</param>
+    /// <param name="tenantContext">The outputted <see cref="ITenantContext{TTenant}"/>.</param>
+    public (bool IsResolved, bool IsResolvedFromConfig) TryGetTenantContext(string tenantId, ITenantResolutionStrategy? strategy, out ITenantContext<TTenant> tenantContext)
+    {
+        var configuredTenant = Tenants.FirstOrDefault(tenant => tenant.Id.Equals(tenantId, StringComparison.OrdinalIgnoreCase));
+        var strategyInfo = strategy is not null
+            ? new StrategyInfo(strategy.GetType(), strategy)
+            : null; 
+        if (configuredTenant is not null)
+        {
+            tenantContext = TenantContext<TTenant>.Resolved(configuredTenant, strategyInfo);
+            return (true, true);
+        }
+
+        if (Strict)
+        {
+            tenantContext = TenantContext<TTenant>.Unresolved();
+            return (false, false);
+        }
+        configuredTenant = new TTenant
+        {
+            Id = tenantId
+        };
+        tenantContext = TenantContext<TTenant>.Resolved(configuredTenant, strategyInfo);
+        return (true, false);
+    }
+
+    /// <summary>
+    /// Tries to get the resolved <see cref="ITenantContext{TTenant}"/> from the <see cref="TenancyOptions{TTenant}"/>.
+    /// </summary>
+    /// <param name="tenantId">The tenant identifier.</param>
+    /// <param name="tenantContext">The outputted <see cref="ITenantContext{TTenant}"/>.</param>
+    public (bool IsResolved, bool IsResolvedFromConfig) TryGetTenantContext(string tenantId, out ITenantContext<TTenant> tenantContext)
+        => TryGetTenantContext(tenantId, null, out tenantContext);
 }
