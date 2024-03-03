@@ -26,9 +26,10 @@ public class TenantContextAccessor<TTenant> : ITenantContextAccessor<TTenant>, I
     {
         get
         {
+            // This is simply a minor performance optimization to avoid accessing the AsyncLocal when not necessary. 
             if (_options.CurrentValue.IsUsingStaticTenant(out var staticTenantId))
             {
-                return TenantContext<TTenant>.Static(new TTenant()
+                return TenantContext<TTenant>.Static(new TTenant
                 {
                     Id = staticTenantId
                 });

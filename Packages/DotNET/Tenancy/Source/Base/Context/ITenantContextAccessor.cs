@@ -14,6 +14,33 @@ public interface ITenantContextAccessor<TTenant>
     /// Gets the current <see cref="ITenantContext"/>.
     /// </summary>
     ITenantContext<TTenant> CurrentTenant { get; set; }
+    
+    /// <summary>
+    /// Throws an exception if the AsyncLocal tenant context is disabled. 
+    /// </summary>
+    /// <param name="accessor">The registered <see cref="ITenantContextAccessor"/>.</param>
+    /// <param name="tenancyOptions">The configured <see cref="TenancyOptions{TTenant}"/>.</param>
+    /// <exception cref="InvalidOperationException">The exception that is thrown.</exception>
+    public static void ThrowIfDisabledTenantContext(ITenantContextAccessor accessor, TenancyOptions<TTenant> tenancyOptions)
+    {
+        if (accessor is StaticTenantContextAccessor<TTenant> && !tenancyOptions.IsUsingStaticTenant(out _))
+        {
+            throw new InvalidOperationException("Current tenant context cannot be resolved when AsyncLocal Tenant Context is disabled");
+        }
+    }
+    /// <summary>
+    /// Throws an exception if the AsyncLocal tenant context is disabled. 
+    /// </summary>
+    /// <param name="accessor">The registered <see cref="ITenantContextAccessor"/>.</param>
+    /// <param name="tenancyOptions">The configured <see cref="TenancyOptions{TTenant}"/>.</param>
+    /// <exception cref="InvalidOperationException">The exception that is thrown.</exception>
+    public static void ThrowIfDisabledTenantContext(ITenantContextAccessor<TTenant> accessor, TenancyOptions<TTenant> tenancyOptions)
+    {
+        if (accessor is StaticTenantContextAccessor<TTenant> && !tenancyOptions.IsUsingStaticTenant(out _))
+        {
+            throw new InvalidOperationException("Current tenant context cannot be resolved when AsyncLocal Tenant Context is disabled");
+        }
+    }
 }
 
 /// <summary>

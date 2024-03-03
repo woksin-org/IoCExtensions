@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using Woksin.Extensions.Tenancy.Context;
 using Woksin.Extensions.Tenancy.Strategies;
 
@@ -12,26 +13,40 @@ public class TenancyBuilder<TTenant>
     where TTenant : class, ITenantInfo, new()
 {
     readonly IServiceCollection _services;
+    bool _disableAsyncLocalTenantContext;
 
     public TenancyBuilder(IServiceCollection services)
     {
         _services = services;
+        // Simply configure the TenancyOptions so that it is at least registered;
+        Configure(_ => { });
         _services.TryAddTransient<IResolveTenant<TTenant>, TenantResolver<TTenant>>();
         _services.TryAddTransient<IResolveTenant>(sp => (IResolveTenant)sp.GetRequiredService<IResolveTenant<TTenant>>());
         _services.TryAddScoped<ITenantContext<TTenant>>(sp =>
-            sp.GetRequiredService<ITenantContextAccessor<TTenant>>().CurrentTenant);
+        {
+            var accessor = sp.GetRequiredService<ITenantContextAccessor<TTenant>>();
+            ITenantContextAccessor<TTenant>.ThrowIfDisabledTenantContext(accessor, sp.GetRequiredService<IOptionsMonitor<TenancyOptions<TTenant>>>().CurrentValue);
+            return accessor.CurrentTenant;
+        });
 
         _services.TryAddScoped<TTenant>(sp =>
         {
-            var accessor = sp.GetRequiredService<ITenantContextAccessor<TTenant>>();
-            if (!accessor.CurrentTenant.Resolved(out var tenantInfo, out _))
+            var tenantContext = sp.GetRequiredService<ITenantContext<TTenant>>();
+            if (!tenantContext.Resolved(out var tenantInfo, out _))
             {
                 throw new TenantContextIsNotResolved($"Cannot resolve {typeof(TTenant)}");
             }
             return tenantInfo;
         });
         _services.TryAddScoped<ITenantInfo>(sp => sp.GetService<TTenant>()!);
-        _services.TryAddSingleton<ITenantContextAccessor<TTenant>, TenantContextAccessor<TTenant>>();
+        if (_disableAsyncLocalTenantContext)
+        {
+            _services.TryAddSingleton<ITenantContextAccessor<TTenant>, StaticTenantContextAccessor<TTenant>>();
+        }
+        else
+        {
+            _services.TryAddSingleton<ITenantContextAccessor<TTenant>, TenantContextAccessor<TTenant>>();
+        }
         _services.TryAddSingleton<ITenantContextAccessor>(sp =>
             (ITenantContextAccessor)sp.GetRequiredService<ITenantContextAccessor<TTenant>>());
         _services.TryAddTransient<IPerformActionInTenantContext<TTenant>, ActionInTenantContextPerformer<TTenant>>();
@@ -39,6 +54,17 @@ public class TenancyBuilder<TTenant>
             (IPerformActionInTenantContext)sp.GetRequiredService<IPerformActionInTenantContext<TTenant>>());
     }
 
+    /// <summary>
+    /// Disables the option to use an <see cref="AsyncLocal{T}"/> <see cref="ITenantContext{TTenantInfo}"/> tenant context using the <see cref="TenantContextAccessor{TTenant}"/> implementation of <see cref="ITenantContextAccessor{TTenant}"/>.
+    /// The <see cref="StaticTenantContextAccessor{TTenant}"/> will now be used instead of <see cref="TenantContextAccessor{TTenant}"/>.
+    /// </summary>
+    /// <remarks><see cref="StaticTenantContextAccessor{TTenant}"/> will not care for any <see cref="ITenantContext"/> state and will simply always return the 'unresolved' <see cref="ITenantContext"/>.</remarks>
+    public TenancyBuilder<TTenant> DisableAsyncLocalTenantContext()
+    {
+        _disableAsyncLocalTenantContext = true;
+        return this;
+    }
+    
     public TenancyBuilder<TTenant> WithTenantInfo(TTenant tenantInfo)
     {
         _services.Configure((TenancyOptions<TTenant> op) => op.Tenants.Add(tenantInfo));
