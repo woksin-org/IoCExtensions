@@ -1,3 +1,13 @@
+# [3.1.0] - 2024-3-3[PR: #31](https://github.com/woksin-org/Woksin.Extensions/pull/31)
+## Summary
+
+Follows the theme of the previous PR #30 and `Woksin.Extensions.Tenancy` 1.1.0 that added functionality to not rely on `AsyncLocal` tenant context
+
+### Added
+
+- `ITenantOptions` that can resolve instances of `IOptions`, `IOptionsSnapshot` and `IOptionsMonitor` for tenant configurations. This is very useful when you don't want to be relying on the `AsyncLocal` tenant context and instead want to resolve tenant options manually.
+
+
 # [3.0.2] - 2024-2-26[PR: #29](https://github.com/woksin-org/Woksin.Extensions/pull/29)
 ## Summary
 
