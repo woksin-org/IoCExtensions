@@ -1,3 +1,11 @@
+# [3.1.1] - 2024-3-21 [#32](https://github.com/woksin-org/Woksin.Extensions/pull/32)
+## Summary
+
+### Fixed
+
+- Removes unnecessarily strict `new()` restriction on generic type parameter for tenant options types
+
+
 # [3.1.0] - 2024-3-3[PR: #31](https://github.com/woksin-org/Woksin.Extensions/pull/31)
 ## Summary
 
