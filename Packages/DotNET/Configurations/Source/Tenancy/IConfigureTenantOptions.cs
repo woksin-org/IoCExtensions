@@ -11,7 +11,7 @@ namespace Woksin.Extensions.Configurations.Tenancy;
 /// <typeparam name="TOptions">Options type being configured.</typeparam>
 /// <typeparam name="TTenant">A type implementing ITenantInfo.</typeparam>
 public interface IConfigureTenantOptions<in TOptions, in TTenant>
-    where TOptions : class, new()
+    where TOptions : class
     where TTenant : class, ITenantInfo, new()
 {
     /// <summary>

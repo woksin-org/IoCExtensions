@@ -12,7 +12,7 @@ namespace Woksin.Extensions.Configurations.Tenancy;
 /// <typeparam name="TTenant">The <see cref="Type"/> of the <see cref="ITenantInfo"/>.</typeparam>
 /// <param name="configureOptions">Callback to configure <typeparamref name="TOptions"/></param>
 public class ConfigureTenantOptions<TOptions, TTenant>(Action<TOptions, TTenant> configureOptions) : IConfigureTenantOptions<TOptions, TTenant>
-    where TOptions : class, new()
+    where TOptions : class
     where TTenant : class, ITenantInfo, new()
 {
     /// <inheritdoc />

@@ -16,11 +16,11 @@ namespace Woksin.Extensions.Configurations.Tenancy;
 public interface ITenantOptions
 {
     public IOptions<TOptions> OptionsFor<TOptions>(string tenantId)
-        where TOptions : class, new();
+        where TOptions : class;
     public IOptionsSnapshot<TOptions> OptionsSnapshotFor<TOptions>(string tenantId)
-        where TOptions : class, new();
+        where TOptions : class;
     public IOptionsMonitor<TOptions> OptionsMonitorFor<TOptions>(string tenantId)
-        where TOptions : class, new();
+        where TOptions : class;
 }
 
 /// <summary>
@@ -31,12 +31,12 @@ public interface ITenantOptions<TTenant>
     where TTenant : class, ITenantInfo, new()
 {
     public IOptions<TOptions> OptionsFor<TOptions>(ITenantContext<TTenant> tenant)
-        where TOptions : class, new();
+        where TOptions : class;
     public IOptionsSnapshot<TOptions> OptionsSnapshotFor<TOptions>(ITenantContext<TTenant> tenant)
-        where TOptions : class, new();
+        where TOptions : class;
     
     public IOptionsMonitor<TOptions> OptionsMonitorFor<TOptions>(ITenantContext<TTenant> tenant)
-        where TOptions : class, new();
+        where TOptions : class;
 }
 
 /// <summary>
@@ -58,14 +58,14 @@ public class TenantOptions<TTenant> : ITenantOptions<TTenant>, ITenantOptions
     }
     
     public IOptions<TOptions> OptionsFor<TOptions>(string tenantId)
-        where TOptions : class, new()
+        where TOptions : class
     {
         _options.CurrentValue.TryGetTenantContext(tenantId, out var tenantContext);
         return OptionsFor<TOptions>(tenantContext);
     }
 
     public IOptions<TOptions> OptionsFor<TOptions>(ITenantContext<TTenant> tenant)
-        where TOptions : class, new()
+        where TOptions : class
     {
         ThrowIfTenantNotResolved<TOptions>(tenant, out var tenantInfo);
         var optionsPerTenant = _optionsPerTenantPerType.GetOrAdd(typeof(TOptions), new ConcurrentDictionary<string, object>());
@@ -73,26 +73,28 @@ public class TenantOptions<TTenant> : ITenantOptions<TTenant>, ITenantOptions
     }
 
     public IOptionsSnapshot<TOptions> OptionsSnapshotFor<TOptions>(string tenantId)
-        where TOptions : class, new()
+        where TOptions : class
     {
         _options.CurrentValue.TryGetTenantContext(tenantId, out var tenantContext);
         return OptionsSnapshotFor<TOptions>(tenantContext);
     }
 
     public IOptionsSnapshot<TOptions> OptionsSnapshotFor<TOptions>(ITenantContext<TTenant> tenant)
-        where TOptions : class, new()
+        where TOptions : class
     {
         ThrowIfTenantNotResolved<TOptions>(tenant, out _);
         return CreateTenantOptionsManager<TOptions>(tenant);
     }
 
-    public IOptionsMonitor<TOptions> OptionsMonitorFor<TOptions>(string tenantId) where TOptions : class, new()
+    public IOptionsMonitor<TOptions> OptionsMonitorFor<TOptions>(string tenantId)
+        where TOptions : class
     {
         _options.CurrentValue.TryGetTenantContext(tenantId, out var tenantContext);
         return OptionsMonitorFor<TOptions>(tenantContext);
     }
 
-    public IOptionsMonitor<TOptions> OptionsMonitorFor<TOptions>(ITenantContext<TTenant> tenant) where TOptions : class, new()
+    public IOptionsMonitor<TOptions> OptionsMonitorFor<TOptions>(ITenantContext<TTenant> tenant)
+        where TOptions : class
     {
         ThrowIfTenantNotResolved<TOptions>(tenant, out var tenantInfo);
         var optionsMonitorsPerTenant = _optionsMonitorsPerTenantPerType.GetOrAdd(typeof(TOptions), new ConcurrentDictionary<string, object>());
@@ -103,14 +105,15 @@ public class TenantOptions<TTenant> : ITenantOptions<TTenant>, ITenantOptions
     }
 
     StaticTenantOptionsFactory<TOptions, TTenant> CreateOptionsFactory<TOptions>(ITenantContext<TTenant> tenant)
-        where TOptions : class, new() =>
+        where TOptions : class =>
         ActivatorUtilities.CreateInstance<StaticTenantOptionsFactory<TOptions, TTenant>>(_serviceProvider, tenant);
 
-    TenantOptionsManager<TOptions> CreateTenantOptionsManager<TOptions>(ITenantContext<TTenant> tenant) where TOptions : class, new()
+    TenantOptionsManager<TOptions> CreateTenantOptionsManager<TOptions>(ITenantContext<TTenant> tenant)
+        where TOptions : class
         => new(CreateOptionsFactory<TOptions>(tenant), new OptionsCache<TOptions>());
     
     void ThrowIfTenantNotResolved<TOptions>(ITenantContext<TTenant> tenant, [NotNull]out TTenant tenantInfo)
-        where TOptions : class, new()
+        where TOptions : class
     {
         if (!tenant.Resolved(out tenantInfo!, out _))
         {

@@ -14,7 +14,7 @@ namespace Woksin.Extensions.Configurations.Tenancy;
 /// <typeparam name="TOptions">The type of options being requested.</typeparam>
 /// <typeparam name="TTenant">The type of the tenant info.</typeparam>
 public class TenantOptionsFactory<TOptions, TTenant> : BaseTenantOptionsFactory<TOptions, TTenant>
-    where TOptions : class, new()
+    where TOptions : class
     where TTenant : class, ITenantInfo, new()
 {
     readonly ITenantContextAccessor<TTenant> _multiTenantContextAccessor;
@@ -42,7 +42,7 @@ public class TenantOptionsFactory<TOptions, TTenant> : BaseTenantOptionsFactory<
 /// <typeparam name="TOptions">The type of options being requested.</typeparam>
 /// <typeparam name="TTenant">The type of the tenant info.</typeparam>
 public class StaticTenantOptionsFactory<TOptions, TTenant> : BaseTenantOptionsFactory<TOptions, TTenant>
-    where TOptions : class, new()
+    where TOptions : class
     where TTenant : class, ITenantInfo, new()
 {
     readonly ITenantContext<TTenant> _tenantContext;
@@ -65,7 +65,7 @@ public class StaticTenantOptionsFactory<TOptions, TTenant> : BaseTenantOptionsFa
 }
 
 public abstract class BaseTenantOptionsFactory<TOptions, TTenant> : ConfigurationsExtensionOptionsFactory<TOptions>
-    where TOptions : class, new()
+    where TOptions : class
     where TTenant : class, ITenantInfo, new()
 {
     readonly IEnumerable<IConfigureTenantOptions<TOptions, TTenant>> _configureTenantOptions;

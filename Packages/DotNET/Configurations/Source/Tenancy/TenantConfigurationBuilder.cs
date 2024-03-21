@@ -106,7 +106,7 @@ public class TenantConfigurationBuilder<TTenant> : BaseConfigurationBuilder<Tena
     /// <typeparam name="TOption">The <see cref="Type"/> of the options to configure.</typeparam>
     /// <returns>The builder for continuation.</returns>
     public TenantConfigurationBuilder<TTenant> Configure<TOption>(Action<TOption, TTenant> configure)
-        where TOption : class, new()
+        where TOption : class
     {
         Services.AddSingleton<IConfigureTenantOptions<TOption, TTenant>>(new ConfigureTenantOptions<TOption, TTenant>(configure));
         return this;
