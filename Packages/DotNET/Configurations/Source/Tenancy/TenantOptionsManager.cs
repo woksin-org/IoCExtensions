@@ -9,7 +9,7 @@ namespace Woksin.Extensions.Configurations.Tenancy;
 /// Implementation of IOptions and IOptionsSnapshot that uses dependency injection for its private cache.
 /// </summary>
 /// <typeparam name="TOptions">The type of options being configured.</typeparam>
-public class TenantOptionsManager<TOptions> : IOptionsSnapshot<TOptions> where TOptions : class, new()
+public class TenantOptionsManager<TOptions> : IOptionsSnapshot<TOptions> where TOptions : class
 {
     readonly IOptionsFactory<TOptions> _factory;
     readonly IOptionsMonitorCache<TOptions> _cache;
